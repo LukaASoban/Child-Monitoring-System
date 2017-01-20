@@ -1,0 +1,51 @@
+{
+  "project_info": {
+    "project_number": "78183757626",
+    "firebase_url": "https://day-care-monitoring-system.firebaseio.com",
+    "project_id": "day-care-monitoring-system",
+    "storage_bucket": "day-care-monitoring-system.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:78183757626:android:afd177566798900d",
+        "android_client_info": {
+          "package_name": "bigbrother.child_monitoring_system"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "78183757626-20jg3it4c89319qolcuaqc0umlfeik6l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "bigbrother.child_monitoring_system",
+            "certificate_hash": "3C2EE7B1FDACCB8F93D4FA76DBE248B02F742E3E"
+          }
+        },
+        {
+          "client_id": "78183757626-ivs6coid4qdgqgfc58v5q6bf9c7rkmev.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [{ "current_key": "" }],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "78183757626-ivs6coid4qdgqgfc58v5q6bf9c7rkmev.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
