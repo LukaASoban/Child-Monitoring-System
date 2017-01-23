@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "78183757626-m813ghcdtr00dsfuk2fqnkofjssnkqfp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "bigbrother.child_monitoring_system",
+            "certificate_hash": "0F4A814FB4AD8DC5D9F5441BD77A8D5BDD593863"
+          }
+        },
+        {
           "client_id": "78183757626-20jg3it4c89319qolcuaqc0umlfeik6l.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -27,7 +35,11 @@
           "client_type": 3
         }
       ],
-      "api_key": [{ "current_key": "" }],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACMmp_zPPW0IDGTDwZd4ajly032XvjsFs"
+        }
+      ],
       "services": {
         "analytics_service": {
           "status": 1
