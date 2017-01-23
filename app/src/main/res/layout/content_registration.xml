@@ -1,7 +1,21 @@
+<android.support.percent.PercentRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="bigbrother.child_monitoring_system.Registration"
+    android:background="@color/tan">
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_height="wrap_content"
     android:fitsSystemWindows="true">
 
     <LinearLayout
@@ -12,16 +26,27 @@
         android:paddingLeft="24dp"
         android:paddingRight="24dp">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Registration Form"
+            android:textSize="30dp"
+            android:gravity="center"
+            android:layout_marginBottom="20dp"/>
+
         <!-- First Name -->
         <EditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
-            android:ems="10"
             android:id="@+id/FirstName"
             android:hint="First Name"
             android:layout_above="@+id/LastName"
-            android:layout_alignParentStart="true" />
+            android:textColor="@color/gray"
+            android:textColorLink="@color/gray"
+            android:padding="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/textbox"/>
 
 
         <!-- Last Name -->
@@ -33,7 +58,11 @@
             android:id="@+id/LastName"
             android:hint="Last Name"
             android:layout_below="@+id/FristName"
-            android:layout_alignParentStart="true" />
+            android:textColor="@color/gray"
+            android:textColorLink="@color/gray"
+            android:padding="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/textbox"/>
 
         <EditText
             android:layout_width="fill_parent"
@@ -43,7 +72,11 @@
             android:id="@+id/child_first_name"
             android:hint="Child First Name"
             android:layout_below="@+id/LastName"
-            android:layout_alignParentStart="true" />
+            android:textColor="@color/gray"
+            android:textColorLink="@color/gray"
+            android:padding="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/textbox"/>
 
 
         <EditText
@@ -54,7 +87,11 @@
             android:id="@+id/child_last_name"
             android:hint="Child Last Name"
             android:layout_below="@+id/child_first_name"
-            android:layout_alignParentStart="true" />
+            android:textColor="@color/gray"
+            android:textColorLink="@color/gray"
+            android:padding="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/textbox" />
 
         <EditText
             android:layout_width="fill_parent"
@@ -64,7 +101,11 @@
             android:id="@+id/school_name"
             android:hint="School Name"
             android:layout_below="@+id/child_first_name"
-            android:layout_alignParentStart="true" />
+            android:textColor="@color/gray"
+            android:textColorLink="@color/gray"
+            android:padding="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/textbox"/>
 
 
         <EditText
@@ -75,7 +116,11 @@
             android:id="@+id/email"
             android:hint="Email"
             android:layout_below="@+id/child_first_name"
-            android:layout_alignParentStart="true" />
+            android:textColor="@color/gray"
+            android:textColorLink="@color/gray"
+            android:padding="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/textbox" />
 
 
         <EditText
@@ -86,7 +131,11 @@
             android:id="@+id/password"
             android:hint="Password"
             android:layout_below="@+id/email"
-            android:layout_alignParentStart="true" />
+            android:textColor="@color/gray"
+            android:textColorLink="@color/gray"
+            android:padding="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/textbox" />
 
         <EditText
             android:layout_width="fill_parent"
@@ -96,33 +145,45 @@
             android:id="@+id/conf_password"
             android:hint="Confirm Password"
             android:layout_below="@+id/password"
-            android:layout_alignParentStart="true" />
+            android:textColor="@color/gray"
+            android:textColorLink="@color/gray"
+            android:padding="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/textbox" />
 
         <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:text="Register"
-            android:textSize="18dp"
             android:id="@+id/register"
-            android:layout_marginStart="33dp"
             android:onClick="registrationHandle"
-            android:layout_alignParentBottom="true"
             android:layout_marginBottom="30dp"
-            android:layout_alignStart="@+id/passwordNotAMatch" />
+            android:textAllCaps="false"
+            android:textColor="@color/tan"
+            android:padding="10dp"
+            android:layout_marginTop="40dp"
+            android:textSize="24dp"
+            android:background="@drawable/button_rounded"
+            android:layout_centerHorizontal="true"/>
 
         <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Cancel"
-            android:textSize="18dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:id="@+id/cancel_registration"
-            android:onClick="buttonOnCancelLogin"
-            android:layout_toEndOf="@+id/button"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="30dp"
-            android:layout_marginStart="61dp" />
+            app:layout_widthPercent="60%"
+            app:layout_heightPercent="10%"
+            android:background="@drawable/button_rounded"
+            android:text="Cancel"
+            android:textAllCaps="false"
+            android:textColor="@color/tan"
+            android:textSize="24dp"
+            android:padding="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/register"
+            app:layout_marginTopPercent="8%"/>
 
-    </LinearLayout>
+
+</LinearLayout>
 </ScrollView>
+</android.support.percent.PercentRelativeLayout>
