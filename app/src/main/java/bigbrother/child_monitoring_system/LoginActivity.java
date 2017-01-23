@@ -45,23 +45,23 @@ public class LoginActivity extends AppCompatActivity {
     // database variable
 
     // current user logging in
-    private static User curUser;
+    //private static User curUser;
 
     /**
      * Returns the current user
      * @return curUser
      */
-    public static User getCurUser(){
-        return  curUser;
-    }
+    //public static User getCurUser(){
+     //   return  curUser;
+    //}
 
     /**
      * Sets the current user
      * @param user the user
      */
-    public static void setUser(User user){
-        curUser = user;
-    }
+    //public static void setUser(User user){
+        //curUser = user;
+    //}
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,21 +70,21 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return  true;
-    }
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.menu_main, menu);
+//        return  true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        final int id = item.getItemId();
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
+//        return  super.onOptionsItemSelected(item);
+//    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        final int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return  super.onOptionsItemSelected(item);
-    }
-
-    @Override
+    //@Override
     public void onResume() {
         super.onResume();
     }
@@ -96,7 +96,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void buttonOnRegister(View v) {
-        final Intent registerIntent = new Intent(this, /*register screen class*/);
-        startActivity(registerIntent);
+        //final Intent registerIntent = new Intent(this, /*register screen class*/);
+        //startActivity(registerIntent);
     }
 }
