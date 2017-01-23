@@ -1,4 +1,6 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.percent.PercentRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,70 +10,71 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="bigbrother.child_monitoring_system.LoginActivity">
+    tools:context="bigbrother.child_monitoring_system.LoginActivity"
+    android:background="@color/tan">
 
-    <!-- Login progress -->
-    <ProgressBar
-        android:id="@+id/login_progress"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:visibility="gone" />
-
-    <ScrollView
-        android:id="@+id/login_form"
+    <EditText
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_widthPercent="80%"
+        app:layout_heightPercent="8%"
+        android:inputType="textPersonName"
+        android:padding="5dp"
+        android:ems="10"
+        android:id="@+id/username"
+        android:hint="Username"
+        android:textColor="@color/gray"
+        android:textColorLink="@color/gray"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/textbox"
+        />
 
-        <LinearLayout
-            android:id="@+id/email_login_form"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_widthPercent="80%"
+        app:layout_heightPercent="8%"
+        android:inputType="textPassword"
+        android:padding="5dp"
+        android:ems="10"
+        android:id="@+id/password"
+        android:hint="Password"
+        android:textColor="@color/gray"
+        android:textColorLink="@color/gray"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/username"
+        app:layout_marginTopPercent="4%"
+        android:background="@drawable/textbox"
+        />
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/loginButton"
+        app:layout_widthPercent="60%"
+        app:layout_heightPercent="10%"
+        android:background="@drawable/button_rounded"
+        android:text="Login"
+        android:textAllCaps="false"
+        android:textColor="@color/tan"
+        android:textSize="24dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/password"
+        app:layout_marginTopPercent="8%"/>
 
-                <AutoCompleteTextView
-                    android:id="@+id/email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/prompt_email"
-                    android:inputType="textEmailAddress"
-                    android:maxLines="1"
-                    android:singleLine="true" />
-
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:id="@+id/password"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/prompt_password"
-                    android:imeActionId="@+id/login"
-                    android:imeActionLabel="@string/action_sign_in_short"
-                    android:imeOptions="actionUnspecified"
-                    android:inputType="textPassword"
-                    android:maxLines="1"
-                    android:singleLine="true" />
-
-            </android.support.design.widget.TextInputLayout>
-
-            <Button
-                android:id="@+id/email_sign_in_button"
-                style="?android:textAppearanceSmall"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/action_sign_in"
-                android:textStyle="bold" />
-
-        </LinearLayout>
-    </ScrollView>
-</LinearLayout>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/registerButton"
+        app:layout_widthPercent="60%"
+        app:layout_heightPercent="10%"
+        android:background="@drawable/button_rounded"
+        android:text="Register"
+        android:textAllCaps="false"
+        android:textColor="@color/tan"
+        android:textSize="24dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/loginButton"
+        app:layout_marginTopPercent="4%"/>
+</android.support.percent.PercentRelativeLayout>
