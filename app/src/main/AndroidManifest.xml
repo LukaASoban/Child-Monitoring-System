@@ -15,16 +15,26 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
-            android:name=".Registration"
-            android:label="@string/title_activity_registration"
+            android:name=".LoginActivity"
+            android:label="@string/title_activity_login"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".Registration"
+            android:label="@string/title_activity_registration">
+            <intent-filter>
+                <action android:name="bigbrother.child_monitoring_system.Registration" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>

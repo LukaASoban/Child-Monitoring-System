@@ -1,6 +1,8 @@
 package bigbrother.child_monitoring_system;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -34,7 +36,7 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_registration);
 
         firebaseAuth = FirebaseAuth.getInstance();
-        System.out.println("firebaseAuth is null: " + firebaseAuth == null);
+        //System.out.println("firebaseAuth is null: " + firebaseAuth == null);
         progressDialog = new ProgressDialog(this);
 
         buttonRegister = (Button) findViewById(R.id.register);
@@ -48,6 +50,7 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        /*TODO
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,6 +59,7 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
                         .setAction("Action", null).show();
             }
         });
+        */
     }
 
     @Override
@@ -86,17 +90,24 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
 
         progressDialog.setMessage("Registering User...");
         progressDialog.show();
-
         firebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            //Toast.makeText(this, "Registered Successfully", Toast.LENGTH_SHORT).show();
-                            System.out.println("Registered Successfully");
+                            Toast.makeText(Registration.this, "Registered Successfully", Toast.LENGTH_SHORT).show();
+                            //System.out.println("Registered Successfully");
+                            //TODO Save user and launch login intent
+
+
+
+
+
+
+
                         } else {
-                            //Toast.makeText(this, "Registered Successfully", Toast.LENGTH_SHORT).show();
-                            System.out.println("Registeration unsuccessful");
+                            Toast.makeText(Registration.this, "Registered Un-Successfully", Toast.LENGTH_SHORT).show();
+                            //System.out.println("Registeration unsuccessful");
                         }
                     }
                 });
