@@ -27,7 +27,8 @@
         </activity>
         <activity
             android:name=".Registration"
-            android:label="@string/title_activity_registration">
+            android:label="@string/title_activity_registration"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="bigbrother.child_monitoring_system.Registration" />
 
@@ -36,7 +37,8 @@
         </activity>
         <activity
             android:name=".HomeScreen"
-            android:label="@string/title_activity_home_screen">
+            android:label="@string/title_activity_home_screen"
+            android:theme="@style/AppTheme.NoActionBar">
 
         <intent-filter>
 
@@ -49,7 +51,7 @@
         <activity
             android:name=".Profile"
             android:label="@string/title_activity_profile"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme.NoActionBar">
 
         </activity>
     </application>

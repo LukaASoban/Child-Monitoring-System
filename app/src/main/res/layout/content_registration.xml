@@ -1,87 +1,79 @@
-<android.support.percent.PercentRelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center_horizontal"
-    android:orientation="vertical"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="bigbrother.child_monitoring_system.Registration"
-    android:background="@color/tan">
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <android.support.percent.PercentRelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="56dp"
-        android:paddingLeft="24dp"
-        android:paddingRight="24dp">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Registration Form"
-            android:textSize="30dp"
-            android:gravity="center"
-            android:layout_marginBottom="20dp"/>
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context="bigbrother.child_monitoring_system.Registration"
+        android:background="@color/tan">
 
         <!-- First Name -->
         <EditText
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_widthPercent="80%"
+            app:layout_heightPercent="8%"
             android:inputType="textPersonName"
             android:id="@+id/firstName"
             android:hint="First Name"
-            android:layout_above="@+id/LastName"
             android:textColor="@color/gray"
             android:textColorLink="@color/gray"
             android:padding="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
             android:background="@drawable/textbox"/>
 
 
-        <!-- Last Name -->
+         <!--Last Name-->
         <EditText
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_widthPercent="80%"
+            app:layout_heightPercent="8%"
             android:inputType="textPersonName"
             android:ems="10"
             android:id="@+id/lastName"
             android:hint="Last Name"
-            android:layout_below="@+id/FristName"
+            android:layout_below="@+id/firstName"
             android:textColor="@color/gray"
             android:textColorLink="@color/gray"
             android:padding="10dp"
-            android:layout_marginTop="10dp"
+            app:layout_marginTopPercent="2%"
+            android:layout_centerHorizontal="true"
             android:background="@drawable/textbox"/>
 
         <EditText
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_widthPercent="80%"
+            app:layout_heightPercent="8%"
             android:inputType="textPersonName"
             android:ems="10"
             android:id="@+id/child_first_name"
             android:hint="Child First Name"
-            android:layout_below="@+id/LastName"
+            android:layout_below="@+id/lastName"
             android:textColor="@color/gray"
             android:textColorLink="@color/gray"
             android:padding="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            app:layout_marginTopPercent="2%"
             android:background="@drawable/textbox"/>
 
 
         <EditText
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_widthPercent="80%"
+            app:layout_heightPercent="8%"
             android:inputType="textPersonName"
             android:ems="10"
             android:id="@+id/child_last_name"
@@ -90,42 +82,51 @@
             android:textColor="@color/gray"
             android:textColorLink="@color/gray"
             android:padding="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            app:layout_marginTopPercent="2%"
             android:background="@drawable/textbox" />
 
         <EditText
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_widthPercent="80%"
+            app:layout_heightPercent="8%"
             android:inputType="textPersonName"
             android:ems="10"
             android:id="@+id/school_name"
             android:hint="School Name"
-            android:layout_below="@+id/child_first_name"
+            android:layout_below="@+id/child_last_name"
             android:textColor="@color/gray"
             android:textColorLink="@color/gray"
             android:padding="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            app:layout_marginTopPercent="2%"
             android:background="@drawable/textbox"/>
 
 
         <EditText
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_widthPercent="80%"
+            app:layout_heightPercent="8%"
             android:inputType="textEmailAddress"
             android:ems="10"
             android:id="@+id/email"
             android:hint="Email"
-            android:layout_below="@+id/child_first_name"
+            android:layout_below="@+id/school_name"
             android:textColor="@color/gray"
             android:textColorLink="@color/gray"
             android:padding="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            app:layout_marginTopPercent="2%"
             android:background="@drawable/textbox" />
 
 
         <EditText
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_widthPercent="80%"
+            app:layout_heightPercent="8%"
             android:inputType="textPassword"
             android:ems="10"
             android:id="@+id/password"
@@ -134,12 +135,15 @@
             android:textColor="@color/gray"
             android:textColorLink="@color/gray"
             android:padding="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            app:layout_marginTopPercent="2%"
             android:background="@drawable/textbox" />
 
         <EditText
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_widthPercent="80%"
+            app:layout_heightPercent="8%"
             android:inputType="textPassword"
             android:ems="10"
             android:id="@+id/conf_password"
@@ -148,22 +152,25 @@
             android:textColor="@color/gray"
             android:textColorLink="@color/gray"
             android:padding="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            app:layout_marginTopPercent="2%"
             android:background="@drawable/textbox" />
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:layout_widthPercent="60%"
+            app:layout_heightPercent="10%"
             android:text="Register"
             android:id="@+id/register"
             android:onClick="registrationHandle"
-            android:layout_marginBottom="30dp"
             android:textAllCaps="false"
             android:textColor="@color/tan"
             android:padding="10dp"
-            android:layout_marginTop="40dp"
             android:textSize="24dp"
             android:background="@drawable/button_rounded"
+            app:layout_marginTopPercent="2%"
+            android:layout_below="@+id/conf_password"
             android:layout_centerHorizontal="true"/>
 
         <Button
@@ -178,12 +185,10 @@
             android:textColor="@color/tan"
             android:textSize="24dp"
             android:padding="10dp"
-            android:layout_marginTop="10dp"
             android:layout_centerHorizontal="true"
             android:layout_below="@+id/register"
-            app:layout_marginTopPercent="8%"/>
+            app:layout_marginTopPercent="2%"/>
 
 
-</LinearLayout>
+    </android.support.percent.PercentRelativeLayout>
 </ScrollView>
-</android.support.percent.PercentRelativeLayout>
