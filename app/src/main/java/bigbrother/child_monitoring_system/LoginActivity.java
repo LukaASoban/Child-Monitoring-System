@@ -149,8 +149,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     public void buttonOnLogin(View v) {
-        final String email = ((EditText) findViewById(R.id.username)).getText().toString();
-        final String password = ((EditText) findViewById(R.id.password)).getText().toString();
+        final String email = ((EditText) findViewById(R.id.username)).getText().toString().trim();
+        final String password = ((EditText) findViewById(R.id.password)).getText().toString().trim();
         // connect to database if valid login, then send to home screen
         Log.d(TAG, "signIn:" + email);
 
@@ -169,7 +169,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             Toast.makeText(LoginActivity.this, "Auth Failed",
                                     Toast.LENGTH_SHORT).show();
                         } else {
-
+                            Toast.makeText(LoginActivity.this, "Auth Successful",
+                                    Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -179,10 +180,5 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void buttonOnRegister(View v) {
         Intent register = new Intent("bigbrother.child_monitoring_system.Registration");
         startActivity(register);
-    }
-
-    public void buttonOnLogin() {
-        final Intent homeScreen = new Intent(this, HomeScreen.class);
-        startActivity(homeScreen);
     }
 }
