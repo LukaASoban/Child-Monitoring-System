@@ -27,7 +27,7 @@ public class HomeScreen extends AppCompatActivity {
         });
     }
 
-    public final void buttonOnCancelLogin(View v) {
+    public final void onProfileClick(View v) {
         final Intent welcomeScreenIntent = new Intent(this, Profile.class);
         startActivity(welcomeScreenIntent);
     }
