@@ -15,4 +15,6 @@
     </string>
     <string name="title_activity_registration">Registration</string>
     <string name="title_activity_login">Login</string>
+    <string name="title_activity_home_screen">HomeScreen</string>
+    <string name="title_activity_profile">Profile</string>
 </resources>

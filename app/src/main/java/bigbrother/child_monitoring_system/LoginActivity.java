@@ -168,6 +168,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             Log.w(TAG, "signInWithEmail:failed", task.getException());
                             Toast.makeText(LoginActivity.this, "Auth Failed",
                                     Toast.LENGTH_SHORT).show();
+                        } else {
+
                         }
                     }
                 });
@@ -177,5 +179,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void buttonOnRegister(View v) {
         Intent register = new Intent("bigbrother.child_monitoring_system.Registration");
         startActivity(register);
+    }
+
+    public void buttonOnLogin() {
+        final Intent homeScreen = new Intent(this, HomeScreen.class);
+        startActivity(homeScreen);
     }
 }
