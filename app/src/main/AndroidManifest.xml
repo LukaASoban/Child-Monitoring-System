@@ -36,12 +36,22 @@
         </activity>
         <activity
             android:name=".HomeScreen"
-            android:label="@string/title_activity_home_screen"
+            android:label="@string/title_activity_home_screen">
+
+        <intent-filter>
+
+            <action android:name="bigbrother.child_monitoring_system.HomeScreen" />
+
+            <category android:name="android.intent.category.DEFAULT" />
+        </intent-filter>
+        </activity>
             android:theme="@style/AppTheme" />
         <activity
             android:name=".Profile"
             android:label="@string/title_activity_profile"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme">
+
+        </activity>
     </application>
 
 </manifest>

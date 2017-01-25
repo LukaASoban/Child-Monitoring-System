@@ -90,27 +90,24 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
 
         progressDialog.setMessage("Registering User...");
         progressDialog.show();
-//        firebaseAuth.createUserWithEmailAndPassword(email, password)
-//                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<AuthResult> task) {
-//                        if (task.isSuccessful()) {
-//                            Toast.makeText(Registration.this, "Registered Successfully", Toast.LENGTH_SHORT).show();
-//                            //System.out.println("Registered Successfully");
-//                            //TODO Save user and launch login intent
-//
-//
-//
-//
-//
-//
-//
-//                        } else {
-//                            Toast.makeText(Registration.this, "Registered Un-Successfully", Toast.LENGTH_SHORT).show();
-//                            //System.out.println("Registeration unsuccessful");
-//                        }
-//                    }
-//                });
+        firebaseAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(Registration.this, "Registered Successfully", Toast.LENGTH_SHORT).show();
+                            //System.out.println("Registered Successfully");
+                            //TODO Save user and launch login intent
+                            final Intent homeScreen = new Intent("bigbrother.child_monitoring_system.HomeScreen");
+                            startActivity(homeScreen);
+
+                        } else {
+                            Toast.makeText(Registration.this, "Registered Un-Successfully", Toast.LENGTH_SHORT).show();
+                            //System.out.println("Registeration unsuccessful");
+                        }
+
+                    }
+                });
     }
 
 }
