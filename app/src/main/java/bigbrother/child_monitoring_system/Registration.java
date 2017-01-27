@@ -46,10 +46,19 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
     private FirebaseAuth firebaseAuth;
     private DatabaseReference dRef;
 
+
+    private String email;
+    private String password;
+    private String firstName;
+    private String lastName;
+    private String childFirstName;
+    private String childLastName;
+    private String schoolName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_registration);
+        setContentView(R.layout.content_registration);
 
         firebaseAuth = FirebaseAuth.getInstance();
         //System.out.println("firebaseAuth is null: " + firebaseAuth == null);
@@ -73,19 +82,7 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
         buttonRegister.setOnClickListener(this);
         buttonCancel.setOnClickListener(this);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-        /*TODO
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-        */
     }
 
     @Override
@@ -101,14 +98,16 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
     }
 
     private void registerUser() {
-        String email = editTextEmail.getText().toString().trim();
-        String password = editTextPassword.getText().toString().trim();
-        String firstName = firstNameET.getText().toString().trim();
-        String lastName = lastNameET.getText().toString().trim();
-        String childFirstName = childFirstNameET.getText().toString().trim();
-        String childLastName = childLastNameET.getText().toString().trim();
-        String schoolName = schoolNameET.getText().toString().trim();
+        email = editTextEmail.getText().toString().trim();
+        password = editTextPassword.getText().toString().trim();
+        firstName = firstNameET.getText().toString().trim();
+        lastName = lastNameET.getText().toString().trim();
+        childFirstName = childFirstNameET.getText().toString().trim();
+        childLastName = childLastNameET.getText().toString().trim();
+        schoolName = schoolNameET.getText().toString().trim();
         String confPass = conf_passwordET.getText().toString().trim();
+
+        //TODO verify registration form info
 
         if (TextUtils.isEmpty(email)) {
             Toast.makeText(this, "Please enter email", Toast.LENGTH_SHORT).show();
@@ -129,8 +128,9 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
                         if (task.isSuccessful()) {
                             Toast.makeText(Registration.this, "Registered Successfully", Toast.LENGTH_SHORT).show();
                             //System.out.println("Registered Successfully");
-                            //TODO Save user and launch login intent
+                            addUser(firebaseAuth.getCurrentUser().getUid());
                             final Intent homeScreen = new Intent("bigbrother.child_monitoring_system.HomeScreen");
+                            homeScreen.putExtra("uid", firebaseAuth.getCurrentUser().getUid());
                             startActivity(homeScreen);
 
                         } else {
@@ -140,17 +140,7 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
 
                     }
                 });
-        String uid = firebaseAuth.getCurrentUser().getUid();
-        User currentUser = new User();
-        currentUser.setEmail(email);
-        currentUser.setPassword(password);
-        currentUser.setFirstName(firstName);
-        currentUser.setLastName(lastName);
-        currentUser.setSchoolName(schoolName);
-        currentUser.setChildFirstName(childFirstName);
-        currentUser.setChildLastName(childLastName);
 
-        dRef.child("users").child(uid).setValue(currentUser);
 //        Log.w("TAG","***********************************");
 //
 //        ValueEventListener postListener = new ValueEventListener() {
@@ -165,6 +155,19 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
 //                Log.w("TAG", "loadPost:onCancelled", databaseError.toException());
 //            }
 //        };
+    }
+
+    private void addUser(String uid) {
+        User currentUser = new User();
+        currentUser.setEmail(email);
+        currentUser.setPassword(password);
+        currentUser.setFirstName(firstName);
+        currentUser.setLastName(lastName);
+        currentUser.setSchoolName(schoolName);
+        currentUser.setChildFirstName(childFirstName);
+        currentUser.setChildLastName(childLastName);
+        currentUser.setType(UserType.PARENT);
+        dRef.child("users").child(uid).setValue(currentUser);
     }
 
 }

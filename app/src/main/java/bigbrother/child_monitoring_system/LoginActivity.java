@@ -3,6 +3,7 @@ package bigbrother.child_monitoring_system;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
@@ -39,6 +40,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,33 +54,35 @@ import static android.Manifest.permission.READ_CONTACTS;
 /**
  * A login screen that offers login via id/password.
  */
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Button buttonLogin;
     private Button buttonRegister;
     private static final String TAG = "EmailPassword";
+    private ProgressDialog progressDialog;
 
     // database variable
     private FirebaseAuth auth;
     private FirebaseAuth.AuthStateListener authListener;
+    private DatabaseReference fdb;
 
     // current user logging in
-    private static User curUser;
+    private static String userJSON;
 
     /**
      * Returns the current user
      * @return curUser
      */
-    public static User getCurUser(){
-        return  curUser;
+    public static String getUserJSON(){
+        return  userJSON;
     }
 
     /**
      * Sets the current user
      * @param user the user
      */
-    public static void setUser(User user){
-        curUser = user;
+    public static void setUser(String user){
+        userJSON = user;
     }
 
     @Override
@@ -82,6 +90,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         auth = FirebaseAuth.getInstance();
+        fdb = FirebaseDatabase.getInstance().getReference();
+        progressDialog = new ProgressDialog(this);
 
         authListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -128,21 +138,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
 
- //   @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.menu_main, menu);
-//        return  true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        final int id = item.getItemId();
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-//        return  super.onOptionsItemSelected(item);
-//    }
-
     //@Override
     public void onResume() {
         super.onResume();
@@ -155,11 +150,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         Log.d(TAG, "signIn:" + email);
 
         // [START sign_in_with_email]
+        progressDialog.setMessage("Logging In...");
+        progressDialog.show();
         auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
+                        progressDialog.hide();
 
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
@@ -168,13 +166,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             Log.w(TAG, "signInWithEmail:failed", task.getException());
                             Toast.makeText(LoginActivity.this, "Auth Failed",
                                     Toast.LENGTH_SHORT).show();
+
                         } else {
-                            Toast.makeText(LoginActivity.this, "Auth Successful",
-                                    Toast.LENGTH_SHORT).show();
+                            Intent homeScreen = new Intent("bigbrother.child_monitoring_system.HomeScreen");
+                            homeScreen.putExtra("uid", auth.getCurrentUser().getUid());
+                            startActivity(homeScreen);
                         }
                     }
                 });
-        // [END sign_in_with_email]
     }
 
     public void buttonOnRegister(View v) {

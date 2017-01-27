@@ -1,5 +1,6 @@
 package bigbrother.child_monitoring_system;
 
+import com.google.android.gms.plus.model.people.Person;
 import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.io.Serializable;
@@ -10,7 +11,6 @@ import java.io.Serializable;
 @IgnoreExtraProperties
 public class User implements Serializable {
 
-    private String username;
     private String email;
     private String password;
     private String firstName;
@@ -18,7 +18,11 @@ public class User implements Serializable {
     private String schoolName;
     private String childFirstName;
     private String childLastName;
+    private UserType type;
 
+    public User() {
+        //defualt
+    }
 
     public void setEmail(String email) {
         this.email = email;
@@ -46,6 +50,10 @@ public class User implements Serializable {
 
     public void setChildLastName(String childLastName) {
         this.childLastName = childLastName;
+    }
+
+    public void setType(UserType type) {
+        this.type = type;
     }
 
     public String getEmail() {
@@ -76,5 +84,7 @@ public class User implements Serializable {
         return this.childLastName;
     }
 
-
+    public UserType getType() {
+        return type;
+    }
 }

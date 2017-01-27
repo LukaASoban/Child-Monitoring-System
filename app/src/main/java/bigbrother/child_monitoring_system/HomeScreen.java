@@ -7,29 +7,32 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
 
-public class HomeScreen extends AppCompatActivity {
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.ValueEventListener;
+
+public class HomeScreen extends AppCompatActivity implements View.OnClickListener {
+
+    private Button buttonProfile;
+    private String uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home_screen);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setContentView(R.layout.content_home_screen);
+        uid = getIntent().getStringExtra("uid");
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        buttonProfile = (Button) findViewById(R.id.profile);
+
+        buttonProfile.setOnClickListener(this);
     }
 
-    public final void onProfileClick(View v) {
+    @Override
+    public void onClick(View v) {
         final Intent welcomeScreenIntent = new Intent(this, Profile.class);
+        welcomeScreenIntent.putExtra("uid", uid);
         startActivity(welcomeScreenIntent);
     }
-
 }

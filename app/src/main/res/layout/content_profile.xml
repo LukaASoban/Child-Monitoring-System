@@ -13,4 +13,82 @@
     tools:context="bigbrother.child_monitoring_system.Profile"
     tools:showIn="@layout/activity_profile">
 
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="37dp"
+        android:id="@+id/firstName" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/firstName"
+        android:layout_alignLeft="@+id/firstName"
+        android:layout_alignStart="@+id/firstName"
+        android:layout_marginTop="34dp"
+        android:id="@+id/lastName" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lastName"
+        android:layout_alignLeft="@+id/lastName"
+        android:layout_alignStart="@+id/lastName"
+        android:layout_marginTop="25dp"
+        android:id="@+id/email" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/email"
+        android:layout_alignRight="@+id/email"
+        android:layout_alignEnd="@+id/email"
+        android:layout_marginTop="31dp"
+        android:id="@+id/password" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignRight="@+id/password"
+        android:layout_alignEnd="@+id/password"
+        android:id="@+id/childFirstName" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/childFirstName"
+        android:layout_alignRight="@+id/childFirstName"
+        android:layout_alignEnd="@+id/childFirstName"
+        android:layout_marginTop="25dp"
+        android:id="@+id/childLastName" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/childLastName"
+        android:layout_alignLeft="@+id/childLastName"
+        android:layout_alignStart="@+id/childLastName"
+        android:layout_marginTop="31dp"
+        android:id="@+id/SchoolName" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/SchoolName"
+        android:layout_alignLeft="@+id/SchoolName"
+        android:layout_alignStart="@+id/SchoolName"
+        android:layout_marginTop="37dp"
+        android:id="@+id/Type" />
+
 </RelativeLayout>
