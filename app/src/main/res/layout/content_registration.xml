@@ -1,8 +1,8 @@
-<!--<ScrollView-->
-    <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:fitsSystemWindows="true">-->
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
     <android.support.percent.PercentRelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -17,7 +17,16 @@
         tools:context="bigbrother.child_monitoring_system.Registration"
         android:background="@color/tan">
 
-        <!-- First Name -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Registration Form"
+            android:textSize="30dp"
+            android:gravity="center"
+            android:id="@+id/title"
+            android:layout_marginLeft="13dp"
+            android:layout_marginStart="13dp" />
+
         <EditText
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -27,13 +36,16 @@
             android:id="@+id/firstName"
             android:hint="First Name"
             android:textColor="@color/gray"
+            android:layout_below="@+id/title"
             android:textColorLink="@color/gray"
             android:padding="10dp"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/textbox"/>
+            android:background="@drawable/textbox"
+            android:layout_alignParentTop="true"
+            android:layout_alignLeft="@+id/lastName"
+            android:layout_alignStart="@+id/lastName"
+            android:layout_marginTop="42dp" />
 
-
-         <!--Last Name-->
+        <!--Last Name-->
         <EditText
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -190,5 +202,6 @@
             app:layout_marginTopPercent="2%"/>
 
 
+
     </android.support.percent.PercentRelativeLayout>
-<!--</ScrollView>-->
+</ScrollView>

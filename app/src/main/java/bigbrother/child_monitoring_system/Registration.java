@@ -54,6 +54,7 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
     private String childFirstName;
     private String childLastName;
     private String schoolName;
+    private String confPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +93,8 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
         }
 
         if (view == buttonCancel) {
-            //cancelRegistration();
+            Intent loginScreen = new Intent(this, LoginActivity.class);
+            startActivity(loginScreen);
         }
 
     }
@@ -100,24 +102,62 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
     private void registerUser() {
         email = editTextEmail.getText().toString().trim();
         password = editTextPassword.getText().toString().trim();
+        confPassword = conf_passwordET.getText().toString().trim();
         firstName = firstNameET.getText().toString().trim();
         lastName = lastNameET.getText().toString().trim();
         childFirstName = childFirstNameET.getText().toString().trim();
         childLastName = childLastNameET.getText().toString().trim();
         schoolName = schoolNameET.getText().toString().trim();
-        String confPass = conf_passwordET.getText().toString().trim();
-
-        //TODO verify registration form info
 
         if (TextUtils.isEmpty(email)) {
-            Toast.makeText(this, "Please enter email", Toast.LENGTH_SHORT).show();
+            editTextEmail.setError( "email is required" );
             return;
         }
 
         if (TextUtils.isEmpty(password)) {
-            Toast.makeText(this, "Please enter password", Toast.LENGTH_SHORT).show();
+            editTextEmail.setError("password is required" );
             return;
         }
+
+        if (TextUtils.isEmpty(confPassword)) {
+            editTextEmail.setError("password is required" );
+            return;
+        }
+
+        if (!confPassword.equals(password)) {
+            editTextEmail.setError("Password and Confirm Password must be the same" );
+            return;
+        }
+
+        if (TextUtils.isEmpty(firstName)) {
+            editTextEmail.setError("First Name is required" );
+            return;
+        }
+
+        if (TextUtils.isEmpty(lastName)) {
+            editTextEmail.setError("Last Name is required" );
+            return;
+        }
+
+        if (TextUtils.isEmpty(childFirstName)) {
+            editTextEmail.setError("Child First Name is required" );
+            return;
+        }
+        if (TextUtils.isEmpty(childLastName)) {
+            editTextEmail.setError("Child Last Name is required" );
+            return;
+        }
+        //TODO verify registration form info
+
+//        if (TextUtils.isEmpty(email)) {
+//            Toast.makeText(this, "Please enter email", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
+//
+//        if (TextUtils.isEmpty(password)) {
+//            Toast.makeText(this, "Please enter password", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
 
         progressDialog.setMessage("Registering User...");
         progressDialog.show();
@@ -129,7 +169,7 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
                             Toast.makeText(Registration.this, "Registered Successfully", Toast.LENGTH_SHORT).show();
                             //System.out.println("Registered Successfully");
                             addUser(firebaseAuth.getCurrentUser().getUid());
-                            final Intent homeScreen = new Intent("bigbrother.child_monitoring_system.HomeScreen");
+                            Intent homeScreen = new Intent("bigbrother.child_monitoring_system.HomeScreen");
                             homeScreen.putExtra("uid", firebaseAuth.getCurrentUser().getUid());
                             startActivity(homeScreen);
 

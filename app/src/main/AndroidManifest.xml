@@ -28,6 +28,7 @@
         <activity
             android:name=".Registration"
             android:label="@string/title_activity_registration"
+            android:windowSoftInputMode="adjustPan"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="bigbrother.child_monitoring_system.Registration" />
