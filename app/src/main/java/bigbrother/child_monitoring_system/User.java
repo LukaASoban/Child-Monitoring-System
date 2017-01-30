@@ -87,4 +87,14 @@ public class User implements Serializable {
     public UserType getType() {
         return type;
     }
+
+    public void setValues(String firstName, String lastName, String childFirstName, String childLastName,
+                          String schoolName, String email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.childFirstName = childFirstName;
+        this.childLastName = childLastName;
+        this.schoolName = schoolName;
+        this.email = email;
+    }
 }

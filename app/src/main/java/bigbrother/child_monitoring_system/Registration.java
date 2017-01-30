@@ -96,7 +96,6 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
             Intent loginScreen = new Intent(this, LoginActivity.class);
             startActivity(loginScreen);
         }
-
     }
 
     private void registerUser() {
@@ -109,55 +108,51 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
         childLastName = childLastNameET.getText().toString().trim();
         schoolName = schoolNameET.getText().toString().trim();
 
-        if (TextUtils.isEmpty(email)) {
-            editTextEmail.setError( "email is required" );
-            return;
-        }
-
-        if (TextUtils.isEmpty(password)) {
-            editTextEmail.setError("password is required" );
-            return;
-        }
-
-        if (TextUtils.isEmpty(confPassword)) {
-            editTextEmail.setError("password is required" );
-            return;
-        }
-
-        if (!confPassword.equals(password)) {
-            editTextEmail.setError("Password and Confirm Password must be the same" );
-            return;
-        }
-
+        boolean errors = false;
         if (TextUtils.isEmpty(firstName)) {
-            editTextEmail.setError("First Name is required" );
-            return;
+            firstNameET.setError("First Name is required");
+            errors = true;
         }
-
         if (TextUtils.isEmpty(lastName)) {
-            editTextEmail.setError("Last Name is required" );
-            return;
+            lastNameET.setError("Last Name is required");
+            errors = true;
         }
-
         if (TextUtils.isEmpty(childFirstName)) {
-            editTextEmail.setError("Child First Name is required" );
-            return;
+            childFirstNameET.setError("Child First Name is required");
+            errors = true;
         }
         if (TextUtils.isEmpty(childLastName)) {
-            editTextEmail.setError("Child Last Name is required" );
+            childLastNameET.setError("Child Last Name is required");
+            errors = true;
+        }
+        if (TextUtils.isEmpty(schoolName)) {
+            schoolNameET.setError("school name is required");
+            errors = true;
+        }
+        if (TextUtils.isEmpty(email)) {
+            editTextEmail.setError( "email is required" );
+            errors = true;
+        }
+        if (TextUtils.isEmpty(password)) {
+            editTextPassword.setError("password is required" );
+            errors = true;
+        }
+        if (password.length() < 6) {
+            editTextPassword.setError("password must be at least 6 characters");
+            errors = true;
+        }
+        if (TextUtils.isEmpty(confPassword)) {
+            conf_passwordET.setError("confirm password is required" );
+            errors = true;
+        }
+        if (!confPassword.equals(password)) {
+            conf_passwordET.setError("Password and Confirm Password must be the same" );
+            errors = true;
+        }
+        if (errors) { //if there were registration mistakes dont send to firebase, wait for the user to fix them
             return;
         }
-        //TODO verify registration form info
 
-//        if (TextUtils.isEmpty(email)) {
-//            Toast.makeText(this, "Please enter email", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
-//
-//        if (TextUtils.isEmpty(password)) {
-//            Toast.makeText(this, "Please enter password", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
 
         progressDialog.setMessage("Registering User...");
         progressDialog.show();
@@ -180,32 +175,12 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
 
                     }
                 });
-
-//        Log.w("TAG","***********************************");
-//
-//        ValueEventListener postListener = new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                String post = dataSnapshot.getValue(String.class);
-//                Log.w("TAG","***********************************" + post);
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//                Log.w("TAG", "loadPost:onCancelled", databaseError.toException());
-//            }
-//        };
     }
 
     private void addUser(String uid) {
         User currentUser = new User();
-        currentUser.setEmail(email);
+        currentUser.setValues(firstName, lastName, childFirstName, childLastName, schoolName, email);
         currentUser.setPassword(password);
-        currentUser.setFirstName(firstName);
-        currentUser.setLastName(lastName);
-        currentUser.setSchoolName(schoolName);
-        currentUser.setChildFirstName(childFirstName);
-        currentUser.setChildLastName(childLastName);
         currentUser.setType(UserType.PARENT);
         dRef.child("users").child(uid).setValue(currentUser);
     }

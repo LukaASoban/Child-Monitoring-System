@@ -33,17 +33,8 @@
         android:layout_alignStart="@+id/lastName"
         android:layout_alignEnd="@+id/lastName"
         android:layout_marginTop="10dp"
-        android:id="@+id/email" />
-
-    <TextView
-        android:text="Password:"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/email"
-        android:layout_alignRight="@+id/email"
-        android:layout_alignEnd="@+id/email"
-        android:layout_marginTop="10dp"
-        android:id="@+id/password" />
+        android:id="@+id/email"
+        android:layout_alignRight="@+id/lastName" />
 
     <TextView
         android:text="Child Last Name:"
@@ -81,7 +72,7 @@
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:id="@+id/childFirstName"
-        android:layout_below="@+id/password"
+        android:layout_below="@+id/email"
         android:layout_marginTop="10dp"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
@@ -94,7 +85,8 @@
         android:layout_alignTop="@+id/firstName"
         android:layout_toRightOf="@+id/firstName"
         android:layout_toEndOf="@+id/firstName"
-        android:id="@+id/firstNameData" />
+        android:id="@+id/firstNameData"
+        android:editable="true" />
 
     <TextView
         android:text="TextView"
@@ -103,7 +95,8 @@
         android:layout_alignTop="@+id/lastName"
         android:layout_toRightOf="@+id/lastName"
         android:layout_toEndOf="@+id/lastName"
-        android:id="@+id/lastNameData" />
+        android:id="@+id/lastNameData"
+        android:editable="true" />
 
     <TextView
         android:text="TextView"
@@ -118,19 +111,11 @@
         android:text="TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/password"
-        android:layout_toRightOf="@+id/password"
-        android:layout_toEndOf="@+id/password"
-        android:id="@+id/passwordData" />
-
-    <TextView
-        android:text="TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_alignTop="@+id/childFirstName"
         android:layout_toRightOf="@+id/childFirstName"
         android:layout_toEndOf="@+id/childFirstName"
-        android:id="@+id/childLastNameData" />
+        android:id="@+id/childFirstNameData"
+        android:editable="true" />
 
     <TextView
         android:text="TextView"
@@ -139,7 +124,8 @@
         android:layout_alignTop="@+id/childLastName"
         android:layout_toRightOf="@+id/childLastName"
         android:layout_toEndOf="@+id/childLastName"
-        android:id="@+id/childFirstNameData" />
+        android:id="@+id/childLastNameData"
+        android:editable="true" />
 
     <TextView
         android:text="TextView"
@@ -149,7 +135,8 @@
         android:layout_toRightOf="@+id/SchoolName"
         android:layout_toEndOf="@+id/SchoolName"
         android:layout_alignTop="@+id/SchoolName"
-        android:id="@+id/schoolNameData" />
+        android:id="@+id/schoolNameData"
+        android:editable="true" />
 
     <Button
         android:text="Settings"
@@ -165,7 +152,7 @@
         android:background="@drawable/button_rounded"
         android:padding="10dp"
         android:layout_marginTop="43dp"
-        android:id="@+id/button2" />
+        android:id="@+id/settingsButton" />
 
     <Button
         android:text="Edit"
@@ -178,8 +165,8 @@
         android:textColor="@color/tan"
         android:textSize="24dp"
         android:padding="10dp"
-        android:id="@+id/button3"
-        android:layout_below="@+id/button2"
+        android:id="@+id/editButton"
+        android:layout_below="@+id/settingsButton"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp" />
 
