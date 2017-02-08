@@ -1,5 +1,6 @@
 package bigbrother.child_monitoring_system;
 
+import com.google.android.gms.drive.internal.StringListResponse;
 import com.google.android.gms.plus.model.people.Person;
 import com.google.firebase.database.IgnoreExtraProperties;
 
@@ -88,8 +89,7 @@ public class User implements Serializable {
         return type;
     }
 
-    public void setValues(String firstName, String lastName, String childFirstName, String childLastName,
-                          String schoolName, String email) {
+    public void setValues(String firstName, String lastName, String childFirstName, String childLastName, String schoolName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.childFirstName = childFirstName;

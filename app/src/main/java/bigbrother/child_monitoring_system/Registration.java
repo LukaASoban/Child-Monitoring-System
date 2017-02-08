@@ -12,9 +12,12 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -27,18 +30,19 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Registration extends AppCompatActivity implements View.OnClickListener{
 
 
     private Button buttonRegister;
     private Button buttonCancel;
-    private EditText editTextEmail;
-    private EditText editTextPassword;
     private EditText firstNameET;
     private EditText lastNameET;
     private EditText childFirstNameET;
     private EditText childLastNameET;
-    private EditText schoolNameET;
+    private Spinner schoolNameSpinner;
     private EditText emailET;
     private EditText passwordET;
     private EditText conf_passwordET;
@@ -62,28 +66,34 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.content_registration);
 
         firebaseAuth = FirebaseAuth.getInstance();
-        //System.out.println("firebaseAuth is null: " + firebaseAuth == null);
+
         progressDialog = new ProgressDialog(this);
 
         buttonRegister = (Button) findViewById(R.id.register);
         buttonCancel = (Button) findViewById(R.id.cancel_registration);
-        editTextEmail = (EditText) findViewById(R.id.email);
-        editTextPassword = (EditText) findViewById(R.id.password);
         firstNameET = (EditText) findViewById(R.id.firstName);
         lastNameET = (EditText) findViewById(R.id.lastName);
         childFirstNameET = (EditText) findViewById(R.id.child_first_name);
         childLastNameET = (EditText) findViewById(R.id.child_last_name);
-        schoolNameET = (EditText) findViewById(R.id.school_name);
+        schoolNameSpinner = (Spinner) findViewById(R.id.school_name);
         emailET = (EditText) findViewById(R.id.email);
         passwordET = (EditText) findViewById(R.id.password);
         conf_passwordET  =(EditText) findViewById(R.id.conf_password);
 
         dRef = FirebaseDatabase.getInstance().getReference();
 
+        populateSchoolSpinner();
+        schoolNameSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                schoolName = parent.getItemAtPosition(pos).toString();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+            }
+        });
+
         buttonRegister.setOnClickListener(this);
         buttonCancel.setOnClickListener(this);
-
-
     }
 
     @Override
@@ -99,14 +109,13 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
     }
 
     private void registerUser() {
-        email = editTextEmail.getText().toString().trim();
-        password = editTextPassword.getText().toString().trim();
+        email = emailET.getText().toString().trim();
+        password = passwordET.getText().toString().trim();
         confPassword = conf_passwordET.getText().toString().trim();
         firstName = firstNameET.getText().toString().trim();
         lastName = lastNameET.getText().toString().trim();
         childFirstName = childFirstNameET.getText().toString().trim();
         childLastName = childLastNameET.getText().toString().trim();
-        schoolName = schoolNameET.getText().toString().trim();
 
         boolean errors = false;
         if (TextUtils.isEmpty(firstName)) {
@@ -125,20 +134,15 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
             childLastNameET.setError("Child Last Name is required");
             errors = true;
         }
-        if (TextUtils.isEmpty(schoolName)) {
-            schoolNameET.setError("school name is required");
-            errors = true;
-        }
         if (TextUtils.isEmpty(email)) {
-            editTextEmail.setError( "email is required" );
+            emailET.setError( "email is required" );
             errors = true;
         }
         if (TextUtils.isEmpty(password)) {
-            editTextPassword.setError("password is required" );
+            passwordET.setError("password is required" );
             errors = true;
-        }
-        if (password.length() < 6) {
-            editTextPassword.setError("password must be at least 6 characters");
+        } else if (password.length() < 6) {
+            passwordET.setError("password must be at least 6 characters");
             errors = true;
         }
         if (TextUtils.isEmpty(confPassword)) {
@@ -160,29 +164,44 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        progressDialog.hide();
                         if (task.isSuccessful()) {
                             Toast.makeText(Registration.this, "Registered Successfully", Toast.LENGTH_SHORT).show();
-                            //System.out.println("Registered Successfully");
                             addUser(firebaseAuth.getCurrentUser().getUid());
                             Intent homeScreen = new Intent("bigbrother.child_monitoring_system.HomeScreen");
                             homeScreen.putExtra("uid", firebaseAuth.getCurrentUser().getUid());
                             startActivity(homeScreen);
-
                         } else {
                             Toast.makeText(Registration.this, "Registered Un-Successfully", Toast.LENGTH_SHORT).show();
-                            //System.out.println("Registeration unsuccessful");
                         }
-
                     }
                 });
+
     }
 
     private void addUser(String uid) {
-        User currentUser = new User();
+        final User currentUser = new User();
         currentUser.setValues(firstName, lastName, childFirstName, childLastName, schoolName, email);
         currentUser.setPassword(password);
         currentUser.setType(UserType.PARENT);
         dRef.child("users").child(uid).setValue(currentUser);
     }
 
+    private void populateSchoolSpinner() {
+        dRef.child("daycare").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                List<String> list = new ArrayList<>();
+                for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
+                    list.add(snapshot.getValue(SchoolName.class).toString());
+                }
+                ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(Registration.this, android.R.layout.simple_spinner_item, list);
+                dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                schoolNameSpinner.setAdapter(dataAdapter);
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+    }
 }

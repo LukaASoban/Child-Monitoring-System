@@ -1,5 +1,7 @@
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
@@ -98,22 +100,22 @@
             app:layout_marginTopPercent="2%"
             android:background="@drawable/textbox" />
 
-        <EditText
+
+        <Spinner
+            android:id="@+id/school_name"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_widthPercent="80%"
             app:layout_heightPercent="8%"
-            android:inputType="textPersonName"
-            android:ems="10"
-            android:id="@+id/school_name"
+            android:layout_alignLeft="@+id/email"
+            android:layout_alignStart="@+id/email"
             android:hint="School Name"
             android:layout_below="@+id/child_last_name"
             android:textColor="@color/gray"
             android:textColorLink="@color/gray"
             android:padding="10dp"
-            android:layout_centerHorizontal="true"
             app:layout_marginTopPercent="2%"
-            android:background="@drawable/textbox"/>
+            android:background="@drawable/textbox" />
 
 
         <EditText
@@ -175,7 +177,6 @@
             app:layout_heightPercent="10%"
             android:text="Register"
             android:id="@+id/register"
-            android:onClick="registrationHandle"
             android:textAllCaps="false"
             android:textColor="@color/tan"
             android:padding="10dp"
@@ -200,7 +201,6 @@
             android:layout_centerHorizontal="true"
             android:layout_below="@+id/register"
             app:layout_marginTopPercent="2%"/>
-
 
 
     </android.support.percent.PercentRelativeLayout>
