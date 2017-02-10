@@ -17,4 +17,7 @@
     <string name="title_activity_login">Login</string>
     <string name="title_activity_home_screen">HomeScreen</string>
     <string name="title_activity_profile">Profile</string>
+
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
 </resources>

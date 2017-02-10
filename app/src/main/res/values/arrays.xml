@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="parent_menu">
+        <item>Home</item>
+        <item>Map</item>
+        <item>Profile</item>
+        <item>Report Error</item>
+        <item>Logout</item>
+    </string-array>
+</resources>
