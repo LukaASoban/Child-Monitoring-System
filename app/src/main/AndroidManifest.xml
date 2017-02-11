@@ -28,8 +28,8 @@
         <activity
             android:name=".Registration"
             android:label="@string/title_activity_registration"
-            android:windowSoftInputMode="adjustPan"
-            android:theme="@style/AppTheme.NotAnActionBar">
+            android:theme="@style/AppTheme.NotAnActionBar"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="bigbrother.child_monitoring_system.Registration" />
 
@@ -40,21 +40,21 @@
             android:name=".HomeScreen"
             android:label="@string/title_activity_home_screen"
             android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="bigbrother.child_monitoring_system.HomeScreen" />
 
-        <intent-filter>
-
-            <action android:name="bigbrother.child_monitoring_system.HomeScreen" />
-
-            <category android:name="android.intent.category.DEFAULT" />
-        </intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
-            android:theme="@style/AppTheme" />
+        android:theme="@style/AppTheme" />
         <activity
             android:name=".Profile"
             android:label="@string/title_activity_profile"
-            android:theme="@style/AppTheme">
-
-        </activity>
+            android:theme="@style/AppTheme"></activity>
+        <activity
+            android:name=".SearchScreen"
+            android:label="@string/title_activity_search_screen"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

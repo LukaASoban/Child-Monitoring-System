@@ -80,6 +80,9 @@ public class User implements Serializable {
     public String getChildFirstName() {
         return this.childFirstName ;
     }
+    public String toString() {
+        return getFirstName() + " " + getLastName();
+    }
 
     public String getChildLastName() {
         return this.childLastName;

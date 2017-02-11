@@ -10,6 +10,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -19,11 +20,16 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
 
 public class HomeScreen extends AppCompatActivity implements View.OnClickListener {
 
     private Button buttonProfile;
+    private Button buttonSearch;
     private String uid;
 
     //menu test//
@@ -33,6 +39,8 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
     private String mActivityTitle = "Home";
+    private DatabaseReference dRef;
+    private User currentUser;
     ////////////
 
     @Override
@@ -44,8 +52,11 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
         uid = getIntent().getStringExtra("uid");
 
         buttonProfile = (Button) findViewById(R.id.profile);
+        buttonSearch = (Button) findViewById(R.id.search);
 
         buttonProfile.setOnClickListener(this);
+        buttonSearch.setOnClickListener(this);
+
 
         //menu test//
         mDrawerList = (ListView)findViewById(R.id.navList);
@@ -57,13 +68,37 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
         addDrawerItems();
         setupDrawer();
         ////////////
+
+        dRef = FirebaseDatabase.getInstance().getReference().child("users");
+        uid = getIntent().getStringExtra("uid");
+
+
+        dRef.child(uid).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                currentUser = dataSnapshot.getValue(User.class);
+
+            }
+            @Override
+            public void onCancelled(DatabaseError error) { }
+        });
+
+        if (currentUser != null && !currentUser.getType().equals(UserType.ADMIN)) {
+            buttonSearch.setVisibility(0);
+        }
     }
 
     @Override
     public void onClick(View v) {
-        final Intent welcomeScreenIntent = new Intent(this, Profile.class);
-        welcomeScreenIntent.putExtra("uid", uid);
-        startActivity(welcomeScreenIntent);
+        if (v == buttonProfile) {
+            final Intent welcomeScreenIntent = new Intent(this, Profile.class);
+            welcomeScreenIntent.putExtra("uid", uid);
+            startActivity(welcomeScreenIntent);
+        } else if (v == buttonSearch) {
+            final Intent searchScreenIntent = new Intent(this, SearchScreen.class);
+            startActivity(searchScreenIntent);
+        }
+
     }
 
     //menu test//
@@ -79,7 +114,7 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
                     final Intent homeScreenIntent = new Intent(HomeScreen.this, HomeScreen.class);
                     homeScreenIntent.putExtra("uid", uid);
                     startActivity(homeScreenIntent);
-                } else if (position == 2){
+                } else if (position == 2) {
                     final Intent profileScreenIntent = new Intent(HomeScreen.this, Profile.class);
                     profileScreenIntent.putExtra("uid", uid);
                     startActivity(profileScreenIntent);

@@ -29,6 +29,7 @@ dependencies {
     compile 'com.google.android.gms:play-services:9.8.0'
     compile 'com.android.support:percent:25.0.0'
     compile 'com.google.firebase:firebase-database:9.8.0'
+    compile 'com.firebaseui:firebase-ui-database:1.0.0'
 }
 
 apply plugin: 'com.google.gms.google-services'
