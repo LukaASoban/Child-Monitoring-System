@@ -176,7 +176,6 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
                         }
                     }
                 });
-        addUser(firebaseAuth.getCurrentUser().getUid());
 
     }
 

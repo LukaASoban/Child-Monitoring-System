@@ -72,19 +72,23 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
         dRef = FirebaseDatabase.getInstance().getReference().child("users");
         uid = getIntent().getStringExtra("uid");
 
-
-        dRef.child(uid).addValueEventListener(new ValueEventListener() {
+        dRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                currentUser = dataSnapshot.getValue(User.class);
-
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    if (snapshot.getKey().toString().equals(uid)) {
+                        currentUser = snapshot.getValue(User.class);
+                        if (currentUser.getType().equals(UserType.ADMIN)) {
+                            buttonSearch.setVisibility(View.INVISIBLE);
+                        }
+                    }
+                }
             }
             @Override
             public void onCancelled(DatabaseError error) { }
         });
-
         if (currentUser != null && !currentUser.getType().equals(UserType.ADMIN)) {
-            buttonSearch.setVisibility(0);
+            buttonSearch.setVisibility(View.INVISIBLE);
         }
     }
 

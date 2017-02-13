@@ -7,12 +7,14 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -53,7 +55,6 @@ public class SearchScreen extends AppCompatActivity implements View.OnClickListe
                 startActivity(profileScreen);
             }
         });
-
         dRef = FirebaseDatabase.getInstance().getReference().child("users");
         uid = getIntent().getStringExtra("uid");
 
@@ -69,10 +70,10 @@ public class SearchScreen extends AppCompatActivity implements View.OnClickListe
                 return;
             }
 
-            final ArrayList<String> list = new ArrayList<String>();
-            dRef.child("users").addValueEventListener(new ValueEventListener() {
+            dRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
+                    ArrayList<String> list = new ArrayList<String>();
                     String[] firstLastName = nameEntered.split("\\s+");
                     String firstName = firstLastName[0];
                     String lastName = "";
@@ -86,7 +87,7 @@ public class SearchScreen extends AppCompatActivity implements View.OnClickListe
                                 && user.getLastName().equals(lastName)) {
                             list.add(user.getFirstName() + " " + user.getLastName());
                             uidListView.put(index++, snapshot.getKey());
-                        } else if (firstLastName.length <= 1
+                        } else if (firstLastName.length == 1
                                 && (user.getFirstName().equals(firstName)
                                 || user.getLastName().equals(firstName))) {
                             list.add(user.getFirstName() + " " + user.getLastName());
