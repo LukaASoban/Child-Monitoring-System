@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -39,6 +40,8 @@ public class SearchScreen extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_screen);
+
+        getSupportActionBar().setTitle("Search Users");
 
         buttonSearch = (Button) findViewById(R.id.searchButton);
         buttonSearch.setOnClickListener(this);
@@ -73,7 +76,7 @@ public class SearchScreen extends AppCompatActivity implements View.OnClickListe
             dRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    ArrayList<String> list = new ArrayList<String>();
+                    ArrayList<HashMap<String,String>> list =  new ArrayList<HashMap<String, String>>();
                     String[] firstLastName = nameEntered.split("\\s+");
                     String firstName = firstLastName[0];
                     String lastName = "";
@@ -83,24 +86,34 @@ public class SearchScreen extends AppCompatActivity implements View.OnClickListe
                     int index = 0;
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         User user = snapshot.getValue(User.class);
+                        HashMap<String,String> hashMap = new HashMap<String, String>();
                         if (firstLastName.length > 1 && user.getFirstName().equals(firstName)
                                 && user.getLastName().equals(lastName)) {
-                            list.add(user.getFirstName() + " " + user.getLastName());
+                            hashMap.put("User",user.getFirstName() + " " + user.getLastName());
+                            hashMap.put("UserType", user.getType().toString());
+                            list.add(hashMap);
                             uidListView.put(index++, snapshot.getKey());
                         } else if (firstLastName.length == 1
                                 && (user.getFirstName().equals(firstName)
                                 || user.getLastName().equals(firstName))) {
-                            list.add(user.getFirstName() + " " + user.getLastName());
+                            hashMap.put("User",user.getFirstName() + " " + user.getLastName());
+                            hashMap.put("UserType", user.getType().toString());
+                            list.add(hashMap);
                             uidListView.put(index++, snapshot.getKey());
                         }
 
                     }
                     if (list.isEmpty()) {
-                        list.add("No results to display");
+                        HashMap<String,String> hashMap = new HashMap<String, String>();
+                        hashMap.put("No results to display", "");
+                        list.add(hashMap);
                     }
-                    ArrayAdapter arrayAdapter = new ArrayAdapter(SearchScreen.this, android.R.layout.simple_list_item_1,
-                            list);
-                    usersList.setAdapter(arrayAdapter);
+//                    ArrayAdapter arrayAdapter = new ArrayAdapter(SearchScreen.this, android.R.layout.simple_list_item_1,
+//                            list);
+//                    usersList.setAdapter(arrayAdapter);
+                    SimpleAdapter adapter = new SimpleAdapter(SearchScreen.this, list, android.R.layout.simple_list_item_2, new String[] {"User", "UserType"}, new int[] {android.R.id.text1, android.R.id.text2});
+                    usersList.setAdapter(adapter);
+
                 }
 
                 @Override

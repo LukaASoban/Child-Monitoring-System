@@ -64,7 +64,7 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
         mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
-//        mActivityTitle = getTitle().toString();
+        getSupportActionBar().setTitle("Home");
         addDrawerItems();
         setupDrawer();
         ////////////

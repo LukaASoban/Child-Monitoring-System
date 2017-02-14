@@ -14,7 +14,6 @@
         android:id="@+id/content_home_screen"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
         android:paddingBottom="@dimen/activity_vertical_margin"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
@@ -49,8 +48,6 @@
             android:textSize="24dp"
             app:layout_marginRightPercent="5%"
             android:id="@+id/search"
-            android:layout_marginRight="15dp"
-            android:layout_marginEnd="15dp"
             android:layout_alignTop="@+id/profile"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
