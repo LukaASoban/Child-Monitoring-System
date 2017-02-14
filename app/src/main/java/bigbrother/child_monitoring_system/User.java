@@ -5,6 +5,7 @@ import com.google.android.gms.plus.model.people.Person;
 import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Created by wbroome14 on 1/23/17.
@@ -20,6 +21,8 @@ public class User implements Serializable {
     private String childFirstName;
     private String childLastName;
     private UserType type;
+    private ArrayList<Child> children;
+
 
     public User() {
         //defualt
