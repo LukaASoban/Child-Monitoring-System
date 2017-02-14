@@ -14,22 +14,6 @@
     tools:context="bigbrother.child_monitoring_system.SearchScreen"
     tools:showIn="@layout/activity_search_screen">
 
-    <EditText
-        android:hint="Type in Name"
-        android:id="@+id/searchName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/gray"
-        android:textColorLink="@color/gray"
-        android:padding="15dp"
-        android:background="@drawable/textbox"
-        android:layout_alignParentRight="true"
-        android:layout_alignBaseline="@+id/searchButton"
-        android:layout_alignTop="@+id/searchButton"
-        android:layout_alignBottom="@+id/searchButton"
-        android:layout_toRightOf="@+id/searchButton"
-        android:layout_toEndOf="@+id/searchButton" />
-
     <ListView
         android:id="@+id/usersList"
         android:layout_below="@+id/searchButton"
@@ -39,9 +23,25 @@
         android:layout_height="match_parent">
     </ListView>
 
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:gravity="left"
+        android:hint="Type in Name"
+        android:id="@+id/searchName"
+        android:textColor="@color/gray"
+        android:textColorLink="@color/gray"
+        android:padding="15dp"
+        android:background="@drawable/textbox"
+        android:layout_toLeftOf="@+id/searchButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="20sp"
         android:text="Search"
         android:id="@+id/searchButton"
         android:textAllCaps="false"
@@ -49,8 +49,7 @@
         android:padding="10dp"
         android:textSize="24dp"
         android:background="@drawable/button_rounded"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentRight="true"
+        android:gravity="right" />
 
 </RelativeLayout>
