@@ -53,42 +53,6 @@
             android:layout_centerHorizontal="true"
             android:background="@drawable/textbox"/>
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_widthPercent="80%"
-            app:layout_heightPercent="8%"
-            android:inputType="textPersonName"
-            android:ems="10"
-            android:id="@+id/child_first_name"
-            android:hint="Child First Name"
-            android:layout_below="@+id/lastName"
-            android:textColor="@color/gray"
-            android:textColorLink="@color/gray"
-            android:padding="10dp"
-            android:layout_centerHorizontal="true"
-            app:layout_marginTopPercent="2%"
-            android:background="@drawable/textbox"/>
-
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_widthPercent="80%"
-            app:layout_heightPercent="8%"
-            android:inputType="textPersonName"
-            android:ems="10"
-            android:id="@+id/child_last_name"
-            android:hint="Child Last Name"
-            android:layout_below="@+id/child_first_name"
-            android:textColor="@color/gray"
-            android:textColorLink="@color/gray"
-            android:padding="10dp"
-            android:layout_centerHorizontal="true"
-            app:layout_marginTopPercent="2%"
-            android:background="@drawable/textbox" />
-
-
         <Spinner
             android:id="@+id/school_name"
             android:layout_width="match_parent"
@@ -98,7 +62,7 @@
             android:layout_alignLeft="@+id/email"
             android:layout_alignStart="@+id/email"
             android:hint="School Name"
-            android:layout_below="@+id/child_last_name"
+            android:layout_below="@+id/lastName"
             android:textColor="@color/gray"
             android:textColorLink="@color/gray"
             android:padding="10dp"

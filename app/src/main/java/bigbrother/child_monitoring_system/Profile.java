@@ -35,8 +35,6 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
     private TextView lastName;
     private TextView email;
     //private TextView password;
-    private TextView childFirstName;
-    private TextView childLastName;
     private TextView schoolName;
 
     private Button editButton;
@@ -60,8 +58,6 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
         lastName = (TextView) findViewById(R.id.lastNameData);
         email = (TextView) findViewById(R.id.emailData);
         //password = (TextView) findViewById(R.id.passwordData);
-        childFirstName = (TextView) findViewById(R.id.childFirstNameData);
-        childLastName = (TextView) findViewById(R.id.childLastNameData);
         schoolName = (TextView) findViewById(R.id.schoolNameData);
 
         editButton = (Button) findViewById(R.id.editButton);
@@ -80,10 +76,6 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
                 lastName.setFocusable(false);
                 email.setText(currUser.getEmail());
                 //password.setText(currUser.getPassword());
-                childFirstName.setText(currUser.getChildFirstName());
-                childFirstName.setFocusable(false);
-                childLastName.setText(currUser.getChildLastName());
-                childLastName.setFocusable(false);
                 schoolName.setText(currUser.getSchoolName());
                 schoolName.setFocusable(false);
             }
@@ -112,13 +104,9 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
         if (v == editButton && editButton.getText().equals("Edit")) {
             firstName.setFocusableInTouchMode(true);
             lastName.setFocusableInTouchMode(true);
-            childFirstName.setFocusableInTouchMode(true);
-            childLastName.setFocusableInTouchMode(true);
             schoolName.setFocusableInTouchMode(true);
             firstName.setBackground(getResources().getDrawable(R.drawable.textbox));
             lastName.setBackground(getResources().getDrawable(R.drawable.textbox));
-            childFirstName.setBackground(getResources().getDrawable(R.drawable.textbox));
-            childLastName.setBackground(getResources().getDrawable(R.drawable.textbox));
             schoolName.setBackground(getResources().getDrawable(R.drawable.textbox));
             editButton.setText("Save");
             //Toast.makeText(Profile.this, "Should be editable", Toast.LENGTH_SHORT).show();
@@ -129,14 +117,10 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
             updateFirebase();
             firstName.setFocusable(false);
             lastName.setFocusable(false);
-            childFirstName.setFocusable(false);
-            childLastName.setFocusable(false);
             schoolName.setFocusable(false);
             editButton.setText("Edit");
             firstName.setBackground(getResources().getDrawable(R.drawable.empty));
             lastName.setBackground(getResources().getDrawable(R.drawable.empty));
-            childFirstName.setBackground(getResources().getDrawable(R.drawable.empty));
-            childLastName.setBackground(getResources().getDrawable(R.drawable.empty));
             schoolName.setBackground(getResources().getDrawable(R.drawable.empty));
             //Toast.makeText(Profile.this, "Should not be editable. Done updating", Toast.LENGTH_SHORT).show();
         } else {
@@ -157,14 +141,6 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
             lastName.setError("Last Name is required");
             good = false;
         }
-        if (TextUtils.isEmpty(childFirstName.getText())) {
-            childFirstName.setError("Child First Name is required");
-            good = false;
-        }
-        if (TextUtils.isEmpty(childLastName.getText())) {
-            childLastName.setError("Child Last Name is required");
-            good = false;
-        }
         if (TextUtils.isEmpty(schoolName.getText())) {
             schoolName.setError("school name is required");
             good = false;
@@ -177,8 +153,7 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
     }
 
     private void updateFirebase() {
-        currUser.setValues(firstName.getText().toString(), lastName.getText().toString(), childFirstName.getText().toString(),
-                childLastName.getText().toString(), schoolName.getText().toString(), email.getText().toString());
+        currUser.setValues(firstName.getText().toString(), lastName.getText().toString(), schoolName.getText().toString(), email.getText().toString());
         fdbUsers.child(uid).setValue(currUser);
     }
 
