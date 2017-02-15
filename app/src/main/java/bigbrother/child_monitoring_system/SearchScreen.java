@@ -13,7 +13,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
@@ -49,15 +53,7 @@ public class SearchScreen extends AppCompatActivity implements View.OnClickListe
         uidListView = new HashMap<>();
 
         usersList = (ListView)findViewById(R.id.usersList);
-        usersList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position,
-                                    long id) {
-                final Intent profileScreen = new Intent(SearchScreen.this, Profile.class);
-                profileScreen.putExtra("uid", uidListView.get(position));
-                startActivity(profileScreen);
-            }
-        });
+
         dRef = FirebaseDatabase.getInstance().getReference().child("users");
         uid = getIntent().getStringExtra("uid");
 
@@ -91,6 +87,7 @@ public class SearchScreen extends AppCompatActivity implements View.OnClickListe
                                 && user.getLastName().equals(lastName)) {
                             hashMap.put("User",user.getFirstName() + " " + user.getLastName());
                             hashMap.put("UserType", user.getType().toString());
+                            hashMap.put("Access", "Access");
                             list.add(hashMap);
                             uidListView.put(index++, snapshot.getKey());
                         } else if (firstLastName.length == 1
@@ -98,6 +95,7 @@ public class SearchScreen extends AppCompatActivity implements View.OnClickListe
                                 || user.getLastName().equals(firstName))) {
                             hashMap.put("User",user.getFirstName() + " " + user.getLastName());
                             hashMap.put("UserType", user.getType().toString());
+                            hashMap.put("Access", "Access");
                             list.add(hashMap);
                             uidListView.put(index++, snapshot.getKey());
                         }
@@ -105,14 +103,22 @@ public class SearchScreen extends AppCompatActivity implements View.OnClickListe
                     }
                     if (list.isEmpty()) {
                         HashMap<String,String> hashMap = new HashMap<String, String>();
-                        hashMap.put("No results to display", "");
+                        hashMap.put("User", "No Results");
                         list.add(hashMap);
                     }
-//                    ArrayAdapter arrayAdapter = new ArrayAdapter(SearchScreen.this, android.R.layout.simple_list_item_1,
-//                            list);
-//                    usersList.setAdapter(arrayAdapter);
-                    SimpleAdapter adapter = new SimpleAdapter(SearchScreen.this, list, android.R.layout.simple_list_item_2, new String[] {"User", "UserType"}, new int[] {android.R.id.text1, android.R.id.text2});
+
+                    CustomSearchAdapter adapter = new CustomSearchAdapter(SearchScreen.this, list, R.layout.search_list_item, new String[] {"User", "UserType", "Access"}, new int[] {R.id.textTop, R.id.textBottom, R.id.switchAccess});
                     usersList.setAdapter(adapter);
+                    usersList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position,
+                                                long id) {
+                            Toast.makeText(SearchScreen.this, "You clicked", Toast.LENGTH_SHORT).show();
+                            final Intent profileScreen = new Intent(SearchScreen.this, Profile.class);
+                            profileScreen.putExtra("uid", uidListView.get(position));
+                            startActivity(profileScreen);
+                        }
+                    });
 
                 }
 
@@ -121,7 +127,29 @@ public class SearchScreen extends AppCompatActivity implements View.OnClickListe
 
                 }
             });
+
+//            // create imagebutton to open new dialog fragment for child info
+//            ListAdapter adapter = usersList.getAdapter();
+//
+//            //make an array of imagebuttons
+//            ImageButton[] childBtn = new ImageButton[adapter.getCount()];
+//
+//            ImageButton child = new ImageButton(this);
+//            child.setImageResource(R.drawable.ic_select_child);
+//
+//
+//
+//            RelativeLayout rl = (RelativeLayout) findViewById(R.id.content_search_screen);
+//            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+//            rl.addView(, lp);
+
+
+
+
         }
     }
+
+
+    /* Private class for ListAdapter */
 
 }
