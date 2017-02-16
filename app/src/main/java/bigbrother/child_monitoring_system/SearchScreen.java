@@ -38,7 +38,7 @@ public class SearchScreen extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search_screen);
+        setContentView(R.layout.content_search_screen);
 
         buttonSearch = (Button) findViewById(R.id.searchButton);
         buttonSearch.setOnClickListener(this);
@@ -50,13 +50,14 @@ public class SearchScreen extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position,
                                     long id) {
-                final Intent profileScreen = new Intent(SearchScreen.this, Profile.class);
-                profileScreen.putExtra("uid", uidListView.get(position));
-                startActivity(profileScreen);
+                final Intent userOptionsScreen = new Intent(SearchScreen.this, UserOptionsScreen.class);
+                userOptionsScreen.putExtra("uid", uidListView.get(position));
+                startActivity(userOptionsScreen);
             }
         });
         dRef = FirebaseDatabase.getInstance().getReference().child("users");
         uid = getIntent().getStringExtra("uid");
+        populateList();
 
     }
 
@@ -98,7 +99,7 @@ public class SearchScreen extends AppCompatActivity implements View.OnClickListe
                     if (list.isEmpty()) {
                         list.add("No results to display");
                     }
-                    ArrayAdapter arrayAdapter = new ArrayAdapter(SearchScreen.this, android.R.layout.simple_list_item_1,
+                    ArrayAdapter arrayAdapter = new ArrayAdapter(SearchScreen.this, R.layout.menu_item,
                             list);
                     usersList.setAdapter(arrayAdapter);
                 }
@@ -111,4 +112,27 @@ public class SearchScreen extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    public void populateList() {
+        dRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<String> list = new ArrayList<String>();
+                int index = 0;
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    User user = snapshot.getValue(User.class);
+                    list.add(user.getFirstName() + " " + user.getLastName());
+                    uidListView.put(index++, snapshot.getKey());
+                }
+                if (list.isEmpty()) {
+                    list.add("No results to display");
+                }
+                ArrayAdapter arrayAdapter = new ArrayAdapter(SearchScreen.this, R.layout.menu_item, list);
+                usersList.setAdapter(arrayAdapter);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError firebaseError) {
+            }
+        });
+    }
 }
