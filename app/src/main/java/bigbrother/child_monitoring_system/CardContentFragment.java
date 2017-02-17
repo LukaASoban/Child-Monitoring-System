@@ -17,7 +17,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -46,7 +45,6 @@ public class CardContentFragment extends AppCompatActivity implements ChildInput
         setContentView(R.layout.fragment_child_menu);
 
         uid = getIntent().getStringExtra("uid");
-        Toast.makeText(this, "" + uid, Toast.LENGTH_SHORT).show();
 
         fdbUsers = FirebaseDatabase.getInstance().getReference().child("users");
 
@@ -190,7 +188,6 @@ public class CardContentFragment extends AppCompatActivity implements ChildInput
     }
 
     public void notifyDatabaseChange() {
-        Toast.makeText(this, "notify", Toast.LENGTH_SHORT).show();
         currentUser.setChildren(((ChildCardAdapter) mAdapter).getChildDataset());
         fdbUsers.child(uid).setValue(currentUser);
     }

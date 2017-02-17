@@ -30,6 +30,15 @@
         android:background="@drawable/textbox"
         />
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="15dp"
+        android:layout_above="@id/username"
+        android:layout_centerInParent="true"
+        app:srcCompat="@drawable/ic_child_male"
+        android:id="@+id/childIcon1"/>
+
     <EditText
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -174,7 +174,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         fdb.child("users").child(auth.getCurrentUser().getUid()).child("banned").addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
-                                if (dataSnapshot.getValue().equals("TRUE")) {
+
+                                if (dataSnapshot.getValue().toString().equals("true")) {
                                     Log.w(TAG, "signInWithEmail:Banned User");
                                     Toast.makeText(LoginActivity.this, "Account is Banned. Contact System Admin for more information.",
                                             Toast.LENGTH_LONG).show();
