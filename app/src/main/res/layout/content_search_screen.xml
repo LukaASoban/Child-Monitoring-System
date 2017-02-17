@@ -15,22 +15,6 @@
     tools:context="bigbrother.child_monitoring_system.SearchScreen"
     tools:showIn="@layout/activity_search_screen">
 
-    <EditText
-        android:hint="Type in Name"
-        android:id="@+id/searchName"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_widthPercent="40%"
-        app:layout_heightPercent="10%"
-        app:layout_marginRightPercent="4%"
-        android:textColor="@color/gray"
-        android:textColorLink="@color/gray"
-        android:padding="15dp"
-        android:background="@drawable/textbox"
-        android:layout_alignParentLeft="true"
-        android:layout_alignBaseline="@+id/searchButton"
-        android:layout_toLeftOf="@+id/searchButton" />
-
     <ListView
         android:id="@+id/usersList"
         android:layout_below="@+id/searchButton"
@@ -40,11 +24,25 @@
         android:layout_height="match_parent">
     </ListView>
 
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:gravity="left"
+        android:hint="Type in Name"
+        android:id="@+id/searchName"
+        android:textColor="@color/gray"
+        android:textColorLink="@color/gray"
+        android:padding="15dp"
+        android:background="@drawable/textbox"
+        android:layout_toLeftOf="@+id/searchButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
     <Button
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_widthPercent="30%"
-        app:layout_heightPercent="10%"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20sp"
         android:text="Search"
         android:id="@+id/searchButton"
         android:textAllCaps="false"
@@ -52,8 +50,8 @@
         android:padding="10dp"
         android:textSize="20dp"
         android:background="@drawable/button_rounded"
-        android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:gravity="right" />
+
 
 </android.support.percent.PercentRelativeLayout>

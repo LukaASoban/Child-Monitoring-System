@@ -40,8 +40,6 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
     private Button buttonCancel;
     private EditText firstNameET;
     private EditText lastNameET;
-    private EditText childFirstNameET;
-    private EditText childLastNameET;
     private Spinner schoolNameSpinner;
     private EditText emailET;
     private EditText passwordET;
@@ -55,8 +53,6 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
     private String password;
     private String firstName;
     private String lastName;
-    private String childFirstName;
-    private String childLastName;
     private String schoolName;
     private String confPassword;
 
@@ -73,8 +69,6 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
         buttonCancel = (Button) findViewById(R.id.cancel_registration);
         firstNameET = (EditText) findViewById(R.id.firstName);
         lastNameET = (EditText) findViewById(R.id.lastName);
-        childFirstNameET = (EditText) findViewById(R.id.child_first_name);
-        childLastNameET = (EditText) findViewById(R.id.child_last_name);
         schoolNameSpinner = (Spinner) findViewById(R.id.school_name);
         emailET = (EditText) findViewById(R.id.email);
         passwordET = (EditText) findViewById(R.id.password);
@@ -114,8 +108,6 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
         confPassword = conf_passwordET.getText().toString().trim();
         firstName = firstNameET.getText().toString().trim();
         lastName = lastNameET.getText().toString().trim();
-        childFirstName = childFirstNameET.getText().toString().trim();
-        childLastName = childLastNameET.getText().toString().trim();
 
         boolean errors = false;
         if (TextUtils.isEmpty(firstName)) {
@@ -124,14 +116,6 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
         }
         if (TextUtils.isEmpty(lastName)) {
             lastNameET.setError("Last Name is required");
-            errors = true;
-        }
-        if (TextUtils.isEmpty(childFirstName)) {
-            childFirstNameET.setError("Child First Name is required");
-            errors = true;
-        }
-        if (TextUtils.isEmpty(childLastName)) {
-            childLastNameET.setError("Child Last Name is required");
             errors = true;
         }
         if (TextUtils.isEmpty(email)) {
@@ -181,9 +165,12 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
 
     private void addUser(String uid) {
         final User currentUser = new User();
-        currentUser.setValues(firstName, lastName, childFirstName, childLastName, schoolName, email);
+        currentUser.setValues(firstName, lastName, schoolName, email);
         currentUser.setPassword(password);
         currentUser.setType(UserType.PARENT);
+        ArrayList<ChildDataObject> children = new ArrayList<ChildDataObject>();
+        currentUser.setChildren(children);
+        currentUser.setBanned(false);
         dRef.child("users").child(uid).setValue(currentUser);
     }
 

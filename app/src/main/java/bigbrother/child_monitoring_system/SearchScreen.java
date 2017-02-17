@@ -13,7 +13,12 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -40,21 +45,14 @@ public class SearchScreen extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_search_screen);
 
+        getSupportActionBar().setTitle("Search Users");
+
         buttonSearch = (Button) findViewById(R.id.searchButton);
         buttonSearch.setOnClickListener(this);
         searchName = (EditText) findViewById(R.id.searchName);
-        uidListView = new HashMap<>();
+        uidListView = new HashMap<Integer, String>();
 
         usersList = (ListView)findViewById(R.id.usersList);
-        usersList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position,
-                                    long id) {
-                final Intent userOptionsScreen = new Intent(SearchScreen.this, UserOptionsScreen.class);
-                userOptionsScreen.putExtra("uid", uidListView.get(position));
-                startActivity(userOptionsScreen);
-            }
-        });
         dRef = FirebaseDatabase.getInstance().getReference().child("users");
         uid = getIntent().getStringExtra("uid");
         populateList();
@@ -74,7 +72,7 @@ public class SearchScreen extends AppCompatActivity implements View.OnClickListe
             dRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    ArrayList<String> list = new ArrayList<String>();
+                    ArrayList<HashMap<String,String>> list =  new ArrayList<HashMap<String, String>>();
                     String[] firstLastName = nameEntered.split("\\s+");
                     String firstName = firstLastName[0];
                     String lastName = "";
@@ -84,24 +82,44 @@ public class SearchScreen extends AppCompatActivity implements View.OnClickListe
                     int index = 0;
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         User user = snapshot.getValue(User.class);
-                        if (firstLastName.length > 1 && user.getFirstName().equals(firstName)
-                                && user.getLastName().equals(lastName)) {
-                            list.add(user.getFirstName() + " " + user.getLastName());
+                        HashMap<String,String> hashMap = new HashMap<String, String>();
+                        if (firstLastName.length > 1 && user.getFirstName().equalsIgnoreCase(firstName)
+                                && user.getLastName().equalsIgnoreCase(lastName)) {
+                            hashMap.put("User",user.getFirstName() + " " + user.getLastName());
+                            hashMap.put("UserType", user.getType().toString());
+                            hashMap.put("Access", "Access");
+                            list.add(hashMap);
                             uidListView.put(index++, snapshot.getKey());
                         } else if (firstLastName.length == 1
-                                && (user.getFirstName().equals(firstName)
-                                || user.getLastName().equals(firstName))) {
-                            list.add(user.getFirstName() + " " + user.getLastName());
+                                && (user.getFirstName().equalsIgnoreCase(firstName)
+                                || user.getLastName().equalsIgnoreCase(firstName))) {
+                            hashMap.put("User",user.getFirstName() + " " + user.getLastName());
+                            hashMap.put("UserType", user.getType().toString());
+                            hashMap.put("Access", "Access");
+                            list.add(hashMap);
                             uidListView.put(index++, snapshot.getKey());
                         }
 
                     }
                     if (list.isEmpty()) {
-                        list.add("No results to display");
+                        HashMap<String,String> hashMap = new HashMap<String, String>();
+                        hashMap.put("User", "No Results");
+                        list.add(hashMap);
                     }
-                    ArrayAdapter arrayAdapter = new ArrayAdapter(SearchScreen.this, R.layout.menu_item,
-                            list);
-                    usersList.setAdapter(arrayAdapter);
+
+
+                    CustomSearchAdapter adapter = new CustomSearchAdapter(SearchScreen.this, list, R.layout.search_list_item, new String[] {"User", "UserType", "Access"}, new int[] {R.id.textTop, R.id.textBottom, R.id.switchAccess}, uidListView);
+                    usersList.setAdapter(adapter);
+                    usersList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position,
+                                                long id) {
+                            final Intent userOptionsScreen = new Intent(SearchScreen.this, UserOptionsScreen.class);
+                            userOptionsScreen.putExtra("uid", uidListView.get(position));
+                            startActivity(userOptionsScreen);
+                        }
+                    });
+
                 }
 
                 @Override
@@ -109,8 +127,28 @@ public class SearchScreen extends AppCompatActivity implements View.OnClickListe
 
                 }
             });
+
+//            // create imagebutton to open new dialog fragment for child info
+//            ListAdapter adapter = usersList.getAdapter();
+//
+//            //make an array of imagebuttons
+//            ImageButton[] childBtn = new ImageButton[adapter.getCount()];
+//
+//            ImageButton child = new ImageButton(this);
+//            child.setImageResource(R.drawable.ic_select_child);
+//
+//
+//
+//            RelativeLayout rl = (RelativeLayout) findViewById(R.id.content_search_screen);
+//            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+//            rl.addView(, lp);
+
+
+
+
         }
     }
+
 
     public void populateList() {
         dRef.addValueEventListener(new ValueEventListener() {
@@ -135,4 +173,5 @@ public class SearchScreen extends AppCompatActivity implements View.OnClickListe
             }
         });
     }
+
 }
