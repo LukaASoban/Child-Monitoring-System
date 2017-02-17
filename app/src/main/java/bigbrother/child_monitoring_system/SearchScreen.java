@@ -43,7 +43,7 @@ public class SearchScreen extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search_screen);
+        setContentView(R.layout.content_search_screen);
 
         getSupportActionBar().setTitle("Search Users");
 
@@ -53,9 +53,9 @@ public class SearchScreen extends AppCompatActivity implements View.OnClickListe
         uidListView = new HashMap<Integer, String>();
 
         usersList = (ListView)findViewById(R.id.usersList);
-
         dRef = FirebaseDatabase.getInstance().getReference().child("users");
         uid = getIntent().getStringExtra("uid");
+        populateList();
 
     }
 
@@ -107,15 +107,16 @@ public class SearchScreen extends AppCompatActivity implements View.OnClickListe
                         list.add(hashMap);
                     }
 
+
                     CustomSearchAdapter adapter = new CustomSearchAdapter(SearchScreen.this, list, R.layout.search_list_item, new String[] {"User", "UserType", "Access"}, new int[] {R.id.textTop, R.id.textBottom, R.id.switchAccess}, uidListView);
                     usersList.setAdapter(adapter);
                     usersList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position,
                                                 long id) {
-                            final Intent profileScreen = new Intent(SearchScreen.this, Profile.class);
-                            profileScreen.putExtra("uid", uidListView.get(position));
-                            startActivity(profileScreen);
+                            final Intent userOptionsScreen = new Intent(SearchScreen.this, UserOptionsScreen.class);
+                            userOptionsScreen.putExtra("uid", uidListView.get(position));
+                            startActivity(userOptionsScreen);
                         }
                     });
 
@@ -149,6 +150,28 @@ public class SearchScreen extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    /* Private class for ListAdapter */
+    public void populateList() {
+        dRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<String> list = new ArrayList<String>();
+                int index = 0;
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    User user = snapshot.getValue(User.class);
+                    list.add(user.getFirstName() + " " + user.getLastName());
+                    uidListView.put(index++, snapshot.getKey());
+                }
+                if (list.isEmpty()) {
+                    list.add("No results to display");
+                }
+                ArrayAdapter arrayAdapter = new ArrayAdapter(SearchScreen.this, R.layout.menu_item, list);
+                usersList.setAdapter(arrayAdapter);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError firebaseError) {
+            }
+        });
+    }
 
 }

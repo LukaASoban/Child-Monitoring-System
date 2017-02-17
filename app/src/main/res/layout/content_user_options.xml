@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_profile"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@color/tan"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="bigbrother.child_monitoring_system.Profile">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_widthPercent="40%"
+        android:text="First Name:"
+        android:id="@+id/firstName"
+        android:textSize="20dp"
+        app:layout_marginLeftPercent="2%"
+        app:layout_marginTopPercent="2%"
+        android:background="@drawable/empty"/>
+
+    <TextView
+        android:text="Email:"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lastName"
+        android:id="@+id/email"
+        android:textSize="20dp"
+        app:layout_marginLeftPercent="2%"
+        app:layout_marginTopPercent="4%"
+        app:layout_widthPercent="40%"
+        android:background="@drawable/empty"/>
+
+    <TextView
+        android:text="Child Last Name:"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/childFirstName"
+        android:textSize="20dp"
+        app:layout_marginLeftPercent="2%"
+        app:layout_marginTopPercent="4%"
+        app:layout_widthPercent="40%"
+        android:id="@+id/childLastName"
+        android:background="@drawable/empty"/>
+
+    <TextView
+        android:text="School Name:"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/childLastName"
+        android:textSize="20dp"
+        app:layout_marginLeftPercent="2%"
+        app:layout_marginTopPercent="4%"
+        app:layout_widthPercent="40%"
+        android:id="@+id/SchoolName"
+        android:background="@drawable/empty"/>
+
+
+    <TextView
+        android:text="Last Name:"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/firstName"
+        android:id="@+id/lastName"
+        android:textSize="20dp"
+        app:layout_marginLeftPercent="2%"
+        app:layout_marginTopPercent="4%"
+        app:layout_widthPercent="40%"
+        android:background="@drawable/empty"/>
+
+    <TextView
+        android:text="Child First Name:"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/childFirstName"
+        android:layout_below="@+id/email"
+        android:textSize="20dp"
+        app:layout_marginLeftPercent="2%"
+        app:layout_marginTopPercent="4%"
+        app:layout_widthPercent="40%"
+        android:background="@drawable/empty"/>
+
+    <TextView
+        android:text=""
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/firstName"
+        android:textSize="16dp"
+        app:layout_widthPercent="60%"
+        app:layout_heightPercent="8%"
+        android:padding="10dp"
+        android:layout_alignTop="@+id/firstName"
+        android:id="@+id/firstNameData"
+        android:editable="true"
+        android:background="@drawable/empty"/>
+
+    <TextView
+        android:text=""
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16dp"
+        app:layout_widthPercent="60%"
+        app:layout_heightPercent="8%"
+        android:padding="10dp"
+        android:layout_toRightOf="@+id/lastName"
+        android:layout_alignTop="@+id/lastName"
+        android:id="@+id/lastNameData"
+        android:editable="true"
+        android:background="@drawable/empty"/>
+
+    <TextView
+        android:text=""
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16dp"
+        app:layout_widthPercent="60%"
+        app:layout_heightPercent="8%"
+        android:padding="10dp"
+        android:layout_toRightOf="@+id/firstName"
+        android:layout_alignTop="@+id/email"
+        android:id="@+id/emailData"
+        android:background="@drawable/empty"/>
+
+    <TextView
+        android:text=""
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16dp"
+        app:layout_widthPercent="60%"
+        app:layout_heightPercent="8%"
+        android:padding="10dp"
+        android:layout_toRightOf="@+id/firstName"
+        android:layout_alignTop="@+id/childFirstName"
+        android:id="@+id/childFirstNameData"
+        android:editable="true"
+        android:background="@drawable/empty"/>
+
+    <TextView
+        android:text=""
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16dp"
+        app:layout_widthPercent="60%"
+        app:layout_heightPercent="8%"
+        android:padding="10dp"
+        android:layout_toRightOf="@+id/childLastName"
+        android:layout_alignTop="@+id/childLastName"
+        android:id="@+id/childLastNameData"
+        android:editable="true"
+        android:background="@drawable/empty"/>
+
+    <TextView
+        android:text=""
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16dp"
+        app:layout_widthPercent="60%"
+        app:layout_heightPercent="8%"
+        android:padding="10dp"
+        android:layout_toRightOf="@+id/SchoolName"
+        android:layout_alignTop="@+id/SchoolName"
+        android:id="@+id/schoolNameData"
+        android:editable="true"
+        android:background="@drawable/empty"/>
+
+    <Button
+        android:text="Remove"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_widthPercent="60%"
+        app:layout_heightPercent="10%"
+        android:layout_centerHorizontal="true"
+        android:textAllCaps="false"
+        android:textSize="24dp"
+        android:textColor="@color/tan"
+        android:background="@drawable/button_rounded"
+        android:padding="10dp"
+        android:layout_alignParentBottom="true"
+        app:layout_marginBottomPercent="4%"
+        android:id="@+id/removeButton"
+        android:onClick="removeUser"/>
+
+</android.support.percent.PercentRelativeLayout>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.percent.PercentRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content_search_screen"
@@ -47,9 +48,10 @@
         android:textAllCaps="false"
         android:textColor="@color/tan"
         android:padding="10dp"
-        android:textSize="24dp"
+        android:textSize="20dp"
         android:background="@drawable/button_rounded"
         android:layout_alignParentRight="true"
         android:gravity="right" />
 
-</RelativeLayout>
+
+</android.support.percent.PercentRelativeLayout>
