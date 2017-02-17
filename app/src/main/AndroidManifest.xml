@@ -55,6 +55,10 @@
             android:name=".SearchScreen"
             android:label="@string/title_activity_search_screen"
             android:theme="@style/AppTheme"></activity>
+        <activity android:name=".CardContentFragment"
+            android:label="Children"
+            android:theme="@style/AppTheme"></activity>
+
     </application>
 
 </manifest>

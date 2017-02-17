@@ -1,6 +1,7 @@
 package bigbrother.child_monitoring_system;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,7 +49,7 @@ public class CustomSearchAdapter extends SimpleAdapter {
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, "Child Menu", Toast.LENGTH_SHORT).show();
+                context.startActivity(new Intent(context,CardContentFragment.class));
             }
         });
 

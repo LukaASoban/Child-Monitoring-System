@@ -113,7 +113,6 @@ public class SearchScreen extends AppCompatActivity implements View.OnClickListe
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position,
                                                 long id) {
-                            Toast.makeText(SearchScreen.this, "You clicked", Toast.LENGTH_SHORT).show();
                             final Intent profileScreen = new Intent(SearchScreen.this, Profile.class);
                             profileScreen.putExtra("uid", uidListView.get(position));
                             startActivity(profileScreen);
