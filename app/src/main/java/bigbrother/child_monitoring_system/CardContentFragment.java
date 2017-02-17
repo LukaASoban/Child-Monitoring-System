@@ -33,7 +33,7 @@ public class CardContentFragment extends AppCompatActivity implements ChildInput
 
     private DatabaseReference fdbUsers;
     private User currentUser;
-    private ArrayList<ChildDataObject> results;
+    private ArrayList<ChildDataObject> results = new ArrayList<ChildDataObject>();;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -46,10 +46,21 @@ public class CardContentFragment extends AppCompatActivity implements ChildInput
         setContentView(R.layout.fragment_child_menu);
 
         uid = getIntent().getStringExtra("uid");
-
         Toast.makeText(this, "" + uid, Toast.LENGTH_SHORT).show();
 
         fdbUsers = FirebaseDatabase.getInstance().getReference().child("users");
+
+        fdbUsers.child(uid).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                currentUser = dataSnapshot.getValue(User.class);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
         mRecyclerView.setHasFixedSize(true);
@@ -57,13 +68,6 @@ public class CardContentFragment extends AppCompatActivity implements ChildInput
         mRecyclerView.setLayoutManager(mLayoutManager);
         mAdapter = new ChildCardAdapter(getDataSet());
         mRecyclerView.setAdapter(mAdapter);
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
 
         // On click listener for the FAB
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -88,6 +92,7 @@ public class CardContentFragment extends AppCompatActivity implements ChildInput
             public void onButtonClick(int position, View v) {
                 ((ChildCardAdapter) mAdapter).deleteItem(position);
                 ((ChildCardAdapter) mAdapter).getChildDataset();
+                notifyDatabaseChange();
             }
 
             @Override
@@ -95,7 +100,46 @@ public class CardContentFragment extends AppCompatActivity implements ChildInput
                 // add in if needed later
             }
         });
+
     }
+
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//
+
+//        // On click listener for the FAB
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View v) {
+//
+//                showChildDialog(null, -1);
+//
+//            }
+//        });
+//
+//
+//        ((ChildCardAdapter) mAdapter).setOnItemClickListener(new ChildCardAdapter
+//                .MyClickListener() {
+//
+//            @Override
+//            public void onEditButtonClick(int pos, View v) {
+//                showChildDialog(((ChildCardAdapter) mAdapter).getChildDataAt(pos), pos);
+//            }
+//
+//            @Override
+//            public void onButtonClick(int position, View v) {
+//                ((ChildCardAdapter) mAdapter).deleteItem(position);
+//                ((ChildCardAdapter) mAdapter).getChildDataset();
+//                notifyDatabaseChange();
+//            }
+//
+//            @Override
+//            public void onItemClick(int position, View v) {
+//                // add in if needed later
+//            }
+//        });
+//    }
 
 
     /**
@@ -113,50 +157,40 @@ public class CardContentFragment extends AppCompatActivity implements ChildInput
      */
     public void onComplete(ChildDataObject child, int pos) {
 
-        if(pos == -1) {
+        if (pos == -1) {
             ((ChildCardAdapter) mAdapter).addItem(child, 0);
+            notifyDatabaseChange();
             return;
         }
 
         //replace the object with the newly edited one
         ((ChildCardAdapter) mAdapter).replaceAt(pos, child);
-
         notifyDatabaseChange();
     }
 
 
     private ArrayList<ChildDataObject> getDataSet() {
-
-        // Here is where the dataset will be taken from the database on Activity Load
-
         results = new ArrayList<ChildDataObject>();
-
+        // Here is where the dataset will be taken from the database on Activity Load
+        //results = new ArrayList<ChildDataObject>();
         fdbUsers.child(uid).child("children").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
-                for (DataSnapshot data: dataSnapshot.getChildren()) {
-
+                results.clear();
+                for (DataSnapshot data : dataSnapshot.getChildren()) {
                     results.add(data.getValue(ChildDataObject.class));
                 }
-//                currentUser = dataSnapshot.getValue(User.class);
-//                results = currentUser.getChildren();
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
-
-        if(results == null) {
-            results = new ArrayList<ChildDataObject>();
-        }
-
+        //currentUser.setChildren(results);
         return results;
     }
 
     public void notifyDatabaseChange() {
+        Toast.makeText(this, "notify", Toast.LENGTH_SHORT).show();
         currentUser.setChildren(((ChildCardAdapter) mAdapter).getChildDataset());
         fdbUsers.child(uid).setValue(currentUser);
     }

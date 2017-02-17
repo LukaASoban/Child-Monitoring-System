@@ -60,6 +60,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private Button buttonRegister;
     private static final String TAG = "EmailPassword";
     private ProgressDialog progressDialog;
+    private boolean banned = false;
+    private boolean ready = false;
 
     // database variable
     private FirebaseAuth auth;
@@ -166,12 +168,28 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             Log.w(TAG, "signInWithEmail:failed", task.getException());
                             Toast.makeText(LoginActivity.this, "Auth Failed",
                                     Toast.LENGTH_SHORT).show();
-
-                        } else {
-                            Intent homeScreen = new Intent("bigbrother.child_monitoring_system.HomeScreen");
-                            homeScreen.putExtra("uid", auth.getCurrentUser().getUid());
-                            startActivity(homeScreen);
+                            return;
                         }
+
+                        fdb.child("users").child(auth.getCurrentUser().getUid()).child("banned").addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if (dataSnapshot.getValue().equals("TRUE")) {
+                                    Log.w(TAG, "signInWithEmail:Banned User");
+                                    Toast.makeText(LoginActivity.this, "Account is Banned. Contact System Admin for more information.",
+                                            Toast.LENGTH_LONG).show();
+                                } else {
+                                    Intent homeScreen = new Intent("bigbrother.child_monitoring_system.HomeScreen");
+                                    homeScreen.putExtra("uid", auth.getCurrentUser().getUid());
+                                    startActivity(homeScreen);
+                                }
+                            }
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                            }
+                        });
+
+
                     }
                 });
     }

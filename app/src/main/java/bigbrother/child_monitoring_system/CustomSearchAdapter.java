@@ -2,6 +2,7 @@ package bigbrother.child_monitoring_system;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,6 +56,7 @@ public class CustomSearchAdapter extends SimpleAdapter {
 
                 Intent theIntent = new Intent(context, CardContentFragment.class);
                 theIntent.putExtra("uid", uidListView.get(position));
+                Log.d("TAG:", "Launching child menu");
                 context.startActivity(theIntent);
             }
         });

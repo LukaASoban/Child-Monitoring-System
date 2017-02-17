@@ -21,6 +21,7 @@ public class User implements Serializable {
     private String childFirstName;
     private String childLastName;
     private UserType type;
+    private boolean banned;
     private ArrayList<ChildDataObject> children;
 
 
@@ -86,6 +87,14 @@ public class User implements Serializable {
 
     public UserType getType() {
         return type;
+    }
+
+    public boolean getBanned() {
+        return banned;
+    }
+
+    public void setBanned(boolean banned) {
+        this.banned = banned;
     }
 
     public void setValues(String firstName, String lastName, String schoolName, String email) {

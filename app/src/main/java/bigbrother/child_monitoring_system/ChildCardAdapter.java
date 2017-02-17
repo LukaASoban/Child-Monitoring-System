@@ -97,13 +97,9 @@ public class ChildCardAdapter extends RecyclerView
     }
 
     public ArrayList<ChildDataObject> getChildDataset(){
-
-
-
         if(childDataset == null) {
             childDataset = new ArrayList<ChildDataObject>();
         }
-
         return childDataset;
     }
 

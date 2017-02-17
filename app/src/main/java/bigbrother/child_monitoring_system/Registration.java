@@ -168,6 +168,9 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
         currentUser.setValues(firstName, lastName, schoolName, email);
         currentUser.setPassword(password);
         currentUser.setType(UserType.PARENT);
+        ArrayList<ChildDataObject> children = new ArrayList<ChildDataObject>();
+        currentUser.setChildren(children);
+        currentUser.setBanned(false);
         dRef.child("users").child(uid).setValue(currentUser);
     }
 

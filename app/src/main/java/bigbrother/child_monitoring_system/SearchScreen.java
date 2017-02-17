@@ -50,7 +50,7 @@ public class SearchScreen extends AppCompatActivity implements View.OnClickListe
         buttonSearch = (Button) findViewById(R.id.searchButton);
         buttonSearch.setOnClickListener(this);
         searchName = (EditText) findViewById(R.id.searchName);
-        uidListView = new HashMap<>();
+        uidListView = new HashMap<Integer, String>();
 
         usersList = (ListView)findViewById(R.id.usersList);
 
@@ -83,16 +83,16 @@ public class SearchScreen extends AppCompatActivity implements View.OnClickListe
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         User user = snapshot.getValue(User.class);
                         HashMap<String,String> hashMap = new HashMap<String, String>();
-                        if (firstLastName.length > 1 && user.getFirstName().equals(firstName)
-                                && user.getLastName().equals(lastName)) {
+                        if (firstLastName.length > 1 && user.getFirstName().equalsIgnoreCase(firstName)
+                                && user.getLastName().equalsIgnoreCase(lastName)) {
                             hashMap.put("User",user.getFirstName() + " " + user.getLastName());
                             hashMap.put("UserType", user.getType().toString());
                             hashMap.put("Access", "Access");
                             list.add(hashMap);
                             uidListView.put(index++, snapshot.getKey());
                         } else if (firstLastName.length == 1
-                                && (user.getFirstName().equals(firstName)
-                                || user.getLastName().equals(firstName))) {
+                                && (user.getFirstName().equalsIgnoreCase(firstName)
+                                || user.getLastName().equalsIgnoreCase(firstName))) {
                             hashMap.put("User",user.getFirstName() + " " + user.getLastName());
                             hashMap.put("UserType", user.getType().toString());
                             hashMap.put("Access", "Access");
