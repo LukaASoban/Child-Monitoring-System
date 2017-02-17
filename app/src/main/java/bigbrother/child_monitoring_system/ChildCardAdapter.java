@@ -88,6 +88,7 @@ public class ChildCardAdapter extends RecyclerView
     public void addItem(ChildDataObject dataObj, int index) {
         childDataset.add(0,dataObj);
         notifyItemInserted(index);
+
     }
 
     public void deleteItem(int index) {
@@ -95,8 +96,24 @@ public class ChildCardAdapter extends RecyclerView
         notifyItemRemoved(index);
     }
 
+    public ArrayList<ChildDataObject> getChildDataset(){
+
+
+
+        if(childDataset == null) {
+            childDataset = new ArrayList<ChildDataObject>();
+        }
+
+        return childDataset;
+    }
+
     @Override
     public int getItemCount() {
+
+        if(childDataset == null) {
+            return 0;
+        }
+
         return childDataset.size();
     }
 

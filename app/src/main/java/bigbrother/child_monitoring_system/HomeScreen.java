@@ -78,7 +78,7 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     if (snapshot.getKey().toString().equals(uid)) {
                         currentUser = snapshot.getValue(User.class);
-                        if (currentUser.getType().equals(UserType.ADMIN)) {
+                        if (!currentUser.getType().equals(UserType.ADMIN)) {
                             buttonSearch.setVisibility(View.INVISIBLE);
                         }
                     }
@@ -87,9 +87,9 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
             @Override
             public void onCancelled(DatabaseError error) { }
         });
-        if (currentUser != null && !currentUser.getType().equals(UserType.ADMIN)) {
-            buttonSearch.setVisibility(View.INVISIBLE);
-        }
+//        if (currentUser != null && !currentUser.getType().equals(UserType.ADMIN)) {
+//            buttonSearch.setVisibility(View.INVISIBLE);
+//        }
     }
 
     @Override

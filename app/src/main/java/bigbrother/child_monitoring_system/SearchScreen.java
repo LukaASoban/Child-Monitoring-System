@@ -107,7 +107,7 @@ public class SearchScreen extends AppCompatActivity implements View.OnClickListe
                         list.add(hashMap);
                     }
 
-                    CustomSearchAdapter adapter = new CustomSearchAdapter(SearchScreen.this, list, R.layout.search_list_item, new String[] {"User", "UserType", "Access"}, new int[] {R.id.textTop, R.id.textBottom, R.id.switchAccess});
+                    CustomSearchAdapter adapter = new CustomSearchAdapter(SearchScreen.this, list, R.layout.search_list_item, new String[] {"User", "UserType", "Access"}, new int[] {R.id.textTop, R.id.textBottom, R.id.switchAccess}, uidListView);
                     usersList.setAdapter(adapter);
                     usersList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override

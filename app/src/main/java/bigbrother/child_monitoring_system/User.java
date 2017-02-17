@@ -21,11 +21,19 @@ public class User implements Serializable {
     private String childFirstName;
     private String childLastName;
     private UserType type;
-    private ArrayList<Child> children;
+    private ArrayList<ChildDataObject> children;
 
 
     public User() {
         //defualt
+    }
+
+    public ArrayList<ChildDataObject> getChildren() {
+        return children;
+    }
+
+    public void setChildren(ArrayList<ChildDataObject> children) {
+        this.children = children;
     }
 
     public void setEmail(String email) {
@@ -46,14 +54,6 @@ public class User implements Serializable {
 
     public void setSchoolName(String school) {
         this.schoolName = school;
-    }
-
-    public void setChildFirstName(String childFirstName) {
-        this.childFirstName = childFirstName;
-    }
-
-    public void setChildLastName(String childLastName) {
-        this.childLastName = childLastName;
     }
 
     public void setType(UserType type) {
@@ -80,15 +80,8 @@ public class User implements Serializable {
         return this.schoolName;
     }
 
-    public String getChildFirstName() {
-        return this.childFirstName ;
-    }
     public String toString() {
         return getFirstName() + " " + getLastName();
-    }
-
-    public String getChildLastName() {
-        return this.childLastName;
     }
 
     public UserType getType() {
@@ -98,8 +91,6 @@ public class User implements Serializable {
     public void setValues(String firstName, String lastName, String schoolName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.childFirstName = childFirstName;
-        this.childLastName = childLastName;
         this.schoolName = schoolName;
         this.email = email;
     }
