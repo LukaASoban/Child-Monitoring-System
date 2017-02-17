@@ -49,7 +49,6 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
         setContentView(R.layout.content_home_screen);
 //        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
 //        setSupportActionBar(myToolbar);
-        uid = getIntent().getStringExtra("uid");
 
         buttonProfile = (Button) findViewById(R.id.profile);
         buttonSearch = (Button) findViewById(R.id.search);
@@ -76,9 +75,9 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    if (snapshot.getKey().toString().equals(uid)) {
+                    if (snapshot.getKey().equals(uid)) {
                         currentUser = snapshot.getValue(User.class);
-                        if (currentUser.getType().equals(UserType.ADMIN)) {
+                        if (!currentUser.getType().equals(UserType.ADMIN)) {
                             buttonSearch.setVisibility(View.INVISIBLE);
                         }
                     }
@@ -87,9 +86,9 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
             @Override
             public void onCancelled(DatabaseError error) { }
         });
-        if (currentUser != null && !currentUser.getType().equals(UserType.ADMIN)) {
-            buttonSearch.setVisibility(View.INVISIBLE);
-        }
+//        if (currentUser != null && !currentUser.getType().equals(UserType.ADMIN)) {
+//            buttonSearch.setVisibility(View.INVISIBLE);
+//        }
     }
 
     @Override

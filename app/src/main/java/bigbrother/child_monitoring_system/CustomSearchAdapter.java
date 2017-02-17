@@ -2,6 +2,7 @@ package bigbrother.child_monitoring_system;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,11 +24,14 @@ public class CustomSearchAdapter extends SimpleAdapter {
     LayoutInflater inflater;
     Context context;
     ArrayList<HashMap<String, String>> arrayList;
+    HashMap<Integer, String> uidListView;
+    String uid;
 
-    public CustomSearchAdapter(Context context, ArrayList<HashMap<String, String>> data, int resource, String[] from, int[] to) {
+    public CustomSearchAdapter(Context context, ArrayList<HashMap<String, String>> data, int resource, String[] from, int[] to, HashMap<Integer, String> uidListView) {
         super(context, data, resource, from, to);
         this.context = context;
         this.arrayList = data;
+        this.uidListView = uidListView;
         inflater.from(context);
     }
 
@@ -49,7 +53,11 @@ public class CustomSearchAdapter extends SimpleAdapter {
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                context.startActivity(new Intent(context,CardContentFragment.class));
+
+                Intent theIntent = new Intent(context, CardContentFragment.class);
+                theIntent.putExtra("uid", uidListView.get(position));
+                Log.d("TAG:", "Launching child menu");
+                context.startActivity(theIntent);
             }
         });
 
