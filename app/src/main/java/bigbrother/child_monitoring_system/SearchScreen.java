@@ -55,7 +55,6 @@ public class SearchScreen extends AppCompatActivity implements View.OnClickListe
         usersList = (ListView)findViewById(R.id.usersList);
         dRef = FirebaseDatabase.getInstance().getReference().child("users");
         uid = getIntent().getStringExtra("uid");
-        populateList();
 
     }
 
@@ -128,50 +127,9 @@ public class SearchScreen extends AppCompatActivity implements View.OnClickListe
                 }
             });
 
-//            // create imagebutton to open new dialog fragment for child info
-//            ListAdapter adapter = usersList.getAdapter();
-//
-//            //make an array of imagebuttons
-//            ImageButton[] childBtn = new ImageButton[adapter.getCount()];
-//
-//            ImageButton child = new ImageButton(this);
-//            child.setImageResource(R.drawable.ic_select_child);
-//
-//
-//
-//            RelativeLayout rl = (RelativeLayout) findViewById(R.id.content_search_screen);
-//            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-//            rl.addView(, lp);
-
-
-
 
         }
     }
 
-
-    public void populateList() {
-        dRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                ArrayList<String> list = new ArrayList<String>();
-                int index = 0;
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    User user = snapshot.getValue(User.class);
-                    list.add(user.getFirstName() + " " + user.getLastName());
-                    uidListView.put(index++, snapshot.getKey());
-                }
-                if (list.isEmpty()) {
-                    list.add("No results to display");
-                }
-                ArrayAdapter arrayAdapter = new ArrayAdapter(SearchScreen.this, R.layout.menu_item, list);
-                usersList.setAdapter(arrayAdapter);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError firebaseError) {
-            }
-        });
-    }
 
 }

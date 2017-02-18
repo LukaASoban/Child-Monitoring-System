@@ -71,10 +71,7 @@ public class UserOptionsScreen extends AppCompatActivity implements View.OnClick
                 lastName.setText(currUser.getLastName());
                 lastName.setFocusable(false);
                 email.setText(currUser.getEmail());
-                //password.setText(currUser.getPassword());
-                childFirstName.setText(currUser.getChildFirstName());
                 childFirstName.setFocusable(false);
-                childLastName.setText(currUser.getChildLastName());
                 childLastName.setFocusable(false);
                 schoolName.setText(currUser.getSchoolName());
                 schoolName.setFocusable(false);
@@ -90,6 +87,7 @@ public class UserOptionsScreen extends AppCompatActivity implements View.OnClick
 
     public void removeUser(View v) {
         Toast.makeText(UserOptionsScreen.this, "User removed", Toast.LENGTH_SHORT).show();
+        finish();
 //        // remove user
 ////        Toast.makeText(UserOptionsScreen.this, uid, Toast.LENGTH_LONG).show();
 //

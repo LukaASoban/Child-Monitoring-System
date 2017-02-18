@@ -62,7 +62,7 @@
 
         <activity
             android:name=".UserOptionsScreen"
-            android:label="UserOptionsScreen"
+            android:label="User Options"
             android:theme="@style/AppTheme"></activity>
     </application>
 

@@ -47,7 +47,8 @@
         app:layout_marginTopPercent="4%"
         app:layout_widthPercent="40%"
         android:id="@+id/childLastName"
-        android:background="@drawable/empty"/>
+        android:background="@drawable/empty"
+        android:visibility="invisible"/>
 
     <TextView
         android:text="School Name:"
@@ -84,7 +85,8 @@
         app:layout_marginLeftPercent="2%"
         app:layout_marginTopPercent="4%"
         app:layout_widthPercent="40%"
-        android:background="@drawable/empty"/>
+        android:background="@drawable/empty"
+        android:visibility="invisible"/>
 
     <TextView
         android:text=""
@@ -139,7 +141,8 @@
         android:layout_alignTop="@+id/childFirstName"
         android:id="@+id/childFirstNameData"
         android:editable="true"
-        android:background="@drawable/empty"/>
+        android:background="@drawable/empty"
+        android:visibility="invisible"/>
 
     <TextView
         android:text=""
@@ -153,7 +156,8 @@
         android:layout_alignTop="@+id/childLastName"
         android:id="@+id/childLastNameData"
         android:editable="true"
-        android:background="@drawable/empty"/>
+        android:background="@drawable/empty"
+        android:visibility="invisible"/>
 
     <TextView
         android:text=""
