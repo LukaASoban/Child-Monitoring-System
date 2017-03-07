@@ -60,8 +60,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private Button buttonRegister;
     private static final String TAG = "EmailPassword";
     private ProgressDialog progressDialog;
-    private boolean banned = false;
-    private boolean ready = false;
 
     // database variable
     private FirebaseAuth auth;
@@ -146,8 +144,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     public void buttonOnLogin(View v) {
-        final String email = ((EditText) findViewById(R.id.username)).getText().toString().trim();
-        final String password = ((EditText) findViewById(R.id.password)).getText().toString().trim();
+        String email = ((EditText) findViewById(R.id.username)).getText().toString().trim();
+        String password = ((EditText) findViewById(R.id.password)).getText().toString().trim();
         // connect to database if valid login, then send to home screen
         Log.d(TAG, "signIn:" + email);
 
@@ -174,7 +172,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         fdb.child("users").child(auth.getCurrentUser().getUid()).child("banned").addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
-
                                 if (dataSnapshot.getValue().toString().equals("true")) {
                                     Log.w(TAG, "signInWithEmail:Banned User");
                                     Toast.makeText(LoginActivity.this, "Account is Banned. Contact System Admin for more information.",

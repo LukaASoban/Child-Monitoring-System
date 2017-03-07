@@ -30,11 +30,13 @@ public class UserOptionsScreen extends AppCompatActivity implements View.OnClick
 
     private static final String TAG = "EmailPassword";
 
-    private String uid;
     private DatabaseReference fdbUsers;
     private FirebaseAuth firebaseAuth;
     private User currUser;
-    private User admin;
+    private User adminUser;
+    private String uid;
+    private ValueEventListener currentListener;
+
 
     private TextView firstName;
     private TextView lastName;
@@ -58,11 +60,13 @@ public class UserOptionsScreen extends AppCompatActivity implements View.OnClick
 
         fdbUsers = FirebaseDatabase.getInstance().getReference().child("users");
         uid = getIntent().getStringExtra("uid");
+        final String adminUid = getIntent().getStringExtra("adminUid");
+
         firebaseAuth = FirebaseAuth.getInstance();
 
         removeButton = (Button) findViewById(R.id.removeButton);
 
-        fdbUsers.child(uid).addValueEventListener(new ValueEventListener() {
+        currentListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 currUser = dataSnapshot.getValue(User.class);
@@ -78,44 +82,83 @@ public class UserOptionsScreen extends AppCompatActivity implements View.OnClick
             }
             @Override
             public void onCancelled(DatabaseError error) { }
+        };
+
+        fdbUsers.child(uid).addValueEventListener(currentListener);
+
+        fdbUsers.child(adminUid).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                adminUser = dataSnapshot.getValue(User.class);
+                Toast.makeText(UserOptionsScreen.this, "adminEmail: " + adminUser.getEmail() + " adminPwd: " + adminUser.getPassword(), Toast.LENGTH_SHORT).show();
+            }
+            @Override
+            public void onCancelled(DatabaseError error) { }
         });
+
+        removeButton.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
+        if (v == removeButton) {
+            removeUser();
+        }
     }
 
-    public void removeUser(View v) {
-        Toast.makeText(UserOptionsScreen.this, "User removed", Toast.LENGTH_SHORT).show();
-        finish();
+    public void removeUser() {
+        fdbUsers.child(uid).removeEventListener(currentListener);
+        firebaseAuth.signOut();
+        //auth is now signed out
+        firebaseAuth.signInWithEmailAndPassword(currUser.getEmail(), currUser.getPassword())
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        //  If sign in fails, display a message to the user. If sign in succeeds
+                        // the auth state listener will be notified and logic to handle the
+                        // signed in user can be handled in the listener.
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "signInWithEmail:failed", task.getException());
+                        } else {
+                            // delete current user
+                            final String currentUid = firebaseAuth.getCurrentUser().getUid();
+                            Log.w(TAG, "signing in user: " + currentUid + " was successful");
+                            firebaseAuth.getCurrentUser().delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    boolean success = task.isSuccessful();
+                                    if (success) {
+                                        Log.w(TAG, "User: " + currentUid + " was successfully deleted.");
+                                        fdbUsers.child(currentUid).setValue(null);
+                                    } else {
+                                        Log.w(TAG, "Unable to delete User: " + currentUid);
+                                    }
+                                    firebaseAuth.signOut();
+                                    firebaseAuth.signInWithEmailAndPassword(adminUser.getEmail(), adminUser.getPassword())
+                                            .addOnCompleteListener(UserOptionsScreen.this, new OnCompleteListener<AuthResult>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                                    if (!task.isSuccessful()) {
+                                                        Log.w(TAG, "signInWithEmail:failed", task.getException());
+                                                        Log.w(TAG, "Logging Admin back in Failed");
+                                                    } else {
+                                                        Log.w(TAG, "Admin is back in control");
+                                                    }
+                                                    finish();
+                                                }
+                                            });
+                                }
+                            });
+                        }
+                    }
+                });
+
 //        // remove user
 ////        Toast.makeText(UserOptionsScreen.this, uid, Toast.LENGTH_LONG).show();
 //
 //        // temporarily sign out current admin
-//        fdbUsers.child(firebaseAuth.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                admin = dataSnapshot.getValue(User.class);
-////                firstName.setText(currUser.getFirstName());
-////                firstName.setFocusable(false);
-////                lastName.setText(currUser.getLastName());
-////                lastName.setFocusable(false);
-////                email.setText(currUser.getEmail());
-////                //password.setText(currUser.getPassword());
-////                childFirstName.setText(currUser.getChildFirstName());
-////                childFirstName.setFocusable(false);
-////                childLastName.setText(currUser.getChildLastName());
-////                childLastName.setFocusable(false);
-////                schoolName.setText(currUser.getSchoolName());
-////                schoolName.setFocusable(false);
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError error) {
-//            }
-//        });
-//        firebaseAuth.signOut();
-//
+
+
 //        // temporarily sign in user
 //        firebaseAuth.signInWithEmailAndPassword(currUser.getEmail(), currUser.getPassword())
 //                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {

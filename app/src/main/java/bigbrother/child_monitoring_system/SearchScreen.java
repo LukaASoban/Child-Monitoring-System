@@ -115,6 +115,7 @@ public class SearchScreen extends AppCompatActivity implements View.OnClickListe
                                                 long id) {
                             final Intent userOptionsScreen = new Intent(SearchScreen.this, UserOptionsScreen.class);
                             userOptionsScreen.putExtra("uid", uidListView.get(position));
+                            userOptionsScreen.putExtra("adminUid", uid);
                             startActivity(userOptionsScreen);
                         }
                     });

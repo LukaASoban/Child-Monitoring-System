@@ -99,9 +99,9 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
             startActivity(welcomeScreenIntent);
         } else if (v == buttonSearch) {
             final Intent searchScreenIntent = new Intent(this, SearchScreen.class);
+            searchScreenIntent.putExtra("uid", uid);
             startActivity(searchScreenIntent);
         }
-
     }
 
     //menu test//
