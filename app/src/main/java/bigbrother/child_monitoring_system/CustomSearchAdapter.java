@@ -64,9 +64,11 @@ public class CustomSearchAdapter extends SimpleAdapter {
         dRef.child(uid).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                currentUser = dataSnapshot.getValue(User.class);
-                Log.d("BANNED", ""+currentUser.getBanned());
-                sw.setChecked(!currentUser.getBanned());
+                if (dataSnapshot.exists()) {
+                    currentUser = dataSnapshot.getValue(User.class);
+                    Log.d("BANNED", "" + currentUser.getBanned());
+                    sw.setChecked(!currentUser.getBanned());
+                }
             }
             @Override
             public void onCancelled(DatabaseError error) { }
@@ -75,13 +77,15 @@ public class CustomSearchAdapter extends SimpleAdapter {
         sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(sw.isChecked()) {
+                boolean wasBanned = currentUser.getBanned();
+                if (sw.isChecked()) {
                     currentUser.setBanned(false);
                 } else {
                     currentUser.setBanned(true);
                 }
-
-                dRef.child(uid).setValue(currentUser);
+                if (wasBanned != currentUser.getBanned()) {
+                    dRef.child(uid).setValue(currentUser);
+                }
             }
         });
 

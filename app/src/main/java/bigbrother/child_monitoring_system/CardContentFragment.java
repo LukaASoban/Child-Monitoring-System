@@ -31,6 +31,7 @@ public class CardContentFragment extends AppCompatActivity implements ChildInput
 
 
     private DatabaseReference fdbUsers;
+    private DatabaseReference fdbSchool;
     private User currentUser;
     private ArrayList<ChildDataObject> results = new ArrayList<ChildDataObject>();;
     private RecyclerView mRecyclerView;
@@ -190,6 +191,10 @@ public class CardContentFragment extends AppCompatActivity implements ChildInput
     public void notifyDatabaseChange() {
         currentUser.setChildren(((ChildCardAdapter) mAdapter).getChildDataset());
         fdbUsers.child(uid).setValue(currentUser);
+        fdbSchool = FirebaseDatabase.getInstance().getReference().child("daycare").child(currentUser.getSchoolName());
+        for (ChildDataObject c : currentUser.getChildren()) {
+            fdbSchool.child(String.valueOf(c.getMacAddress())).setValue(c);
+        }
     }
 
     private void showChildDialog(ChildDataObject child, int pos) {

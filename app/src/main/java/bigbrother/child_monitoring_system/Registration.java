@@ -164,7 +164,7 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
     }
 
     private void addUser(String uid) {
-        final User currentUser = new User();
+        User currentUser = new User();
         currentUser.setValues(firstName, lastName, schoolName, email);
         currentUser.setPassword(password);
         currentUser.setType(UserType.PARENT);
@@ -180,7 +180,7 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
             public void onDataChange(DataSnapshot dataSnapshot) {
                 List<String> list = new ArrayList<>();
                 for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
-                    list.add(snapshot.getValue(SchoolName.class).toString());
+                    list.add(snapshot.getKey());
                 }
                 ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(Registration.this, android.R.layout.simple_spinner_item, list);
                 dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
