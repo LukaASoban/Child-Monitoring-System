@@ -14,6 +14,8 @@ public class Child {
     private String firstName;
     private String lastName;
     private String schoolName;
+    private String assignedRoom;
+    private String currentRoom;
     private int idNum;
 
     public Child() {
@@ -36,6 +38,10 @@ public class Child {
         this.schoolName = school;
     }
 
+    public void setAssignedRoom(String assignedRoom) { this.assignedRoom = assignedRoom; }
+
+    public void setCurrentRoom(String currentRoom) { this.currentRoom = currentRoom; }
+
     public void setIdNum(int idNum) {
         this.idNum = idNum;
     }
@@ -52,9 +58,15 @@ public class Child {
         return this.lastName;
     }
 
-    public String getSchoolName() {
-        return this.schoolName;
+    public String getSchoolName() { return this.schoolName; }
+
+    public String getAssignedRoom() {
+        return this.assignedRoom;
     }
+
+    public String getCurrentRoom() { return this.currentRoom; }
+
+    public boolean inAssignedRoom() { return this.currentRoom.equals(this.assignedRoom); }
 
     public int getIdNum() { return this.idNum; }
 
