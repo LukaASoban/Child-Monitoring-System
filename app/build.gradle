@@ -33,6 +33,10 @@ dependencies {
     compile 'com.android.support:percent:25.1.1'
     compile 'com.google.firebase:firebase-database:9.8.0'
     compile 'com.firebaseui:firebase-ui-database:1.0.0'
+    compile group:'com.squareup.picasso', name:'picasso', version:'2.3.4'
+    compile 'com.google.firebase:firebase-storage:9.8.0'
+    compile 'com.github.bumptech.glide:glide:3.6.1'
+    compile 'com.android.support:support-v4:19.1.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

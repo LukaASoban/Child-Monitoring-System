@@ -30,6 +30,7 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
 
     private Button buttonProfile;
     private Button buttonSearch;
+    private Button buttonMap;
     private String uid;
 
     //menu test//
@@ -52,9 +53,11 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
 
         buttonProfile = (Button) findViewById(R.id.profile);
         buttonSearch = (Button) findViewById(R.id.search);
+        buttonMap = (Button) findViewById(R.id.map);
 
         buttonProfile.setOnClickListener(this);
         buttonSearch.setOnClickListener(this);
+        buttonMap.setOnClickListener(this);
 
 
         //menu test//
@@ -101,6 +104,9 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
             final Intent searchScreenIntent = new Intent(this, SearchScreen.class);
             searchScreenIntent.putExtra("uid", uid);
             startActivity(searchScreenIntent);
+        } else if (v == buttonMap) {
+            final Intent mapScreenIntent = new Intent(this, Map.class);
+            startActivity(mapScreenIntent);
         }
     }
 

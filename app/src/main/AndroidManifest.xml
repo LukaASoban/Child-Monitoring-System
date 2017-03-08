@@ -50,19 +50,22 @@
         <activity
             android:name=".Profile"
             android:label="@string/title_activity_profile"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".SearchScreen"
             android:label="@string/title_activity_search_screen"
-            android:theme="@style/AppTheme"></activity>
-      
-        <activity android:name=".CardContentFragment"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".CardContentFragment"
             android:label="Children"
-            android:theme="@style/AppTheme"></activity>
-
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".UserOptionsScreen"
             android:label="User Options"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".Map"
+            android:label="@string/title_activity_map"
             android:theme="@style/AppTheme"></activity>
     </application>
 

@@ -51,6 +51,22 @@
             android:layout_alignTop="@+id/profile"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_widthPercent="40%"
+            app:layout_heightPercent="25%"
+            android:text="Map"
+            android:background="@drawable/button_rounded"
+            android:textAllCaps="false"
+            android:textColor="@color/tan"
+            android:textSize="24dp"
+            android:layout_below="@+id/profile"
+            app:layout_marginLeftPercent="5%"
+            app:layout_marginTopPercent="5%"
+            android:id="@+id/map" />
+
     </android.support.percent.PercentRelativeLayout>
 
     <ListView
