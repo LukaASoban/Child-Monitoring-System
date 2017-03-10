@@ -35,6 +35,7 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
     private Button buttonProfile;
     private Button buttonSearch;
     private Button buttonMap;
+    private Button buttonSchedule;
     private String uid;
 
     //menu test//
@@ -59,10 +60,12 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
         buttonProfile = (Button) findViewById(R.id.profile);
         buttonSearch = (Button) findViewById(R.id.search);
         buttonMap = (Button) findViewById(R.id.map);
+        buttonSchedule = (Button) findViewById(R.id.schedule);
 
         buttonProfile.setOnClickListener(this);
         buttonSearch.setOnClickListener(this);
         buttonMap.setOnClickListener(this);
+        buttonSchedule.setOnClickListener(this);
 
         dRef = FirebaseDatabase.getInstance().getReference().child("users");
         uid = getIntent().getStringExtra("uid");
@@ -75,6 +78,9 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
                         currentUser = snapshot.getValue(User.class);
                         if (!currentUser.getType().equals(UserType.ADMIN)) {
                             buttonSearch.setVisibility(View.INVISIBLE);
+                        }
+                        if (!(currentUser.getType().compareTo(UserType.EMPLOYEE)>=0)) {
+                            buttonSchedule.setVisibility(View.INVISIBLE);
                         }
                     }
                 }
@@ -112,6 +118,9 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
             final Intent mapScreenIntent = new Intent(this, Map.class);
             mapScreenIntent.putExtra("uid", uid);
             startActivity(mapScreenIntent);
+        } else if (v == buttonSchedule) {
+            final Intent scheduleScreenIntent = new Intent(this, ScheduleAdapter.class);
+            startActivity(scheduleScreenIntent);
         }
     }
 

@@ -5,5 +5,5 @@ package bigbrother.child_monitoring_system;
  */
 
 public enum UserType {
-    ADMIN, PARENT, EMPLOYEE
+    PARENT, EMPLOYEE, ADMIN
 }
