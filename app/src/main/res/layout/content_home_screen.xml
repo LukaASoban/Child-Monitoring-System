@@ -80,7 +80,7 @@
             android:layout_below="@+id/search"
             app:layout_marginRightPercent="5%"
             app:layout_marginTopPercent="5%"
-            android:id="@+id/schedule"
+            android:id="@+id/scheduleDataObject"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"/>
 

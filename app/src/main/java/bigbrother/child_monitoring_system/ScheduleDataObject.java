@@ -6,14 +6,14 @@ import java.io.Serializable;
  * Created by mgb51_000 on 3/10/2017.
  */
 
-public class Schedule implements Serializable{
+public class ScheduleDataObject implements Serializable{
 
     private String name;
     private String macAddress;
     private int start;
     private int end;
 
-    public Schedule(String name, String macAddress) {
+    public ScheduleDataObject(String name, String macAddress) {
 
         this.name = name;
         this.macAddress = macAddress;

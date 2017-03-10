@@ -46,7 +46,7 @@ public class ScheduleFragment extends AppCompatActivity implements ScheduleInput
         fdbUsers.child(uid).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                currentUser = dataSnapshot.getValue(User.class);
+                currentDaycare = dataSnapshot.getValue(User.class);
             }
 
             @Override
@@ -73,7 +73,7 @@ public class ScheduleFragment extends AppCompatActivity implements ScheduleInput
         });
 
 
-        ((ChildCardAdapter) mAdapter).setOnItemClickListener(new ChildCardAdapter
+        ((ScheduleAdapter) mAdapter).setOnItemClickListener(new ScheduleAdapter
                 .MyClickListener() {
 
             @Override
@@ -186,14 +186,14 @@ public class ScheduleFragment extends AppCompatActivity implements ScheduleInput
         currentUser.setChildren(((ChildCardAdapter) mAdapter).getChildDataset());
         fdbUsers.child(uid).setValue(currentUser);
         fdbSchool = FirebaseDatabase.getInstance().getReference().child("daycare").child(currentUser.getSchoolName());
-        for (ScheduleDataObject c : currentUser.getChildren()) {
-            fdbSchool.child(String.valueOf(c.getMacAddress())).setValue(c);
+        for (ScheduleDataObject s : currentUser.getChildren()) {
+            fdbSchool.child(String.valueOf(c.getMacAddress())).setValue(s);
         }
     }
 
-    private void showChildDialog(Schedule schedule, int pos) {
+    private void showChildDialog(ScheduleDataObject scheduleDataObject, int pos) {
         FragmentManager fm = getSupportFragmentManager();
-        ScheduleInputFragment scheduleInputFragment = ScheduleInputFragment.newInstance("New Child", schedule, pos);
+        ScheduleInputFragment scheduleInputFragment = ScheduleInputFragment.newInstance("New Child", scheduleDataObject, pos);
         ScheduleInputFragment.show(fm, "schedule_input_fragment");
     }
 

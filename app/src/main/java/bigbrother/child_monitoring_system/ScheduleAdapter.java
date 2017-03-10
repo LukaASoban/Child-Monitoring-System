@@ -1,32 +1,12 @@
 package bigbrother.child_monitoring_system;
 
-import android.app.ProgressDialog;
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -35,7 +15,7 @@ public class ScheduleAdapter extends RecyclerView
         .Adapter<ScheduleAdapter
         .DataObjectHolder> {
     private static String LOG_TAG = "ScheduleAdapter";
-    private ArrayList<Schedule> scheduleDataset;
+    private ArrayList<ScheduleDataObject> scheduleObjectDataset;
     private static ScheduleAdapter.MyClickListener myClickListener;
 
     public static class DataObjectHolder extends RecyclerView.ViewHolder
@@ -81,8 +61,8 @@ public class ScheduleAdapter extends RecyclerView
         this.myClickListener = myClickListener;
     }
 
-    public ScheduleAdapter(ArrayList<Schedule> myData) {
-        scheduleDataset = myData;
+    public ScheduleAdapter(ArrayList<ScheduleDataObject> myData) {
+        scheduleObjectDataset = myData;
     }
 
     @Override
@@ -97,45 +77,45 @@ public class ScheduleAdapter extends RecyclerView
 
     @Override
     public void onBindViewHolder(ScheduleAdapter.DataObjectHolder holder, final int position) {
-        holder.name.setText(scheduleDataset.get(position).getName());
-        holder.macAddress.setText(scheduleDataset.get(position).getMacAddress());
+        holder.name.setText(scheduleObjectDataset.get(position).getName());
+        holder.macAddress.setText(scheduleObjectDataset.get(position).getMacAddress());
 
     }
 
-    public void addItem(Schedule dataObj, int index) {
-        scheduleDataset.add(0,dataObj);
+    public void addItem(ScheduleDataObject dataObj, int index) {
+        scheduleObjectDataset.add(0,dataObj);
         notifyItemInserted(index);
 
     }
 
     public void deleteItem(int index) {
-        scheduleDataset.remove(index);
+        scheduleObjectDataset.remove(index);
         notifyItemRemoved(index);
     }
 
-    public ArrayList<Schedule> getScheduleDataset(){
-        if(scheduleDataset == null) {
-            scheduleDataset = new ArrayList<Schedule>();
+    public ArrayList<ScheduleDataObject> getScheduleObjectDataset(){
+        if(scheduleObjectDataset == null) {
+            scheduleObjectDataset = new ArrayList<ScheduleDataObject>();
         }
-        return scheduleDataset;
+        return scheduleObjectDataset;
     }
 
     @Override
     public int getItemCount() {
 
-        if(scheduleDataset == null) {
+        if(scheduleObjectDataset == null) {
             return 0;
         }
 
-        return scheduleDataset.size();
+        return scheduleObjectDataset.size();
     }
 
-    public Schedule getScheduleDataAt(int pos) {
-        return scheduleDataset.get(pos);
+    public ScheduleDataObject getScheduleDataAt(int pos) {
+        return scheduleObjectDataset.get(pos);
     }
 
-    public void replaceAt(int pos, Schedule schedule) {
-        scheduleDataset.set(pos, schedule);
+    public void replaceAt(int pos, ScheduleDataObject scheduleDataObject) {
+        scheduleObjectDataset.set(pos, scheduleDataObject);
         notifyItemChanged(pos);
     }
 

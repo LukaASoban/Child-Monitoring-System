@@ -24,16 +24,16 @@ public class ScheduleInputFragment extends android.support.v4.app.DialogFragment
         //empty
     }
 
-    public static ScheduleInputFragment newInstance(String title, Schedule schedule, int pos) {
+    public static ScheduleInputFragment newInstance(String title, ScheduleDataObject scheduleDataObject, int pos) {
         ScheduleInputFragment frag = new ScheduleInputFragment();
         Bundle args = new Bundle();
         args.putString("title", title);
 
         //if the object is null that means the dialog is being open by the FAB and not
         //the edit button
-        if(schedule != null) {
-            args.putString("name", schedule.getName());
-            args.putString("mac", schedule.getMacAddress());
+        if(scheduleDataObject != null) {
+            args.putString("name", scheduleDataObject.getName());
+            args.putString("mac", scheduleDataObject.getMacAddress());
         }
         args.putInt("position", pos);
         frag.setArguments(args);
@@ -43,8 +43,8 @@ public class ScheduleInputFragment extends android.support.v4.app.DialogFragment
 
     //create interface to pass the data back to the previous activity
     public static interface OnCompleteListener {
-        public abstract void onComplete(Schedule schedule);
-        public abstract void onComplete(Schedule schedule, int pos);
+        public abstract void onComplete(ScheduleDataObject scheduleDataObject);
+        public abstract void onComplete(ScheduleDataObject scheduleDataObject, int pos);
     }
 
     @Override
@@ -106,11 +106,11 @@ public class ScheduleInputFragment extends android.support.v4.app.DialogFragment
                     return;
                 }
 
-                Schedule schedule = new Schedule(scheduleName.getText().toString(), scheduleMAC.getText().toString());
+                ScheduleDataObject scheduleDataObject = new ScheduleDataObject(scheduleName.getText().toString(), scheduleMAC.getText().toString());
 
                 Log.d("CHILD INPUT FRAG", "" + getArguments().getInt("position"));
 
-                mListenerTemp.onComplete(schedule, getArguments().getInt("position"));
+                mListenerTemp.onComplete(scheduleDataObject, getArguments().getInt("position"));
                 dismiss();
             }
         });
