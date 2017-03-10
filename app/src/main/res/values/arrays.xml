@@ -7,4 +7,20 @@
         <item>Report Error</item>
         <item>Logout</item>
     </string-array>
+    <string-array name="admin_menu">
+        <item>Home</item>
+        <item>Map</item>
+        <item>Users</item>
+        <item>Profile</item>
+        <item>Report Error</item>
+        <item>Logout</item>
+    </string-array>
+    <string-array name="employee_menu">
+        <item>Home</item>
+        <item>Map</item>
+        <item>Class Roster</item>
+        <item>Profile</item>
+        <item>Report Error</item>
+        <item>Logout</item>
+    </string-array>
 </resources>
