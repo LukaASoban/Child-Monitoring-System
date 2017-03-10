@@ -92,7 +92,7 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
         mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
-        getSupportActionBar().setTitle("Home");
+        getSupportActionBar().setTitle(mActivityTitle);
         addDrawerItems();
         setupDrawer();
         ////////////
@@ -110,6 +110,7 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
             startActivity(searchScreenIntent);
         } else if (v == buttonMap) {
             final Intent mapScreenIntent = new Intent(this, Map.class);
+            mapScreenIntent.putExtra("uid", uid);
             startActivity(mapScreenIntent);
         }
     }
@@ -120,7 +121,6 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String[] menuArr = getResources().getStringArray(R.array.parent_menu);
-//                UserType userType = UserType.PARENT;
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     if (snapshot.getKey().equals(uid)) {
                         User curUser = snapshot.getValue(User.class);
@@ -153,7 +153,7 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
                         } else {
                             Toast.makeText(HomeScreen.this, "Not setup yet!", Toast.LENGTH_SHORT).show();
                         }
-                } else if (currentUser.getType().equals(UserType.ADMIN)) {
+                } else if (userType.equals(UserType.ADMIN)) {
                     if (position == 0) {
                         final Intent homeScreenIntent = new Intent(HomeScreen.this, HomeScreen.class);
                         homeScreenIntent.putExtra("uid", uid);
@@ -173,7 +173,7 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
                     } else {
                         Toast.makeText(HomeScreen.this, "Not setup yet!", Toast.LENGTH_SHORT).show();
                     }
-                } else if (currentUser.getType().equals(UserType.EMPLOYEE)) {
+                } else if (userType.equals(UserType.EMPLOYEE)) {
                     if (position == 0) {
                         final Intent homeScreenIntent = new Intent(HomeScreen.this, HomeScreen.class);
                         homeScreenIntent.putExtra("uid", uid);
@@ -199,78 +199,6 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
 
             }
         });
-
-
-//        String[] menuArr = getResources().getStringArray(R.array.parent_menu);
-//        Log.d("TEST: ", menuArr[0]);
-//        if (dRef.child(uid).child("type").equals(UserType.PARENT)) {
-//            menuArr = getResources().getStringArray(R.array.parent_menu);
-//        } else if (currentUser.getType().equals(UserType.ADMIN)){
-//            menuArr = getResources().getStringArray(R.array.admin_menu);
-//        } else if (currentUser.getType().equals(UserType.EMPLOYEE)){
-//            menuArr = getResources().getStringArray(R.array.employee_menu);
-//        }
-//        mAdapter = new ArrayAdapter<String>(this, R.layout.menu_item, menuArr);
-//        mDrawerList.setAdapter(mAdapter);
-//
-//        mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                if (currentUser.getType().equals(UserType.PARENT)) {
-//                    if (position == 0) {
-//                        final Intent homeScreenIntent = new Intent(HomeScreen.this, HomeScreen.class);
-//                        homeScreenIntent.putExtra("uid", uid);
-//                        startActivity(homeScreenIntent);
-//                    } else if (position == 1) {
-//                        final Intent mapScreenIntent = new Intent(HomeScreen.this, Map.class);
-//                        mapScreenIntent.putExtra("uid", uid);
-//                        startActivity(mapScreenIntent);
-//                    } else if (position == 2) {
-//                        final Intent profileScreenIntent = new Intent(HomeScreen.this, Profile.class);
-//                        profileScreenIntent.putExtra("uid", uid);
-//                        startActivity(profileScreenIntent);
-//                    } else {
-//                        Toast.makeText(HomeScreen.this, "Not setup yet!", Toast.LENGTH_SHORT).show();
-//                    }
-//                } else if (currentUser.getType().equals(UserType.ADMIN)) {
-//                    if (position == 0) {
-//                        final Intent homeScreenIntent = new Intent(HomeScreen.this, HomeScreen.class);
-//                        homeScreenIntent.putExtra("uid", uid);
-//                        startActivity(homeScreenIntent);
-//                    } else if (position == 1) {
-//                        final Intent mapScreenIntent = new Intent(HomeScreen.this, Map.class);
-//                        mapScreenIntent.putExtra("uid", uid);
-//                        startActivity(mapScreenIntent);
-//                    } else if (position == 2) {
-//                        final Intent searchScreenIntent = new Intent(HomeScreen.this, SearchScreen.class);
-//                        searchScreenIntent.putExtra("uid", uid);
-//                        startActivity(searchScreenIntent);
-//                    } else if (position == 3){
-//                        final Intent profileScreenIntent = new Intent(HomeScreen.this, Profile.class);
-//                        profileScreenIntent.putExtra("uid", uid);
-//                        startActivity(profileScreenIntent);
-//                    } else {
-//                        Toast.makeText(HomeScreen.this, "Not setup yet!", Toast.LENGTH_SHORT).show();
-//                    }
-//                } else if (currentUser.getType().equals(UserType.EMPLOYEE)) {
-//                    if (position == 0) {
-//                        final Intent homeScreenIntent = new Intent(HomeScreen.this, HomeScreen.class);
-//                        homeScreenIntent.putExtra("uid", uid);
-//                        startActivity(homeScreenIntent);
-//                    } else if (position == 1) {
-//                        final Intent mapScreenIntent = new Intent(HomeScreen.this, Map.class);
-//                        mapScreenIntent.putExtra("uid", uid);
-//                        startActivity(mapScreenIntent);
-//                    } else if (position == 3){
-//                        final Intent profileScreenIntent = new Intent(HomeScreen.this, Profile.class);
-//                        profileScreenIntent.putExtra("uid", uid);
-//                        startActivity(profileScreenIntent);
-//                    } else {
-//                        Toast.makeText(HomeScreen.this, "Not setup yet!", Toast.LENGTH_SHORT).show();
-//                    }
-//                }
-//            }
-//        });
     }
 
     private void setupDrawer() {
