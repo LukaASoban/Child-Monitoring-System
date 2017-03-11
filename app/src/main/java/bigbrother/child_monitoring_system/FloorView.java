@@ -100,11 +100,12 @@ public class FloorView extends View implements MapInputDialog.OnCompleteListener
     Paint circlePaint;
     //Paint for text
     Paint textPaint;
+    Paint textChildPaint;
+    Paint smallCirclePaint;
 
     /* HashSet for circles */
     private HashSet<CircleArea> circles = new HashSet<>();
     private SparseArray<CircleArea> circlePointer = new SparseArray<>();
-
 
     public void init(final Context ct) {
         //generate the bitmap used for the background
@@ -120,6 +121,14 @@ public class FloorView extends View implements MapInputDialog.OnCompleteListener
         textPaint = new Paint();
         textPaint.setColor(Color.BLACK);
         textPaint.setTextSize(48f);
+
+        textChildPaint = new Paint();
+        textChildPaint.setColor(Color.BLUE);
+        textChildPaint.setTextSize(35f);
+
+        smallCirclePaint = new Paint();
+        smallCirclePaint.setColor(Color.BLUE);
+        smallCirclePaint.setStyle(Paint.Style.FILL);
 
         Log.w("CIRCLES",""+Map.rooms.size());
 
@@ -138,6 +147,8 @@ public class FloorView extends View implements MapInputDialog.OnCompleteListener
     protected void onDraw(final Canvas canvas) {
         canvas.drawBitmap(mainBitmap, null, mMeasuredRect, null);
 
+        int margin = 0;
+
         for (CircleArea circle : circles) {
             canvas.drawCircle(circle.centerX, circle.centerY, circle.radius, circlePaint);
 
@@ -146,6 +157,19 @@ public class FloorView extends View implements MapInputDialog.OnCompleteListener
             } else {
                 canvas.drawText(circle.getMacAddress(), circle.centerX - 150, circle.centerY-140, textPaint);
             }
+
+            //draw the children in relative location to the MAC address of the raspberry pi
+            for (ChildDataObject child : Map.children) {
+
+                //find the child who has been located by this Rasp Pi
+                if(circle.getMacAddress().equals(child.getLocationMAC())) {
+                    //they have been located by that reciever
+                    canvas.drawText(child.getName(), circle.centerX - 30, circle.centerY + margin, textChildPaint);
+                    canvas.drawCircle(circle.centerX - 40, circle.centerY + margin - 10, 10, smallCirclePaint);
+                    margin += 20;
+                }
+            }
+
 
         }
 

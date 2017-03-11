@@ -60,9 +60,10 @@ public class Map extends AppCompatActivity implements MapInputDialog.OnCompleteL
     private FloorView floorView;
 
     public static HashMap<String, RoomData> rooms = new HashMap<>();
+    public static ArrayList<ChildDataObject> children = new ArrayList<>();
 
     private DatabaseReference db;
-
+    private DatabaseReference dbChildren;
 
     private String currentRoomName, currentPiMAC;
 
@@ -72,6 +73,7 @@ public class Map extends AppCompatActivity implements MapInputDialog.OnCompleteL
 
         //create the database reference
         db = FirebaseDatabase.getInstance().getReference().child("daycare").child("Georgia Tech").child("mapdata");
+        dbChildren = FirebaseDatabase.getInstance().getReference().child("daycare").child("Georgia Tech").child("children");
         //load the rooms for the FloorView
         onLoad();
 
@@ -103,6 +105,28 @@ public class Map extends AppCompatActivity implements MapInputDialog.OnCompleteL
     }
 
     public void onLoad() {
+
+        //for the children at that particular school
+        dbChildren.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                children.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    java.util.Map<?,?> child = (java.util.Map<?,?>) snapshot.getValue();
+                    ChildDataObject ch = new ChildDataObject(child.get("name").toString(),
+                            child.get("macAddress").toString(), child.get("location").toString(),
+                            child.get("timestamp").toString());
+                    addChildToList(ch);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        //for the rooms of the particular school
         db.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -119,6 +143,11 @@ public class Map extends AppCompatActivity implements MapInputDialog.OnCompleteL
 
             }
         });
+    }
+
+    //method to add a child to the static arraylist
+    public void addChildToList(ChildDataObject child) {
+        this.children.add(child);
     }
 
     // method to call to inner class for adding rooms to pass to view
