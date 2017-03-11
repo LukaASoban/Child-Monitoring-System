@@ -41,13 +41,13 @@
             android:layout_height="match_parent"
             app:layout_widthPercent="40%"
             app:layout_heightPercent="25%"
-            android:text="Search \nUsers"
+            android:text="Map"
             android:background="@drawable/button_rounded"
             android:textAllCaps="false"
             android:textColor="@color/tan"
             android:textSize="24dp"
             app:layout_marginRightPercent="5%"
-            android:id="@+id/search"
+            android:id="@+id/map"
             android:layout_alignTop="@+id/profile"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
@@ -57,7 +57,7 @@
             android:layout_height="match_parent"
             app:layout_widthPercent="40%"
             app:layout_heightPercent="25%"
-            android:text="Map"
+            android:text="Search \nUsers"
             android:background="@drawable/button_rounded"
             android:textAllCaps="false"
             android:textColor="@color/tan"
@@ -65,7 +65,7 @@
             android:layout_below="@+id/profile"
             app:layout_marginLeftPercent="5%"
             app:layout_marginTopPercent="5%"
-            android:id="@+id/map" />
+            android:id="@+id/search" />
 
     </android.support.percent.PercentRelativeLayout>
 
