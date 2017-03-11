@@ -1,33 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.DrawerLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/drawer_layout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
-
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/content_map"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context="bigbrother.child_monitoring_system.Map"
-        tools:showIn="@layout/activity_map">
-<ScrollView
+<android.support.percent.PercentRelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="bigbrother.child_monitoring_system.Map"
+    tools:showIn="@layout/activity_map"
+    android:background="@color/tan">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content_map"
@@ -36,18 +20,22 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="bigbrother.child_monitoring_system.Map"
     tools:showIn="@layout/activity_map">
 
+
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:srcCompat="@color/cardview_dark_background"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
         android:id="@+id/floorPlanIV" />
 
+    <bigbrother.child_monitoring_system.FloorView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</FrameLayout>
     <Button
         android:text="Upload Image"
         android:layout_width="wrap_content"
@@ -57,23 +45,10 @@
         android:textColor="@color/tan"
         android:textSize="24dp"
         android:padding="10dp"
-        android:layout_below="@+id/floorPlanIV"
+        android:layout_below="@+id/content_map"
         android:layout_marginTop="10dp"
         android:id="@+id/uploadImageButton"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
         app:layout_marginBottomPercent="2%"/>
-
-
-</RelativeLayout>
-</ScrollView>
-    </RelativeLayout>
-
-    <ListView
-        android:id="@+id/navList"
-        android:layout_width="200dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="left|start"
-        android:background="@color/tan" />
-
-</android.support.v4.widget.DrawerLayout>
+</android.support.percent.PercentRelativeLayout>

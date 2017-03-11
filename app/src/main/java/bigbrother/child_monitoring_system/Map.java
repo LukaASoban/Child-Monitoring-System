@@ -1,8 +1,12 @@
 package bigbrother.child_monitoring_system;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -14,61 +18,72 @@ import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.ContentFrameLayout;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.games.multiplayer.realtime.Room;
+import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
-import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 
-public class Map extends AppCompatActivity {
+public class Map extends AppCompatActivity implements MapInputDialog.OnCompleteListener, FloorView.onCircleCreateInterface {
 
     private ImageView floorPlanIV;
+    private Drawable floorplan;
     private StorageReference storage;
+    private FloorView floorView;
     private Button uploadImageButton;
     private static final int GALLERY_INTENT = 2;
-    private ListView mDrawerList;
-    private ArrayAdapter<String> mAdapter;
-    private ActionBar actionBar;
-    private ActionBarDrawerToggle mDrawerToggle;
-    private DrawerLayout mDrawerLayout;
-    private UserType userType;
-    private String mActivityTitle = "Map";
-    private String uid;
-    private DatabaseReference dRef;
+
+    public static HashMap<String, RoomData> rooms = new HashMap<>();
+    public static ArrayList<ChildDataObject> children = new ArrayList<>();
+
+    private DatabaseReference db;
+    private DatabaseReference dbChildren;
+
+    private String currentRoomName, currentPiMAC;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_map);
 
+        //create the database reference
+        db = FirebaseDatabase.getInstance().getReference().child("daycare").child("Georgia Tech").child("mapdata");
+        dbChildren = FirebaseDatabase.getInstance().getReference().child("daycare").child("Georgia Tech").child("children");
+        //load the rooms for the FloorView
+        onLoad();
+
+        setContentView(R.layout.activity_map);
 
         floorPlanIV = (ImageView) findViewById(R.id.floorPlanIV);
         uploadImageButton = (Button) findViewById(R.id.uploadImageButton);
@@ -83,7 +98,11 @@ public class Map extends AppCompatActivity {
         });
         storage = FirebaseStorage.getInstance().getReference();
 
-        storage.child("Daycare/daycare2.png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+        //set the interface for listening to circle creation
+        floorView = (FloorView) findViewById(R.id.floorView);
+        floorView.setViewListener(this);
+
+        storage.child("Daycare/daycare1.jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void onSuccess(Uri uri) {
@@ -99,150 +118,93 @@ public class Map extends AppCompatActivity {
             }
         });
 
-        dRef = FirebaseDatabase.getInstance().getReference().child("users");
-        uid = getIntent().getStringExtra("uid");
-        mDrawerList = (ListView)findViewById(R.id.navList);
-        actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeButtonEnabled(true);
-        mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
-        getSupportActionBar().setTitle(mActivityTitle);
-        addDrawerItems();
-        setupDrawer();
     }
 
-    private void addDrawerItems() {
-        dRef.addValueEventListener(new ValueEventListener() {
+    public void onLoad() {
+
+        //for the children at that particular school
+        dbChildren.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                String[] menuArr = getResources().getStringArray(R.array.parent_menu);
+                children.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    if (snapshot.getKey().equals(uid)) {
-                        User curUser = snapshot.getValue(User.class);
-                        userType = curUser.getType();
-                        if (curUser.getType().equals(UserType.ADMIN)) {
-                            menuArr = getResources().getStringArray(R.array.admin_menu);
-                        } else if (curUser.getType().equals(UserType.EMPLOYEE)){
-                            menuArr = getResources().getStringArray(R.array.employee_menu);
-                        }
-                    }
+                    java.util.Map<?,?> child = (java.util.Map<?,?>) snapshot.getValue();
+                    ChildDataObject ch = new ChildDataObject(child.get("name").toString(),
+                            child.get("macAddress").toString(), child.get("location").toString(),
+                            child.get("timestamp").toString());
+                    addChildToList(ch);
                 }
-                mAdapter = new ArrayAdapter<String>(Map.this, R.layout.menu_item, menuArr);
-                mDrawerList.setAdapter(mAdapter);
-                mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        if (userType.equals(UserType.PARENT)) {
-                            if (position == 0) {
-                                final Intent homeScreenIntent = new Intent(Map.this, HomeScreen.class);
-                                homeScreenIntent.putExtra("uid", uid);
-                                startActivity(homeScreenIntent);
-                            } else if (position == 1) {
-                                final Intent mapScreenIntent = new Intent(Map.this, Map.class);
-                                mapScreenIntent.putExtra("uid", uid);
-                                startActivity(mapScreenIntent);
-                            } else if (position == 2) {
-                                final Intent profileScreenIntent = new Intent(Map.this, Profile.class);
-                                profileScreenIntent.putExtra("uid", uid);
-                                startActivity(profileScreenIntent);
-                            } else {
-                                Toast.makeText(Map.this, "Not setup yet!", Toast.LENGTH_SHORT).show();
-                            }
-                        } else if (userType.equals(UserType.ADMIN)) {
-                            if (position == 0) {
-                                final Intent homeScreenIntent = new Intent(Map.this, HomeScreen.class);
-                                homeScreenIntent.putExtra("uid", uid);
-                                startActivity(homeScreenIntent);
-                            } else if (position == 1) {
-                                final Intent mapScreenIntent = new Intent(Map.this, Map.class);
-                                mapScreenIntent.putExtra("uid", uid);
-                                startActivity(mapScreenIntent);
-                            } else if (position == 2) {
-                                final Intent searchScreenIntent = new Intent(Map.this, SearchScreen.class);
-                                searchScreenIntent.putExtra("uid", uid);
-                                startActivity(searchScreenIntent);
-                            } else if (position == 3){
-                                final Intent profileScreenIntent = new Intent(Map.this, Profile.class);
-                                profileScreenIntent.putExtra("uid", uid);
-                                startActivity(profileScreenIntent);
-                            } else {
-                                Toast.makeText(Map.this, "Not setup yet!", Toast.LENGTH_SHORT).show();
-                            }
-                        } else if (userType.equals(UserType.EMPLOYEE)) {
-                            if (position == 0) {
-                                final Intent homeScreenIntent = new Intent(Map.this, HomeScreen.class);
-                                homeScreenIntent.putExtra("uid", uid);
-                                startActivity(homeScreenIntent);
-                            } else if (position == 1) {
-                                final Intent mapScreenIntent = new Intent(Map.this, Map.class);
-                                mapScreenIntent.putExtra("uid", uid);
-                                startActivity(mapScreenIntent);
-                            } else if (position == 3){
-                                final Intent profileScreenIntent = new Intent(Map.this, Profile.class);
-                                profileScreenIntent.putExtra("uid", uid);
-                                startActivity(profileScreenIntent);
-                            } else {
-                                Toast.makeText(Map.this, "Not setup yet!", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    }
-                });
             }
 
             @Override
-            public void onCancelled(DatabaseError firebaseError) {
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        //for the rooms of the particular school
+        db.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                rooms.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    RoomData room = snapshot.getValue(RoomData.class);
+                    Log.d("MAPCLASS","THE ROOM WAS LOADED AS " + room.getMac());
+                    addRoomToList(room);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
             }
         });
     }
 
-    private void setupDrawer() {
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-                R.string.drawer_open, R.string.drawer_close) {
+    //method to add a child to the static arraylist
+    public void addChildToList(ChildDataObject child) {
+        this.children.add(child);
+    }
 
-            /** Called when a drawer has settled in a completely open state. */
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-                getSupportActionBar().setTitle("Menu");
-                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
-            }
-
-            /** Called when a drawer has settled in a completely closed state. */
-            public void onDrawerClosed(View view) {
-                super.onDrawerClosed(view);
-                getSupportActionBar().setTitle(mActivityTitle);
-                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
-            }
-        };
-        mDrawerToggle.setDrawerIndicatorEnabled(true);
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
+    // method to call to inner class for adding rooms to pass to view
+    public void addRoomToList(RoomData room) {
+        this.rooms.put(room.getMac(), room);
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+    public void onComplete(String name, String mac) {
+        floorView.onComplete(name, mac);
+    }
 
-        // Activate the navigation drawer toggle
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
 
-        return super.onOptionsItemSelected(item);
+    @Override
+    public void onCircleCreate() {
+        showMapDialog();
     }
 
     @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        mDrawerToggle.syncState();
+    public void onCircleCreate(String mac, int radius, int xCor, int yCor) {
+        //method for getting this info and putting it inside the database so that
+        //the teachers and parents can retrieve this information to make their own map
+        Log.d("MAPCLASS", mac);
+
+
+        // check if there is a child node of name "mapdata" and create if not
+        java.util.Map<String, Object> mapdata = new HashMap<>();
+        mapdata.put(mac, new RoomData(mac, xCor, yCor, radius));
+        db.updateChildren(mapdata);
+
     }
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        mDrawerToggle.onConfigurationChanged(newConfig);
+    public void onCircleDelete(String mac) {
+        db.child(mac).removeValue();
+    }
+
+    private void showMapDialog() {
+        FragmentManager fm = getSupportFragmentManager();
+        MapInputDialog mapInputDialog = MapInputDialog.newInstance();
+        mapInputDialog.show(fm, "child_input_fragment");
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -259,20 +221,4 @@ public class Map extends AppCompatActivity {
             });
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

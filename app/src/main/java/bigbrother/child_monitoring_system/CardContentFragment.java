@@ -191,7 +191,7 @@ public class CardContentFragment extends AppCompatActivity implements ChildInput
     public void notifyDatabaseChange() {
         currentUser.setChildren(((ChildCardAdapter) mAdapter).getChildDataset());
         fdbUsers.child(uid).setValue(currentUser);
-        fdbSchool = FirebaseDatabase.getInstance().getReference().child("daycare").child(currentUser.getSchoolName());
+        fdbSchool = FirebaseDatabase.getInstance().getReference().child("daycare").child(currentUser.getSchoolName()).child("children");
         for (ChildDataObject c : currentUser.getChildren()) {
             fdbSchool.child(String.valueOf(c.getMacAddress())).setValue(c);
         }

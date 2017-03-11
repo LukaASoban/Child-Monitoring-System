@@ -14,6 +14,41 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_map" />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/floorPlanIV" />
+        <Button
+            android:text="Upload Image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_rounded"
+            android:textAllCaps="false"
+            android:textColor="@color/tan"
+            android:textSize="24dp"
+            android:padding="10dp"
+            android:layout_below="@+id/floorPlanIV"
+            android:layout_marginTop="10dp"
+            android:id="@+id/uploadImageButton"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true" />
+
+        <bigbrother.child_monitoring_system.FloorView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/floorView"/>
+
+
+    </FrameLayout>
+
+
+
 
 </android.support.design.widget.CoordinatorLayout>
