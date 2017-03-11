@@ -7,14 +7,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,7 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 public class Profile extends AppCompatActivity implements View.OnClickListener {
 
     private String uid;
-    private DatabaseReference fdbUsers;
+    private DatabaseReference dRef;
     private User currUser;
 
     private TextView firstName;
@@ -45,7 +43,8 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
     private ActionBar actionBar;
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
-    private String mActivityTitle = "Home";
+    private String mActivityTitle = "Profile";
+    private UserType userType;
     ////////////
 
     @Override
@@ -62,11 +61,11 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
 
         editButton = (Button) findViewById(R.id.editButton);
 
-        fdbUsers = FirebaseDatabase.getInstance().getReference().child("users");
+        dRef = FirebaseDatabase.getInstance().getReference().child("users");
         uid = getIntent().getStringExtra("uid");
 
 
-        fdbUsers.child(uid).addValueEventListener(new ValueEventListener() {
+        dRef.child(uid).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 currUser = dataSnapshot.getValue(User.class);
@@ -91,7 +90,7 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
         mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
-//        mActivityTitle = getTitle().toString();
+        getSupportActionBar().setTitle(mActivityTitle);
         addDrawerItems();
         setupDrawer();
         ////////////
@@ -126,7 +125,7 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
         } else {
 
             if (currUser != null && uid != null) {
-                fdbUsers.child(uid).child(uid).setValue(currUser);
+                dRef.child(uid).child(uid).setValue(currUser);
             }
         }
     }
@@ -154,29 +153,91 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
 
     private void updateFirebase() {
         currUser.setValues(firstName.getText().toString(), lastName.getText().toString(), schoolName.getText().toString(), email.getText().toString());
-        fdbUsers.child(uid).setValue(currUser);
+        dRef.child(uid).setValue(currUser);
     }
 
     //menu test//
     private void addDrawerItems() {
-        String[] menuArr = getResources().getStringArray(R.array.parent_menu);
-        mAdapter = new ArrayAdapter<String>(this, R.layout.menu_item, menuArr);
-        mDrawerList.setAdapter(mAdapter);
-
-        mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        dRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0){
-                    final Intent homeScreenIntent = new Intent(Profile.this, HomeScreen.class);
-                    homeScreenIntent.putExtra("uid", uid);
-                    startActivity(homeScreenIntent);
-                } else if (position == 2){
-                    final Intent profileScreenIntent = new Intent(Profile.this, Profile.class);
-                    profileScreenIntent.putExtra("uid", uid);
-                    startActivity(profileScreenIntent);
-                } else {
-                    Toast.makeText(Profile.this, "Not setup yet!", Toast.LENGTH_SHORT).show();
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String[] menuArr = getResources().getStringArray(R.array.parent_menu);
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    if (snapshot.getKey().equals(uid)) {
+                        User curUser = snapshot.getValue(User.class);
+                        userType = curUser.getType();
+                        if (curUser.getType().equals(UserType.ADMIN)) {
+                            menuArr = getResources().getStringArray(R.array.admin_menu);
+                        } else if (curUser.getType().equals(UserType.EMPLOYEE)){
+                            menuArr = getResources().getStringArray(R.array.employee_menu);
+                        }
+                    }
                 }
+                mAdapter = new ArrayAdapter<String>(Profile.this, R.layout.menu_item, menuArr);
+                mDrawerList.setAdapter(mAdapter);
+                mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        if (userType.equals(UserType.PARENT)) {
+                            if (position == 0) {
+                                final Intent homeScreenIntent = new Intent(Profile.this, HomeScreen.class);
+                                homeScreenIntent.putExtra("uid", uid);
+                                startActivity(homeScreenIntent);
+                            } else if (position == 1) {
+                                final Intent mapScreenIntent = new Intent(Profile.this, Map.class);
+                                mapScreenIntent.putExtra("uid", uid);
+                                startActivity(mapScreenIntent);
+                            } else if (position == 2) {
+                                final Intent profileScreenIntent = new Intent(Profile.this, Profile.class);
+                                profileScreenIntent.putExtra("uid", uid);
+                                startActivity(profileScreenIntent);
+                            } else {
+                                Toast.makeText(Profile.this, "Not setup yet!", Toast.LENGTH_SHORT).show();
+                            }
+                        } else if (userType.equals(UserType.ADMIN)) {
+                            if (position == 0) {
+                                final Intent homeScreenIntent = new Intent(Profile.this, HomeScreen.class);
+                                homeScreenIntent.putExtra("uid", uid);
+                                startActivity(homeScreenIntent);
+                            } else if (position == 1) {
+                                final Intent mapScreenIntent = new Intent(Profile.this, Map.class);
+                                mapScreenIntent.putExtra("uid", uid);
+                                startActivity(mapScreenIntent);
+                            } else if (position == 2) {
+                                final Intent searchScreenIntent = new Intent(Profile.this, SearchScreen.class);
+                                searchScreenIntent.putExtra("uid", uid);
+                                startActivity(searchScreenIntent);
+                            } else if (position == 3){
+                                final Intent profileScreenIntent = new Intent(Profile.this, Profile.class);
+                                profileScreenIntent.putExtra("uid", uid);
+                                startActivity(profileScreenIntent);
+                            } else {
+                                Toast.makeText(Profile.this, "Not setup yet!", Toast.LENGTH_SHORT).show();
+                            }
+                        } else if (userType.equals(UserType.EMPLOYEE)) {
+                            if (position == 0) {
+                                final Intent homeScreenIntent = new Intent(Profile.this, HomeScreen.class);
+                                homeScreenIntent.putExtra("uid", uid);
+                                startActivity(homeScreenIntent);
+                            } else if (position == 1) {
+                                final Intent mapScreenIntent = new Intent(Profile.this, Map.class);
+                                mapScreenIntent.putExtra("uid", uid);
+                                startActivity(mapScreenIntent);
+                            } else if (position == 3){
+                                final Intent profileScreenIntent = new Intent(Profile.this, Profile.class);
+                                profileScreenIntent.putExtra("uid", uid);
+                                startActivity(profileScreenIntent);
+                            } else {
+                                Toast.makeText(Profile.this, "Not setup yet!", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(DatabaseError firebaseError) {
+
             }
         });
     }
