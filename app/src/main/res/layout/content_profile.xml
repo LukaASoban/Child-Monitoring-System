@@ -116,22 +116,6 @@
             android:background="@drawable/empty"/>
 
         <Button
-            android:text="Settings"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_widthPercent="60%"
-            app:layout_heightPercent="10%"
-            android:layout_centerHorizontal="true"
-            android:textAllCaps="false"
-            android:textSize="24dp"
-            android:textColor="@color/tan"
-            android:background="@drawable/button_rounded"
-            android:padding="10dp"
-            android:layout_above="@+id/editButton"
-            app:layout_marginBottomPercent="4%"
-            android:id="@+id/settingsButton" />
-
-        <Button
             android:text="Edit"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -157,6 +141,24 @@
             app:layout_marginLeftPercent="2%"
             app:layout_marginTopPercent="2%"
             android:background="@drawable/empty"/>
+
+        <Button
+            android:text="Settings"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_widthPercent="60%"
+            app:layout_heightPercent="10%"
+            android:textAllCaps="false"
+            android:textSize="24dp"
+            android:textColor="@color/tan"
+            android:background="@drawable/button_rounded"
+            android:padding="10dp"
+            app:layout_marginBottomPercent="4%"
+            android:id="@+id/settingsButton"
+            android:layout_above="@+id/editButton"
+            android:layout_alignLeft="@+id/editButton"
+            android:layout_alignStart="@+id/editButton"
+            android:layout_marginBottom="19dp" />
 
 
     </android.support.percent.PercentRelativeLayout>

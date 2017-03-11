@@ -1,4 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,7 +14,6 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="bigbrother.child_monitoring_system.Map"
     tools:showIn="@layout/activity_map">
@@ -21,4 +26,22 @@
         android:layout_centerHorizontal="true"
         android:id="@+id/floorPlanIV" />
 
+    <Button
+        android:text="Upload Image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_rounded"
+        android:textAllCaps="false"
+        android:textColor="@color/tan"
+        android:textSize="24dp"
+        android:padding="10dp"
+        android:layout_below="@+id/floorPlanIV"
+        android:layout_marginTop="10dp"
+        android:id="@+id/uploadImageButton"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        app:layout_marginBottomPercent="2%"/>
+
+
 </RelativeLayout>
+</ScrollView>
