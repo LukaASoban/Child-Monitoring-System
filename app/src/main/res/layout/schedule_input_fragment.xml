@@ -23,20 +23,20 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="24dp"
+        android:layout_margin="10dp"
         android:layout_below="@id/scheduleMenuTitle"
-        android:inputType="textRoomName"
+        android:inputType="text"
         android:ems="10"
-        android:id="@+id/childName" />
+        android:id="@+id/scheduleName" />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="24dp"
-        android:layout_below="@id/childName"
-        android:inputType="textPersonName"
+        android:layout_margin="12dp"
+        android:layout_below="@id/scheduleName"
+        android:inputType="text"
         android:ems="10"
-        android:id="@+id/childMAC" />
+        android:id="@+id/scheduleMac" />
 
     <Button
         android:id="@+id/buttonCancel"
@@ -58,7 +58,7 @@
         android:layout_margin="8dp"
         android:padding="8dp"
         android:background="@android:color/transparent"
-        android:layout_below="@id/childMAC"
+        android:layout_below="@id/scheduleMac"
         android:layout_toLeftOf="@id/buttonCancel"/>
 
 

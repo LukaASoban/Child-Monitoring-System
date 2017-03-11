@@ -80,9 +80,9 @@ public class ScheduleInputFragment extends android.support.v4.app.DialogFragment
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         // Get field from view
-        scheduleName = (EditText) view.findViewById(R.id.childName);
+        scheduleName = (EditText) view.findViewById(R.id.scheduleName);
         scheduleName.setHint("Room");
-        scheduleMAC = (EditText) view.findViewById(R.id.childMAC);
+        scheduleMAC = (EditText) view.findViewById(R.id.scheduleMAC);
         scheduleMAC.setHint("Room Monitor MAC");
 
         cancel = (Button) view.findViewById(R.id.buttonCancel);
@@ -102,7 +102,7 @@ public class ScheduleInputFragment extends android.support.v4.app.DialogFragment
                     scheduleName.setError("Please input a name");
                     return;
                 } else if(TextUtils.isEmpty(scheduleMAC.getText().toString().trim())) {
-                    scheduleMAC.setError("Please provide the bracelet's MAC address");
+                    scheduleMAC.setError("Please provide the rooms's MAC address");
                     return;
                 }
 

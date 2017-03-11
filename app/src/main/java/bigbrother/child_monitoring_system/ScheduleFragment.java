@@ -18,6 +18,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 
@@ -27,26 +29,27 @@ public class ScheduleFragment extends AppCompatActivity implements ScheduleInput
     private DatabaseReference fdbUsers;
     private DatabaseReference fdbSchool;
     private User currentUser;
-    private ArrayList<ChildDataObject> results = new ArrayList<ChildDataObject>();;
+    private Schedule schedule;
+    private ArrayList<ScheduleDataObject> results = new ArrayList<ScheduleDataObject>();
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private static String LOG_TAG = "CardContentFragment";
-    private String uid;
+    private String sid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_schedule_menu);
 
-        uid = getIntent().getStringExtra("uid");
+        sid = currentUser.getSchoolName();
 
-        fdbUsers = FirebaseDatabase.getInstance().getReference().child("daycare").child("Georgia Tech");
+        fdbSchool = FirebaseDatabase.getInstance().getReference().child("daycare").child(sid);
 
-        fdbUsers.child(uid).addValueEventListener(new ValueEventListener() {
+        fdbSchool.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                currentDaycare = dataSnapshot.getValue(User.class);
+                schedule = dataSnapshot.getValue(Schedule.class);
             }
 
             @Override
@@ -59,7 +62,7 @@ public class ScheduleFragment extends AppCompatActivity implements ScheduleInput
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new ChildCardAdapter(getDataSet());
+        mAdapter = new ScheduleAdapter(getDataSet());
         mRecyclerView.setAdapter(mAdapter);
 
         // On click listener for the FAB
@@ -67,7 +70,7 @@ public class ScheduleFragment extends AppCompatActivity implements ScheduleInput
         fab.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                showChildDialog(null, -1);
+                showScheduleDialog(null, -1);
 
             }
         });
@@ -78,13 +81,14 @@ public class ScheduleFragment extends AppCompatActivity implements ScheduleInput
 
             @Override
             public void onEditButtonClick(int pos, View v) {
-                showChildDialog(((ScheduleAdapter) mAdapter).getScheduleDataAt(pos), pos);
+                showScheduleDialog(((ScheduleAdapter) mAdapter).getScheduleDataAt(pos), pos);
             }
 
             @Override
             public void onButtonClick(int position, View v) {
-                ((ChildCardAdapter) mAdapter).deleteItem(position);
-                ((ChildCardAdapter) mAdapter).getChildDataset();
+                schedule.getSchedule().remove(position);
+                ((ScheduleAdapter) mAdapter).deleteItem(position);
+                ((ScheduleAdapter) mAdapter).getScheduleObjectDataset();
                 notifyDatabaseChange();
             }
 
@@ -96,105 +100,69 @@ public class ScheduleFragment extends AppCompatActivity implements ScheduleInput
 
     }
 
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//
-
-//        // On click listener for the FAB
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View v) {
-//
-//                showChildDialog(null, -1);
-//
-//            }
-//        });
-//
-//
-//        ((ChildCardAdapter) mAdapter).setOnItemClickListener(new ChildCardAdapter
-//                .MyClickListener() {
-//
-//            @Override
-//            public void onEditButtonClick(int pos, View v) {
-//                showChildDialog(((ChildCardAdapter) mAdapter).getChildDataAt(pos), pos);
-//            }
-//
-//            @Override
-//            public void onButtonClick(int position, View v) {
-//                ((ChildCardAdapter) mAdapter).deleteItem(position);
-//                ((ChildCardAdapter) mAdapter).getChildDataset();
-//                notifyDatabaseChange();
-//            }
-//
-//            @Override
-//            public void onItemClick(int position, View v) {
-//                // add in if needed later
-//            }
-//        });
-//    }
-
 
     /**
-     * Implementing the OnComplete interface to pass ChildObjects back
+     * Implementing the OnComplete interface to pass ScheduleObjects back
      */
-    public void onComplete(ChildDataObject child) {
+    public void onComplete(ScheduleDataObject scheduleDataObject) {
         //add the child card to the recyclerview only if it has changed
-        ((ChildCardAdapter) mAdapter).addItem(child, 0);
+        ((ScheduleAdapter) mAdapter).addItem(scheduleDataObject, 0);
+        schedule.getSchedule().add(scheduleDataObject);
 
-        ((ChildCardAdapter) mAdapter).getChildDataset();
+        ((ScheduleAdapter) mAdapter).getScheduleObjectDataset();
     }
 
     /**
-     * Implementing the onComplete interface for editing ChildObjects
+     * Implementing the onComplete interface for editing ScheduleObjects
      */
-    public void onComplete(ChildDataObject child, int pos) {
+    public void onComplete(ScheduleDataObject scheduleDataObject, int pos) {
 
         if (pos == -1) {
-            ((ChildCardAdapter) mAdapter).addItem(child, 0);
+            schedule.getSchedule().add(0,scheduleDataObject);
+            ((ScheduleAdapter) mAdapter).addItem(scheduleDataObject, 0);
             notifyDatabaseChange();
             return;
         }
 
         //replace the object with the newly edited one
-        ((ChildCardAdapter) mAdapter).replaceAt(pos, child);
+        schedule.getSchedule().add(pos,scheduleDataObject);
+        ((ScheduleAdapter) mAdapter).replaceAt(pos, scheduleDataObject);
         notifyDatabaseChange();
     }
 
 
-    private ArrayList<ChildDataObject> getDataSet() {
-        results = new ArrayList<ChildDataObject>();
-        // Here is where the dataset will be taken from the database on Activity Load
-        //results = new ArrayList<ChildDataObject>();
-        fdbUsers.child(uid).child("children").addValueEventListener(new ValueEventListener() {
+    private ArrayList<ScheduleDataObject> getDataSet() {
+        results = new ArrayList<ScheduleDataObject>();
+        fdbSchool.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                results.clear();
-                for (DataSnapshot data : dataSnapshot.getChildren()) {
-                    results.add(data.getValue(ChildDataObject.class));
+                for (DataSnapshot data : dataSnapshot.child("Schedule").getChildren()) {
+                    results.add(data.getValue(ScheduleDataObject.class));
                 }
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
             }
         });
-        //currentUser.setChildren(results);
+
         return results;
     }
 
     public void notifyDatabaseChange() {
-        currentUser.setChildren(((ChildCardAdapter) mAdapter).getChildDataset());
-        fdbUsers.child(uid).setValue(currentUser);
+        ArrayList<ScheduleDataObject> schedule;
+        ArrayList<ChildDataObject> children = ((ScheduleAdapter) mAdapter).getScheduleObjectDataset();
+        currentUser.setChildren();
+        fdbUsers.child(sid).setValue(currentUser);
         fdbSchool = FirebaseDatabase.getInstance().getReference().child("daycare").child(currentUser.getSchoolName());
-        for (ScheduleDataObject s : currentUser.getChildren()) {
-            fdbSchool.child(String.valueOf(c.getMacAddress())).setValue(s);
+        for (ChildDataObject c : currentUser.getChildren()) {
+            fdbSchool.child(String.valueOf(c.getMacAddress())).setValue(c);
         }
     }
 
-    private void showChildDialog(ScheduleDataObject scheduleDataObject, int pos) {
+    private void showScheduleDialog(ScheduleDataObject scheduleDataObject, int pos) {
         FragmentManager fm = getSupportFragmentManager();
-        ScheduleInputFragment scheduleInputFragment = ScheduleInputFragment.newInstance("New Child", scheduleDataObject, pos);
-        ScheduleInputFragment.show(fm, "schedule_input_fragment");
+        ScheduleInputFragment scheduleInputFragment = ScheduleInputFragment.newInstance("New ScheduleDataObject", scheduleDataObject, pos);
+        scheduleInputFragment.show(fm, "schedule_input_fragment");
     }
 
 }
