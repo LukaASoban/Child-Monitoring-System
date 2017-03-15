@@ -161,13 +161,19 @@ public class FloorView extends View implements MapInputDialog.OnCompleteListener
             //draw the children in relative location to the MAC address of the raspberry pi
             for (ChildDataObject child : Map.children) {
 
-                //find the child who has been located by this Rasp Pi
-                if(circle.getMacAddress().equals(child.getLocationMAC())) {
-                    //they have been located by that reciever
-                    canvas.drawText(child.getName(), circle.centerX - 30, circle.centerY + margin, textChildPaint);
-                    canvas.drawCircle(circle.centerX - 40, circle.centerY + margin - 10, 10, smallCirclePaint);
-                    margin += 20;
+                //check to see if the circle mac is null which it will be if it was just created
+                if(circle.getMacAddress() != null) {
+
+                    //find the child who has been located by this Rasp Pi
+                    if(circle.getMacAddress().equals(child.getLocationMAC())) {
+                        //they have been located by that reciever
+                        canvas.drawText(child.getName(), circle.centerX - 30, circle.centerY + margin, textChildPaint);
+                        canvas.drawCircle(circle.centerX - 40, circle.centerY + margin - 10, 10, smallCirclePaint);
+                        margin += 20;
+                    }
+
                 }
+
             }
 
 
