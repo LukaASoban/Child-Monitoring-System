@@ -25,4 +25,8 @@
     <string name="accept">Accept</string>
     <string name="add_a_child">Add a Child</string>
     <string name="title_activity_map">Map</string>
+    <string name="title_activity_firebase_messaging_service_cms">FirebaseMessagingServiceCMS
+    </string>
+    <string name="FCM_PREF">bigbrother.child_monitoring_system.fcm_pref</string>
+    <string name="FCM_TOKEN">bigbrother.child_monitoring_system.fcm_token</string>
 </resources>

@@ -29,6 +29,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +56,7 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
     private String lastName;
     private String schoolName;
     private String confPassword;
+    private String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +75,7 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
         emailET = (EditText) findViewById(R.id.email);
         passwordET = (EditText) findViewById(R.id.password);
         conf_passwordET  =(EditText) findViewById(R.id.conf_password);
+        token = FirebaseInstanceId.getInstance().getToken();
 
         dRef = FirebaseDatabase.getInstance().getReference();
 
@@ -171,6 +174,7 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
         ArrayList<ChildDataObject> children = new ArrayList<ChildDataObject>();
         currentUser.setChildren(children);
         currentUser.setBanned(false);
+        currentUser.setToken(token);
         dRef.child("users").child(uid).setValue(currentUser);
     }
 

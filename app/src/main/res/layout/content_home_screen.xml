@@ -67,6 +67,21 @@
             app:layout_marginTopPercent="5%"
             android:id="@+id/search" />
 
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_widthPercent="40%"
+            app:layout_heightPercent="25%"
+            android:text="Send Test Notification"
+            android:background="@drawable/button_rounded"
+            android:textAllCaps="false"
+            android:textColor="@color/tan"
+            android:textSize="24dp"
+            android:layout_below="@+id/search"
+            app:layout_marginLeftPercent="5%"
+            app:layout_marginTopPercent="5%"
+            android:id="@+id/testMessage" />
+
     </android.support.percent.PercentRelativeLayout>
 
     <ListView

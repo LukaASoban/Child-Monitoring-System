@@ -1,22 +1,17 @@
 package bigbrother.child_monitoring_system;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.support.v4.app.FragmentManager;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.MotionEvent;
 import android.view.View;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 
 public class FloorView extends View implements MapInputDialog.OnCompleteListener {
@@ -130,7 +125,7 @@ public class FloorView extends View implements MapInputDialog.OnCompleteListener
         smallCirclePaint.setColor(Color.BLUE);
         smallCirclePaint.setStyle(Paint.Style.FILL);
 
-        Log.w("CIRCLES",""+Map.rooms.size());
+        Log.w("CIRCLES",""+ Map.rooms.size());
 
         for (java.util.Map.Entry<String, RoomData> entry: Map.rooms.entrySet()) {
             //make the rooms into circle
