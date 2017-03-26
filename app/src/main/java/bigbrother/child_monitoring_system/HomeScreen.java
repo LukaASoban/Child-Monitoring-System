@@ -1,7 +1,10 @@
 package bigbrother.child_monitoring_system;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Debug;
 import android.support.design.widget.FloatingActionButton;
@@ -20,14 +23,27 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.appindexing.Thing;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
 
 
 public class HomeScreen extends AppCompatActivity implements View.OnClickListener {
@@ -47,6 +63,13 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
     private DatabaseReference dRef;
     private User currentUser;
     private UserType userType;
+    String server_url = "http://127.0.0.1/fcm/fcm_insert.php";
+    private Button testMessagebtn;
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
     ////////////
 
     @Override
@@ -59,10 +82,12 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
         buttonProfile = (Button) findViewById(R.id.profile);
         buttonSearch = (Button) findViewById(R.id.search);
         buttonMap = (Button) findViewById(R.id.map);
+        testMessagebtn = (Button) findViewById(R.id.testMessage);
 
         buttonProfile.setOnClickListener(this);
         buttonSearch.setOnClickListener(this);
         buttonMap.setOnClickListener(this);
+        testMessagebtn.setOnClickListener(this);
 
         dRef = FirebaseDatabase.getInstance().getReference().child("users");
         uid = getIntent().getStringExtra("uid");
@@ -79,23 +104,37 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
                     }
                 }
             }
+
             @Override
-            public void onCancelled(DatabaseError error) { }
+            public void onCancelled(DatabaseError error) {
+            }
         });
 //        if (currentUser != null && !currentUser.getType().equals(UserType.ADMIN)) {
 //            buttonSearch.setVisibility(View.INVISIBLE);
 //        }
 
         //menu test//
-        mDrawerList = (ListView)findViewById(R.id.navList);
+        mDrawerList = (ListView) findViewById(R.id.navList);
         actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
-        mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         getSupportActionBar().setTitle(mActivityTitle);
         addDrawerItems();
         setupDrawer();
         ////////////
+        final String token = FirebaseInstanceId.getInstance().getToken();
+        addDeviceToken(token);
+//        CalligraphyConfig.initDefault(
+//                new CalligraphyConfig.Builder().setDefaultFontPath("minyna.ttf").setFontAttrId(R.attr.fontPath)
+//                        .build());
+//        AndroidThreeTen.init(this);
+        FirebaseApp.initializeApp(this);
+
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     @Override
@@ -112,7 +151,18 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
             final Intent mapScreenIntent = new Intent(this, Map.class);
             mapScreenIntent.putExtra("uid", uid);
             startActivity(mapScreenIntent);
+        } else if (v == testMessagebtn) {
+            ArrayList<String> tokens = new ArrayList<>();
+            String token = FirebaseInstanceId.getInstance().getToken();
+            tokens.add(token);
+            Message mesg = new Message(tokens, "my title", "my message body");
+            DatabaseReference mesgRef = FirebaseDatabase.getInstance().getReference().child("messages");
+            mesgRef.push().setValue(mesg);
         }
+    }
+
+    public void addDeviceToken(String token) {
+        dRef.child("users").child(uid).child("token").setValue(token);
     }
 
     //menu test//
@@ -127,7 +177,7 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
                         userType = curUser.getType();
                         if (curUser.getType().equals(UserType.ADMIN)) {
                             menuArr = getResources().getStringArray(R.array.admin_menu);
-                        } else if (curUser.getType().equals(UserType.EMPLOYEE)){
+                        } else if (curUser.getType().equals(UserType.EMPLOYEE)) {
                             menuArr = getResources().getStringArray(R.array.employee_menu);
                         }
                     }
@@ -137,59 +187,59 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
                 mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (userType.equals(UserType.PARENT)) {
-                        if (position == 0) {
-                            final Intent homeScreenIntent = new Intent(HomeScreen.this, HomeScreen.class);
-                            homeScreenIntent.putExtra("uid", uid);
-                            startActivity(homeScreenIntent);
-                        } else if (position == 1) {
-                            final Intent mapScreenIntent = new Intent(HomeScreen.this, Map.class);
-                            mapScreenIntent.putExtra("uid", uid);
-                            startActivity(mapScreenIntent);
-                        } else if (position == 2) {
-                            final Intent profileScreenIntent = new Intent(HomeScreen.this, Profile.class);
-                            profileScreenIntent.putExtra("uid", uid);
-                            startActivity(profileScreenIntent);
-                        } else {
-                            Toast.makeText(HomeScreen.this, "Not setup yet!", Toast.LENGTH_SHORT).show();
+                        if (userType.equals(UserType.PARENT)) {
+                            if (position == 0) {
+                                final Intent homeScreenIntent = new Intent(HomeScreen.this, HomeScreen.class);
+                                homeScreenIntent.putExtra("uid", uid);
+                                startActivity(homeScreenIntent);
+                            } else if (position == 1) {
+                                final Intent mapScreenIntent = new Intent(HomeScreen.this, Map.class);
+                                mapScreenIntent.putExtra("uid", uid);
+                                startActivity(mapScreenIntent);
+                            } else if (position == 2) {
+                                final Intent profileScreenIntent = new Intent(HomeScreen.this, Profile.class);
+                                profileScreenIntent.putExtra("uid", uid);
+                                startActivity(profileScreenIntent);
+                            } else {
+                                Toast.makeText(HomeScreen.this, "Not setup yet!", Toast.LENGTH_SHORT).show();
+                            }
+                        } else if (userType.equals(UserType.ADMIN)) {
+                            if (position == 0) {
+                                final Intent homeScreenIntent = new Intent(HomeScreen.this, HomeScreen.class);
+                                homeScreenIntent.putExtra("uid", uid);
+                                startActivity(homeScreenIntent);
+                            } else if (position == 1) {
+                                final Intent mapScreenIntent = new Intent(HomeScreen.this, Map.class);
+                                mapScreenIntent.putExtra("uid", uid);
+                                startActivity(mapScreenIntent);
+                            } else if (position == 2) {
+                                final Intent searchScreenIntent = new Intent(HomeScreen.this, SearchScreen.class);
+                                searchScreenIntent.putExtra("uid", uid);
+                                startActivity(searchScreenIntent);
+                            } else if (position == 3) {
+                                final Intent profileScreenIntent = new Intent(HomeScreen.this, Profile.class);
+                                profileScreenIntent.putExtra("uid", uid);
+                                startActivity(profileScreenIntent);
+                            } else {
+                                Toast.makeText(HomeScreen.this, "Not setup yet!", Toast.LENGTH_SHORT).show();
+                            }
+                        } else if (userType.equals(UserType.EMPLOYEE)) {
+                            if (position == 0) {
+                                final Intent homeScreenIntent = new Intent(HomeScreen.this, HomeScreen.class);
+                                homeScreenIntent.putExtra("uid", uid);
+                                startActivity(homeScreenIntent);
+                            } else if (position == 1) {
+                                final Intent mapScreenIntent = new Intent(HomeScreen.this, Map.class);
+                                mapScreenIntent.putExtra("uid", uid);
+                                startActivity(mapScreenIntent);
+                            } else if (position == 3) {
+                                final Intent profileScreenIntent = new Intent(HomeScreen.this, Profile.class);
+                                profileScreenIntent.putExtra("uid", uid);
+                                startActivity(profileScreenIntent);
+                            } else {
+                                Toast.makeText(HomeScreen.this, "Not setup yet!", Toast.LENGTH_SHORT).show();
+                            }
                         }
-                } else if (userType.equals(UserType.ADMIN)) {
-                    if (position == 0) {
-                        final Intent homeScreenIntent = new Intent(HomeScreen.this, HomeScreen.class);
-                        homeScreenIntent.putExtra("uid", uid);
-                        startActivity(homeScreenIntent);
-                    } else if (position == 1) {
-                        final Intent mapScreenIntent = new Intent(HomeScreen.this, Map.class);
-                        mapScreenIntent.putExtra("uid", uid);
-                        startActivity(mapScreenIntent);
-                    } else if (position == 2) {
-                        final Intent searchScreenIntent = new Intent(HomeScreen.this, SearchScreen.class);
-                        searchScreenIntent.putExtra("uid", uid);
-                        startActivity(searchScreenIntent);
-                    } else if (position == 3){
-                        final Intent profileScreenIntent = new Intent(HomeScreen.this, Profile.class);
-                        profileScreenIntent.putExtra("uid", uid);
-                        startActivity(profileScreenIntent);
-                    } else {
-                        Toast.makeText(HomeScreen.this, "Not setup yet!", Toast.LENGTH_SHORT).show();
-                    }
-                } else if (userType.equals(UserType.EMPLOYEE)) {
-                    if (position == 0) {
-                        final Intent homeScreenIntent = new Intent(HomeScreen.this, HomeScreen.class);
-                        homeScreenIntent.putExtra("uid", uid);
-                        startActivity(homeScreenIntent);
-                    } else if (position == 1) {
-                        final Intent mapScreenIntent = new Intent(HomeScreen.this, Map.class);
-                        mapScreenIntent.putExtra("uid", uid);
-                        startActivity(mapScreenIntent);
-                    } else if (position == 3){
-                        final Intent profileScreenIntent = new Intent(HomeScreen.this, Profile.class);
-                        profileScreenIntent.putExtra("uid", uid);
-                        startActivity(profileScreenIntent);
-                    } else {
-                        Toast.makeText(HomeScreen.this, "Not setup yet!", Toast.LENGTH_SHORT).show();
-                    }
-                }
                     }
                 });
             }
@@ -248,6 +298,42 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    public Action getIndexApiAction() {
+        Thing object = new Thing.Builder()
+                .setName("HomeScreen Page") // TODO: Define a title for the content shown.
+                // TODO: Make sure this auto-generated URL is correct.
+                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
+                .build();
+        return new Action.Builder(Action.TYPE_VIEW)
+                .setObject(object)
+                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
+                .build();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        AppIndex.AppIndexApi.start(client, getIndexApiAction());
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        AppIndex.AppIndexApi.end(client, getIndexApiAction());
+        client.disconnect();
     }
     ////////////
 }
