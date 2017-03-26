@@ -66,7 +66,23 @@
         <activity
             android:name=".Map"
             android:label="@string/title_activity_map"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+
+        <service android:name=".FirebaseMessagingServiceCMS">
+            <intent-filter>
+                <action
+                    android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+        <service android:name=".FirebaseInstanceIDServiceCMS"
+            android:exported="true">
+            <intent-filter>
+                <action
+                    android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
     </application>
+
+
 
 </manifest>
