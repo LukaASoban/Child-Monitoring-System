@@ -70,19 +70,21 @@
 
         <service android:name=".FirebaseMessagingServiceCMS">
             <intent-filter>
-                <action
-                    android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".FirebaseInstanceIDServiceCMS"
+        <service
+            android:name=".FirebaseInstanceIDServiceCMS"
             android:exported="true">
             <intent-filter>
-                <action
-                    android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
+
+        <activity android:name=".ClassParticipation">
+            android:label="Class Participation"
+            android:theme="@style/AppTheme" />
+        </activity>
     </application>
-
-
 
 </manifest>
