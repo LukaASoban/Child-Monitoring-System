@@ -11,6 +11,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -19,6 +21,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
+
+import java.util.ArrayList;
 
 public class ClassParticipation extends AppCompatActivity {
 
@@ -32,6 +37,9 @@ public class ClassParticipation extends AppCompatActivity {
     private DatabaseReference dRef;
     private String uid;
     private DatabaseReference dbChildren;
+    private Button sendNote;
+    private EditText titleText;
+    private EditText msgText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +48,9 @@ public class ClassParticipation extends AppCompatActivity {
         dRef = FirebaseDatabase.getInstance().getReference().child("users");
         uid = getIntent().getStringExtra("uid");
         setContentView(R.layout.activity_class_participation);
+        sendNote = (Button) findViewById(R.id.SendNoteButton);
+        titleText = (EditText) findViewById(R.id.msg_title);
+        msgText = (EditText) findViewById(R.id.message);
         mDrawerList = (ListView) findViewById(R.id.navList);
         actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -48,6 +59,32 @@ public class ClassParticipation extends AppCompatActivity {
         getSupportActionBar().setTitle(mActivityTitle);
         addDrawerItems();
         setupDrawer();
+    }
+
+    public void onClick(View v) {
+        if (v == sendNote) {
+            ArrayList<String> tokens = new ArrayList<>();
+            String token = FirebaseInstanceId.getInstance().getToken(); // change to specific parent
+            tokens.add(token);
+            String title = titleText.getText().toString();
+            String tempMsgText = msgText.getText().toString();
+            if (!title.equals("") || !tempMsgText.equals("")) {
+                Message mesg = new Message(tokens, title, tempMsgText);
+                DatabaseReference mesgRef = FirebaseDatabase.getInstance().getReference().child("messages");
+                mesgRef.push().setValue(mesg);
+
+                /**
+                 * Switch to child list screen
+                 */
+//                final Intent profileScreenIntent = new Intent(UserOptionsScreen.this, Profile.class);
+//                profileScreenIntent.putExtra("uid", uid);
+//                startActivity(profileScreenIntent);
+            } else if (title.equals("")) {
+                Toast.makeText(ClassParticipation.this, "Enter a title.", Toast.LENGTH_SHORT).show();
+            } else if (tempMsgText.equals("")) {
+                Toast.makeText(ClassParticipation.this, "Enter a message.", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     private void addDrawerItems() {
