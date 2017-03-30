@@ -45,6 +45,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -177,6 +178,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                     Toast.makeText(LoginActivity.this, "Account is Banned. Contact System Admin for more information.",
                                             Toast.LENGTH_LONG).show();
                                 } else {
+                                    String token = FirebaseInstanceId.getInstance().getToken();
+                                    addToken(token,auth.getCurrentUser().getUid());
                                     Intent homeScreen = new Intent("bigbrother.child_monitoring_system.HomeScreen");
                                     homeScreen.putExtra("uid", auth.getCurrentUser().getUid());
                                     startActivity(homeScreen);
@@ -190,6 +193,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                     }
                 });
+    }
+
+    public void addToken(String token, String uid)  {
+        fdb.child("users").child(uid).child("token").setValue(token);
     }
 
     public void buttonOnRegister(View v) {
