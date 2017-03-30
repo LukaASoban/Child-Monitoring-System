@@ -211,6 +211,10 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
                                 final Intent profileScreenIntent = new Intent(Profile.this, Profile.class);
                                 profileScreenIntent.putExtra("uid", uid);
                                 startActivity(profileScreenIntent);
+                            } else if (position == 4){
+                                final Intent adminScreenIntent = new Intent(Profile.this, AdminNotification.class);
+                                adminScreenIntent.putExtra("uid", uid);
+                                startActivity(adminScreenIntent);
                             } else {
                                 Toast.makeText(Profile.this, "Not setup yet!", Toast.LENGTH_SHORT).show();
                             }

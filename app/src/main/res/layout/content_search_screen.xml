@@ -25,7 +25,7 @@
 
         <ListView
             android:id="@+id/usersList"
-            android:layout_below="@+id/searchButton"
+            android:layout_below="@+id/sendButton"
             android:layout_marginTop="20dp"
             android:background="@color/tan"
             android:layout_width="match_parent"
@@ -43,7 +43,7 @@
             android:textColorLink="@color/gray"
             android:padding="15dp"
             android:background="@drawable/textbox"
-            android:layout_toLeftOf="@+id/searchButton"
+            android:layout_toLeftOf="@+id/sendButton"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 
@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20sp"
             android:text="Search"
-            android:id="@+id/searchButton"
+            android:id="@+id/sendButton"
             android:textAllCaps="false"
             android:textColor="@color/tan"
             android:padding="10dp"

@@ -50,7 +50,7 @@ public class SearchScreen extends AppCompatActivity implements View.OnClickListe
 
         getSupportActionBar().setTitle("Search Users");
 
-        buttonSearch = (Button) findViewById(R.id.searchButton);
+        buttonSearch = (Button) findViewById(R.id.sendButton);
         buttonSearch.setOnClickListener(this);
         searchName = (EditText) findViewById(R.id.searchName);
         uidListView = new HashMap<Integer, String>();
@@ -197,6 +197,10 @@ public class SearchScreen extends AppCompatActivity implements View.OnClickListe
                                 final Intent profileScreenIntent = new Intent(SearchScreen.this, Profile.class);
                                 profileScreenIntent.putExtra("uid", uid);
                                 startActivity(profileScreenIntent);
+                            } else if (position == 4){
+                                final Intent adminScreenIntent = new Intent(SearchScreen.this, AdminNotification.class);
+                                adminScreenIntent.putExtra("uid", uid);
+                                startActivity(adminScreenIntent);
                             } else {
                                 Toast.makeText(SearchScreen.this, "Not setup yet!", Toast.LENGTH_SHORT).show();
                             }

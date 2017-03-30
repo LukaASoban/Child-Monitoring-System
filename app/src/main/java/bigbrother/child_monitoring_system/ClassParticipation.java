@@ -104,6 +104,10 @@ public class ClassParticipation extends AppCompatActivity {
                                 final Intent profileScreenIntent = new Intent(ClassParticipation.this, Profile.class);
                                 profileScreenIntent.putExtra("uid", uid);
                                 startActivity(profileScreenIntent);
+                            } else if (position == 4){
+                                final Intent adminScreenIntent = new Intent(ClassParticipation.this, AdminNotification.class);
+                                adminScreenIntent.putExtra("uid", uid);
+                                startActivity(adminScreenIntent);
                             } else {
                                 Toast.makeText(ClassParticipation.this, "Not setup yet!", Toast.LENGTH_SHORT).show();
                             }

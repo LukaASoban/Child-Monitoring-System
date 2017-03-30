@@ -279,6 +279,10 @@ public class Map extends AppCompatActivity implements MapInputDialog.OnCompleteL
                                 final Intent profileScreenIntent = new Intent(Map.this, Profile.class);
                                 profileScreenIntent.putExtra("uid", uid);
                                 startActivity(profileScreenIntent);
+                            } else if (position == 4){
+                                final Intent adminScreenIntent = new Intent(Map.this, AdminNotification.class);
+                                adminScreenIntent.putExtra("uid", uid);
+                                startActivity(adminScreenIntent);
                             } else {
                                 Toast.makeText(Map.this, "Not setup yet!", Toast.LENGTH_SHORT).show();
                             }

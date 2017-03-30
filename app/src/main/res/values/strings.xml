@@ -29,4 +29,5 @@
     </string>
     <string name="FCM_PREF">bigbrother.child_monitoring_system.fcm_pref</string>
     <string name="FCM_TOKEN">bigbrother.child_monitoring_system.fcm_token</string>
+    <string name="title_activity_admin_notification">AdminNotification</string>
 </resources>

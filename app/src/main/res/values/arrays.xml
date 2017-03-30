@@ -12,6 +12,7 @@
         <item>Map</item>
         <item>Users</item>
         <item>Profile</item>
+        <item>Send Notification</item>
         <item>Report Error</item>
         <item>Logout</item>
     </string-array>

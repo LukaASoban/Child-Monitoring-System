@@ -52,6 +52,7 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
     private Button buttonSearch;
     private Button buttonMap;
     private String uid;
+    private Button buttonNotify;
 
     //menu test//
     private ListView mDrawerList;
@@ -83,11 +84,13 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
         buttonSearch = (Button) findViewById(R.id.search);
         buttonMap = (Button) findViewById(R.id.map);
         testMessagebtn = (Button) findViewById(R.id.testMessage);
+        buttonNotify = (Button) findViewById(R.id.notify);
 
         buttonProfile.setOnClickListener(this);
         buttonSearch.setOnClickListener(this);
         buttonMap.setOnClickListener(this);
         testMessagebtn.setOnClickListener(this);
+        buttonNotify.setOnClickListener(this);
 
         dRef = FirebaseDatabase.getInstance().getReference().child("users");
         uid = getIntent().getStringExtra("uid");
@@ -100,6 +103,7 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
                         currentUser = snapshot.getValue(User.class);
                         if (!currentUser.getType().equals(UserType.ADMIN)) {
                             buttonSearch.setVisibility(View.INVISIBLE);
+                            buttonNotify.setVisibility(View.INVISIBLE);
                         }
                     }
                 }
@@ -109,9 +113,6 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
             public void onCancelled(DatabaseError error) {
             }
         });
-//        if (currentUser != null && !currentUser.getType().equals(UserType.ADMIN)) {
-//            buttonSearch.setVisibility(View.INVISIBLE);
-//        }
 
         //menu test//
         mDrawerList = (ListView) findViewById(R.id.navList);
@@ -123,8 +124,6 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
         addDrawerItems();
         setupDrawer();
         ////////////
-        final String token = FirebaseInstanceId.getInstance().getToken();
-        addDeviceToken(token);
 //        CalligraphyConfig.initDefault(
 //                new CalligraphyConfig.Builder().setDefaultFontPath("minyna.ttf").setFontAttrId(R.attr.fontPath)
 //                        .build());
@@ -158,12 +157,13 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
             Message mesg = new Message(tokens, "my title", "my message body");
             DatabaseReference mesgRef = FirebaseDatabase.getInstance().getReference().child("messages");
             mesgRef.push().setValue(mesg);
+        } else if (v == buttonNotify) {
+            final Intent adminNotifyIntent = new Intent(this, AdminNotification.class);
+            adminNotifyIntent.putExtra("uid", uid);
+            startActivity(adminNotifyIntent);
         }
     }
 
-    public void addDeviceToken(String token) {
-        dRef.child("users").child(uid).child("token").setValue(token);
-    }
 
     //menu test//
     private void addDrawerItems() {
@@ -220,6 +220,10 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
                                 final Intent profileScreenIntent = new Intent(HomeScreen.this, Profile.class);
                                 profileScreenIntent.putExtra("uid", uid);
                                 startActivity(profileScreenIntent);
+                            } else if (position == 4){
+                                final Intent adminScreenIntent = new Intent(HomeScreen.this, AdminNotification.class);
+                                adminScreenIntent.putExtra("uid", uid);
+                                startActivity(adminScreenIntent);
                             } else {
                                 Toast.makeText(HomeScreen.this, "Not setup yet!", Toast.LENGTH_SHORT).show();
                             }

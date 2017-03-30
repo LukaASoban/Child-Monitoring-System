@@ -45,6 +45,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -169,14 +170,36 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             return;
                         }
 
-                        fdb.child("users").child(auth.getCurrentUser().getUid()).child("banned").addValueEventListener(new ValueEventListener() {
+//                        fdb.child("users").child(auth.getCurrentUser().getUid()).child("banned").addValueEventListener(new ValueEventListener() {
+//                            @Override
+//                            public void onDataChange(DataSnapshot dataSnapshot) {
+//                                if (dataSnapshot.getValue().toString().equals("true")) {
+//                                    Log.w(TAG, "signInWithEmail:Banned User");
+//                                    Toast.makeText(LoginActivity.this, "Account is Banned. Contact System Admin for more information.",
+//                                            Toast.LENGTH_LONG).show();
+//                                } else {
+//
+//                                    Intent homeScreen = new Intent("bigbrother.child_monitoring_system.HomeScreen");
+//                                    homeScreen.putExtra("uid", auth.getCurrentUser().getUid());
+//                                    startActivity(homeScreen);
+//                                }
+//                            }
+//                            @Override
+//                            public void onCancelled(DatabaseError databaseError) {
+//                            }
+//                        });
+                        final DatabaseReference login = fdb.child("users").child(auth.getCurrentUser().getUid());
+                        login.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
-                                if (dataSnapshot.getValue().toString().equals("true")) {
+                                User loginUser = dataSnapshot.getValue(User.class);
+                                if (loginUser.getBanned()) {
                                     Log.w(TAG, "signInWithEmail:Banned User");
                                     Toast.makeText(LoginActivity.this, "Account is Banned. Contact System Admin for more information.",
                                             Toast.LENGTH_LONG).show();
                                 } else {
+                                    loginUser.setToken(FirebaseInstanceId.getInstance().getToken());
+                                    login.setValue(loginUser);
                                     Intent homeScreen = new Intent("bigbrother.child_monitoring_system.HomeScreen");
                                     homeScreen.putExtra("uid", auth.getCurrentUser().getUid());
                                     startActivity(homeScreen);

@@ -85,6 +85,10 @@
             android:label="Class Participation"
             android:theme="@style/AppTheme" />
         </activity>
+        <activity
+            android:name=".AdminNotification"
+            android:label="@string/title_activity_admin_notification"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
