@@ -51,6 +51,7 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
     private Button buttonProfile;
     private Button buttonSearch;
     private Button buttonMap;
+    private Button buttonRoster;
     private String uid;
     private Button buttonNotify;
 
@@ -85,11 +86,14 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
         buttonMap = (Button) findViewById(R.id.map);
         testMessagebtn = (Button) findViewById(R.id.testMessage);
         buttonNotify = (Button) findViewById(R.id.notify);
+        buttonRoster = (Button) findViewById(R.id.Roster);
+
 
         buttonProfile.setOnClickListener(this);
         buttonSearch.setOnClickListener(this);
         buttonMap.setOnClickListener(this);
         testMessagebtn.setOnClickListener(this);
+        buttonRoster.setOnClickListener(this);
         buttonNotify.setOnClickListener(this);
 
         dRef = FirebaseDatabase.getInstance().getReference().child("users");
@@ -105,6 +109,9 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
                             buttonSearch.setVisibility(View.INVISIBLE);
                             buttonNotify.setVisibility(View.INVISIBLE);
                         }
+                        if(!currentUser.getType().equals(UserType.EMPLOYEE)) {
+                            buttonRoster.setVisibility(View.INVISIBLE);
+                        }
                     }
                 }
             }
@@ -113,6 +120,9 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
             public void onCancelled(DatabaseError error) {
             }
         });
+//        if (currentUser != null && !currentUser.getType().equals(UserType.ADMIN)) {
+//            buttonSearch.setVisibility(View.INVISIBLE);
+//        }
 
         //menu test//
         mDrawerList = (ListView) findViewById(R.id.navList);
@@ -161,6 +171,14 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
             final Intent adminNotifyIntent = new Intent(this, AdminNotification.class);
             adminNotifyIntent.putExtra("uid", uid);
             startActivity(adminNotifyIntent);
+        } else if (v == buttonRoster) {
+            final Intent rosterIntent = new Intent(this, Roster.class);
+
+            // test to see if this button works
+            Log.d("HOMESCREEN","THE ROSTER BUTTON WAS CLICKED");
+
+            rosterIntent.putExtra("uid", uid);
+            startActivity(rosterIntent);
         }
     }
 

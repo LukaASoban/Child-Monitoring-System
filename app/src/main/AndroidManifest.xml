@@ -67,6 +67,10 @@
             android:name=".Map"
             android:label="@string/title_activity_map"
             android:theme="@style/AppTheme" />
+        <activity android:name=".Roster"
+            android:label="Roster"
+            android:theme="@style/AppTheme">
+        </activity>
 
         <service android:name=".FirebaseMessagingServiceCMS">
             <intent-filter>
