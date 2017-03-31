@@ -109,7 +109,6 @@ public class ChildInputFragment extends android.support.v4.app.DialogFragment {
                 }
 
                 ChildDataObject child = new ChildDataObject(childName.getText().toString(), childMAC.getText().toString());
-
                 Log.d("CHILD INPUT FRAG", "" + getArguments().getInt("position"));
 
                 mListenerTemp.onComplete(child, getArguments().getInt("position"));
