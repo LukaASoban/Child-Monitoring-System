@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -32,14 +34,19 @@ public class ClassParticipation extends AppCompatActivity {
     private ActionBar actionBar;
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
-    private String mActivityTitle = "Map";
+    private String mActivityTitle = "Send Notification";
     private UserType userType;
     private DatabaseReference dRef;
     private String uid;
+    private String mac;
+    private String childName;
     private DatabaseReference dbChildren;
     private Button sendNote;
     private EditText titleText;
     private EditText msgText;
+    private TextView parentNameText;
+    private TextView childNameText;
+    private User parentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,10 +54,63 @@ public class ClassParticipation extends AppCompatActivity {
         dbChildren = FirebaseDatabase.getInstance().getReference().child("daycare").child("Georgia Tech").child("children");
         dRef = FirebaseDatabase.getInstance().getReference().child("users");
         uid = getIntent().getStringExtra("uid");
+        mac = getIntent().getStringExtra("mac");
+        childName = getIntent().getStringExtra("childName");
         setContentView(R.layout.activity_class_participation);
+
         sendNote = (Button) findViewById(R.id.SendNoteButton);
         titleText = (EditText) findViewById(R.id.msg_title);
         msgText = (EditText) findViewById(R.id.message);
+        parentNameText = (TextView) findViewById(R.id.parentName);
+        childNameText = (TextView) findViewById(R.id.childName);
+        childNameText.setText(childName);
+
+        dRef.orderByChild("macAddress").equalTo(mac).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                parentUser = dataSnapshot.getValue(User.class);
+                parentNameText.setText(parentUser.getFirstName());
+            }
+            @Override
+            public void onCancelled(DatabaseError error) { }
+        });
+
+//        dRef.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+//                    if (snapshot..equals(uid)) {
+//                        User curUser = snapshot.getValue(User.class);
+//                        userType = curUser.getType();
+//                        if (curUser.getType().equals(UserType.ADMIN)) {
+//                        } else if (curUser.getType().equals(UserType.EMPLOYEE)) {
+//                        }
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError firebaseError) {
+//
+//            }
+//        });
+
+//        dRef.orderByChild("macAddress").equalTo(mac).addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
+//                    Toast.makeText(ClassParticipation.this, childDataSnapshot.getKey(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(ClassParticipation.this, childDataSnapshot.child("firstName").getValue().toString(), Toast.LENGTH_SHORT).show();
+//                    parentNameText.setText(childDataSnapshot.child("firstName").getValue().toString());
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError firebaseError) {
+//
+//            }
+//        });
+
         mDrawerList = (ListView) findViewById(R.id.navList);
         actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);

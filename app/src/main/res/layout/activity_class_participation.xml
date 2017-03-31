@@ -21,6 +21,57 @@
         tools:showIn="@layout/activity_home_screen"
         android:background="@color/tan">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_widthPercent="80%"
+            android:text="Parent Name"
+            android:id="@+id/parentName"
+            android:textSize="20dp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/empty"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:id="@+id/leftMargin"
+            app:layout_widthPercent="10%"
+            android:layout_weight="2"
+            android:visibility="invisible"/>
+
+        <LinearLayout
+            android:id="@+id/childLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_toRightOf="@+id/leftMargin"
+            android:layout_below="@+id/parentName"
+            >
+
+        <ImageButton
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:background="@drawable/selector_child_button"
+            app:srcCompat="@drawable/ic_child_menu"
+            android:id="@+id/imageButtonChild"
+            android:tint="@color/orange"
+            android:layout_below="@id/parentName"
+            android:layout_toRightOf="@id/leftMargin"
+            android:scaleType="fitXY"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_widthPercent="80%"
+            android:text="Child Name"
+            android:id="@+id/childName"
+            android:textSize="20dp"
+            android:layout_toRightOf="@+id/imageButtonChild"
+            android:layout_below="@+id/parentName"
+            android:background="@drawable/empty"/>
+        </LinearLayout>
+
         <EditText
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -36,6 +87,7 @@
             android:layout_centerHorizontal="true"
             app:layout_marginTopPercent="4%"
             android:background="@drawable/textbox"
+            android:layout_below="@+id/childLayout"
             />
 
         <EditText

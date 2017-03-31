@@ -146,7 +146,12 @@ public class Roster extends AppCompatActivity {
 
             @Override
             public void onItemClick(int position, View v) {
-                // add in if needed later
+                // used to go to send message screen
+                final Intent messageScreenIntent = new Intent(Roster.this, ClassParticipation.class);
+                messageScreenIntent.putExtra("uid", uid);
+                messageScreenIntent.putExtra("mac", ((TeacherClassCardAdapter) teacherClassAdapter).getChildDataAt(position).getMacAddress());
+                messageScreenIntent.putExtra("childName", ((TeacherClassCardAdapter) teacherClassAdapter).getChildDataAt(position).getName());
+                startActivity(messageScreenIntent);
             }
         });
 
