@@ -56,12 +56,21 @@ exports.checkForLocationUpdate = functions.database.ref('/daycare/Georgia Tech/c
       event.data.forEach(function(childSnapshot) {
 	      var childMac = childSnapshot.child('macAddress').val();
 	      var childName = childSnapshot.child('name').val();
-	      var childTimestamp = new Date(childSnapshot.child('timestamp').val());
+	      var childTimestamp = new Date(Date.parse(childSnapshot.child('timestamp').val()));
 	      var childLocation = childSnapshot.child('location').val();
+	      var childPresent = childSnapshot.child('present').val();
 	      // childData will be the actual contents of the child
 	      //macs += childMac + " ";
+//	      console.log("Time Diff for: " + childMac + " is: ", (currentTimestamp.getTime() - childTimestamp.getTime() > 10,000));
+//	      console.log("childPresent: " + childPresent);
+//	      console.log("childTimestamp: " + childTimestamp);
+//	      console.log("childTimestamp.getTime(): " + childTimestamp.getTime());
 	      currentTimestamp = new Date();
-	      if ((currentTimestamp.getTime() - childTimestamp.getTime()) > 1) {
+//	      console.log("currentTimestamp: " + currentTimestamp);
+//          console.log("currentTimestamp.getTime(): " + currentTimestamp.getTime());
+
+//          console.log("TimeDiff: " + (currentTimestamp.getTime() - childTimestamp.getTime()));
+	      if (((currentTimestamp.getTime() - childTimestamp.getTime()) > 10000) && (childPresent == "true")) {
 	      	//child is gone for more than 10 sec, so we need to add a notification in db
 	      	//var child = [childMac, childLocation, currentTimestamp, childTimestamp];
 	      	missingcount++;
