@@ -38,9 +38,11 @@ dependencies {
     compile 'com.android.support:support-v4:25.1.1'
     compile 'com.google.firebase:firebase-messaging:9.8.0'
     compile 'com.android.volley:volley:1.0.0'
-    compile 'com.android.support.constraint:constraint-layout:+'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
 }
+
+
 
 
 apply plugin: 'com.google.gms.google-services'

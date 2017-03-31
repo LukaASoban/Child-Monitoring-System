@@ -29,4 +29,8 @@
     </string>
     <string name="FCM_PREF">bigbrother.child_monitoring_system.fcm_pref</string>
     <string name="FCM_TOKEN">bigbrother.child_monitoring_system.fcm_token</string>
+
+    <string name="title_activity_roster">Class Roster</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

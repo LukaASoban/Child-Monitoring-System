@@ -51,6 +51,7 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
     private Button buttonProfile;
     private Button buttonSearch;
     private Button buttonMap;
+    private Button buttonRoster;
     private String uid;
 
     //menu test//
@@ -83,11 +84,15 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
         buttonSearch = (Button) findViewById(R.id.search);
         buttonMap = (Button) findViewById(R.id.map);
         testMessagebtn = (Button) findViewById(R.id.testMessage);
+        buttonRoster = (Button) findViewById(R.id.Roster);
+
 
         buttonProfile.setOnClickListener(this);
         buttonSearch.setOnClickListener(this);
         buttonMap.setOnClickListener(this);
         testMessagebtn.setOnClickListener(this);
+        buttonRoster.setOnClickListener(this);
+
 
         dRef = FirebaseDatabase.getInstance().getReference().child("users");
         uid = getIntent().getStringExtra("uid");
@@ -100,6 +105,9 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
                         currentUser = snapshot.getValue(User.class);
                         if (!currentUser.getType().equals(UserType.ADMIN)) {
                             buttonSearch.setVisibility(View.INVISIBLE);
+                        }
+                        if(!currentUser.getType().equals(UserType.EMPLOYEE)) {
+                            buttonRoster.setVisibility(View.INVISIBLE);
                         }
                     }
                 }
@@ -158,6 +166,14 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
             Message mesg = new Message(tokens, "my title", "my message body");
             DatabaseReference mesgRef = FirebaseDatabase.getInstance().getReference().child("messages");
             mesgRef.push().setValue(mesg);
+        } else if (v == buttonRoster) {
+            final Intent rosterIntent = new Intent(this, Roster.class);
+
+            // test to see if this button works
+            Log.d("HOMESCREEN","THE ROSTER BUTTON WAS CLICKED");
+
+            rosterIntent.putExtra("uid", uid);
+            startActivity(rosterIntent);
         }
     }
 
