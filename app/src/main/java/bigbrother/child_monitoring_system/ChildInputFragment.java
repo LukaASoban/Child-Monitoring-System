@@ -26,10 +26,11 @@ public class ChildInputFragment extends android.support.v4.app.DialogFragment {
         //empty
     }
 
-    public static ChildInputFragment newInstance(String title, ChildDataObject child, int pos) {
+    public static ChildInputFragment newInstance(String title, ChildDataObject child, int pos, String uid) {
         ChildInputFragment frag = new ChildInputFragment();
         Bundle args = new Bundle();
         args.putString("title", title);
+        args.putString("uid", uid);
 
         //if the object is null that means the dialog is being open by the FAB and not
         //the edit button
@@ -109,6 +110,7 @@ public class ChildInputFragment extends android.support.v4.app.DialogFragment {
                 }
 
                 ChildDataObject child = new ChildDataObject(childName.getText().toString(), childMAC.getText().toString());
+                child.setParentUID(getArguments().getString("uid"));
                 Log.d("CHILD INPUT FRAG", "" + getArguments().getInt("position"));
 
                 mListenerTemp.onComplete(child, getArguments().getInt("position"));

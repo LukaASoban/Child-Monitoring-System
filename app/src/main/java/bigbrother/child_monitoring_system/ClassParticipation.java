@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -25,32 +27,83 @@ import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.ArrayList;
 
-public class ClassParticipation extends AppCompatActivity {
+public class ClassParticipation extends AppCompatActivity implements View.OnClickListener {
 
     private ListView mDrawerList;
     private ArrayAdapter<String> mAdapter;
     private ActionBar actionBar;
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
-    private String mActivityTitle = "Map";
+    private String mActivityTitle = "Send Notification";
     private UserType userType;
     private DatabaseReference dRef;
     private String uid;
+    private String mac;
+    private String childName;
+    private String parentUID;
     private DatabaseReference dbChildren;
     private Button sendNote;
     private EditText titleText;
     private EditText msgText;
+    private TextView parentNameText;
+    private TextView childNameText;
+    private User teacherUser;
+    private User parentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         dbChildren = FirebaseDatabase.getInstance().getReference().child("daycare").child("Georgia Tech").child("children");
-        dRef = FirebaseDatabase.getInstance().getReference().child("users");
+        dRef = FirebaseDatabase.getInstance().getReference();
         uid = getIntent().getStringExtra("uid");
+        mac = getIntent().getStringExtra("mac");
+        childName = getIntent().getStringExtra("childName");
         setContentView(R.layout.activity_class_participation);
+
         sendNote = (Button) findViewById(R.id.SendNoteButton);
         titleText = (EditText) findViewById(R.id.msg_title);
         msgText = (EditText) findViewById(R.id.message);
+        parentNameText = (TextView) findViewById(R.id.parentName);
+        childNameText = (TextView) findViewById(R.id.childName);
+        childNameText.setText(childName);
+
+        sendNote.setOnClickListener(this);
+
+        dRef.child("users").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                teacherUser = dataSnapshot.getValue(User.class);
+                dRef.child("daycare").child(teacherUser.getSchoolName()).child("children").child(mac).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if(dataSnapshot.child("parentUID").getValue() == null) {
+                            return;
+                        }
+                        parentUID = dataSnapshot.child("parentUID").getValue().toString();
+                        dRef.child("users").child(parentUID).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                parentUser = dataSnapshot.getValue(User.class);
+                                parentNameText.setText(parentUser.getFirstName() + " " + parentUser.getLastName());
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+            }
+            @Override
+            public void onCancelled(DatabaseError error) { }
+        });
+
         mDrawerList = (ListView) findViewById(R.id.navList);
         actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -64,7 +117,7 @@ public class ClassParticipation extends AppCompatActivity {
     public void onClick(View v) {
         if (v == sendNote) {
             ArrayList<String> tokens = new ArrayList<>();
-            String token = FirebaseInstanceId.getInstance().getToken(); // change to specific parent
+            String token = parentUser.getToken(); // change to specific parent
             tokens.add(token);
             String title = titleText.getText().toString();
             String tempMsgText = msgText.getText().toString();
@@ -76,9 +129,9 @@ public class ClassParticipation extends AppCompatActivity {
                 /**
                  * Switch to child list screen
                  */
-//                final Intent profileScreenIntent = new Intent(UserOptionsScreen.this, Profile.class);
-//                profileScreenIntent.putExtra("uid", uid);
-//                startActivity(profileScreenIntent);
+                final Intent rosterIntent = new Intent(ClassParticipation.this, Roster.class);
+                rosterIntent.putExtra("uid", uid);
+                startActivity(rosterIntent);
             } else if (title.equals("")) {
                 Toast.makeText(ClassParticipation.this, "Enter a title.", Toast.LENGTH_SHORT).show();
             } else if (tempMsgText.equals("")) {

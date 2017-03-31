@@ -85,7 +85,6 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
         buttonSearch = (Button) findViewById(R.id.search);
         buttonMap = (Button) findViewById(R.id.map);
         testMessagebtn = (Button) findViewById(R.id.testMessage);
-        buttonNotify = (Button) findViewById(R.id.notify);
         buttonRoster = (Button) findViewById(R.id.Roster);
 
 

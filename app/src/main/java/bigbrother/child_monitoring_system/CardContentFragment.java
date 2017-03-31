@@ -199,7 +199,7 @@ public class CardContentFragment extends AppCompatActivity implements ChildInput
 
     private void showChildDialog(ChildDataObject child, int pos) {
         FragmentManager fm = getSupportFragmentManager();
-        ChildInputFragment childInputFragment = ChildInputFragment.newInstance("New Child", child, pos);
+        ChildInputFragment childInputFragment = ChildInputFragment.newInstance("New Child", child, pos, uid);
         childInputFragment.show(fm, "child_input_fragment");
     }
 
