@@ -13,6 +13,7 @@ public class ChildDataObject implements Serializable {
     private String locationMAC;
     private String timestamp;
     private String parentUID;
+    private boolean present;
 
     public ChildDataObject () {
 
@@ -21,6 +22,10 @@ public class ChildDataObject implements Serializable {
 
         this.name = name;
         this.macAddress = macAddress;
+        this.locationMAC = "null";
+        this.timestamp = "null";
+        this.present = false;
+
     }
 
     public ChildDataObject(String name, String macAddress, String locationMAC, String timestamp) {
@@ -28,6 +33,7 @@ public class ChildDataObject implements Serializable {
         this.macAddress = macAddress;
         this.locationMAC = locationMAC;
         this.timestamp = timestamp;
+        this.present = false;
     }
 
 
@@ -61,6 +67,14 @@ public class ChildDataObject implements Serializable {
 
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public boolean isPresent() {
+        return present;
+    }
+
+    public void setPresent(boolean present) {
+        this.present = present;
     }
 
     public void setParentUID(String parentUID){ this.parentUID = parentUID; }

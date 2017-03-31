@@ -134,6 +134,12 @@ public class Roster extends AppCompatActivity {
                 .MyClickListener() {
 
             @Override
+            public void onSwitchToggle(int position, View v, boolean checked) {
+                /* When user clicks the switch to toggle absence, the update the DB */
+                ((TeacherClassCardAdapter) teacherClassAdapter).setChildPresence(position, schoolName, checked);
+            }
+
+            @Override
             public void onButtonClick(int position, View v) {
 
                 /* WHEN THE ARROW DOWN BUTTON IS CLICKED WE NEED TO REMOVE THIS CHILD FROM
@@ -218,7 +224,10 @@ public class Roster extends AppCompatActivity {
 
                     Log.d("LIST OF CHILDREN", name + "   " +  mac);
 
-                    yourClass.add(new ChildDataObject(name, mac));
+                    ChildDataObject child = new ChildDataObject(name, mac);
+                    getPresence(child);
+
+                    yourClass.add(child);
                 }
 
                 Collections.sort(yourClass, new Comparator<ChildDataObject>() {
@@ -243,6 +252,27 @@ public class Roster extends AppCompatActivity {
 
     }
 
+    private void getPresence(final ChildDataObject child) {
+        fdbSchool.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // Is the child present? Set the value.
+                for (DataSnapshot messageSnapshot: dataSnapshot.getChildren()) {
+                    if(child.getMacAddress().equals((String) messageSnapshot.child("macAddress").getValue())){
+                        if((Boolean) messageSnapshot.child("present").getValue() != null)
+                            child.setPresent((Boolean) messageSnapshot.child("present").getValue());
+                    }
+                }
+                teacherClassAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // ...
+            }
+        });
+    }
 
 
     public void notifyDatabaseChange() {

@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.google.firebase.database.DatabaseReference;
@@ -27,6 +28,7 @@ public class RosterCardAdapter extends RecyclerView.Adapter<RosterCardAdapter
         TextView name;
         TextView macAddress;
         ImageButton buttonUpArrow, buttonEdit;
+        Switch absentButton;
 
         public DataObjectHolder(final View itemView) {
             super(itemView);
@@ -37,6 +39,9 @@ public class RosterCardAdapter extends RecyclerView.Adapter<RosterCardAdapter
             buttonUpArrow = (ImageButton) itemView.findViewById(R.id.card_delete_button);
             buttonEdit = (ImageButton) itemView.findViewById(R.id.card_edit_button);
             buttonEdit.setVisibility(View.INVISIBLE);
+
+            absentButton = (Switch) itemView.findViewById(R.id.absent_switch);
+            absentButton.setVisibility(View.GONE);
 
             buttonUpArrow.setImageResource(R.drawable.ic_arrow_upward_black_24dp);
             buttonUpArrow.setColorFilter(Color.BLUE);

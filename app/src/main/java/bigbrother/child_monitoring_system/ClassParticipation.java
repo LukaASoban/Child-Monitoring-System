@@ -76,6 +76,9 @@ public class ClassParticipation extends AppCompatActivity implements View.OnClic
                 dRef.child("daycare").child(teacherUser.getSchoolName()).child("children").child(mac).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
+                        if(dataSnapshot.child("parentUID").getValue() == null) {
+                            return;
+                        }
                         parentUID = dataSnapshot.child("parentUID").getValue().toString();
                         dRef.child("users").child(parentUID).addValueEventListener(new ValueEventListener() {
                             @Override
