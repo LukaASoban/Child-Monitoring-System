@@ -25,6 +25,23 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_widthPercent="80%"
+            app:layout_heightPercent="8%"
+            android:inputType="text"
+            android:padding="10dp"
+            android:ems="10"
+            android:id="@+id/msg_title"
+            android:hint="Message title"
+            android:textColor="@color/gray"
+            android:textColorLink="@color/gray"
+            android:layout_centerHorizontal="true"
+            app:layout_marginTopPercent="4%"
+            android:background="@drawable/textbox"
+            />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_widthPercent="80%"
             app:layout_heightPercent="40%"
             android:inputType="text"
             android:padding="10dp"
@@ -37,12 +54,13 @@
             app:layout_marginTopPercent="4%"
             android:background="@drawable/textbox"
             android:gravity="left"
+            android:layout_below="@+id/msg_title"
             />
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/registerButton"
+            android:id="@+id/SendNoteButton"
             app:layout_widthPercent="60%"
             app:layout_heightPercent="10%"
             android:background="@drawable/button_rounded"
