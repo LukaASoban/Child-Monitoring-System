@@ -61,16 +61,16 @@ exports.checkForLocationUpdate = functions.database.ref('/daycare/Georgia Tech/c
 	      var childPresent = childSnapshot.child('present').val();
 	      // childData will be the actual contents of the child
 	      //macs += childMac + " ";
-//	      console.log("Time Diff for: " + childMac + " is: ", (currentTimestamp.getTime() - childTimestamp.getTime() > 10,000));
+//	      console.log("Time Diff for: " + childMac + " is: " + ((currentTimestamp.getTime() - childTimestamp.getTime()) > 10000));
 //	      console.log("childPresent: " + childPresent);
 //	      console.log("childTimestamp: " + childTimestamp);
 //	      console.log("childTimestamp.getTime(): " + childTimestamp.getTime());
 	      currentTimestamp = new Date();
 //	      console.log("currentTimestamp: " + currentTimestamp);
 //          console.log("currentTimestamp.getTime(): " + currentTimestamp.getTime());
-
+//          console.log("present and true equal? " + (new String(childPresent).valueOf() == new String("true").valueOf()));
 //          console.log("TimeDiff: " + (currentTimestamp.getTime() - childTimestamp.getTime()));
-	      if (((currentTimestamp.getTime() - childTimestamp.getTime()) > 10000) && (childPresent == "true")) {
+	      if (((currentTimestamp.getTime() - childTimestamp.getTime()) > 10000) && (new String(childPresent).valueOf() == new String("true").valueOf())) {
 	      	//child is gone for more than 10 sec, so we need to add a notification in db
 	      	//var child = [childMac, childLocation, currentTimestamp, childTimestamp];
 	      	missingcount++;
@@ -148,7 +148,7 @@ exports.sendMissingNotification = functions.database.ref('/daycare/Georgia Tech/
                 console.log(emplID + " :key");
                 childSnapshot.forEach(function(eachChild) {
                     console.log("Checking childMAC: " + eachChild.key);
-                    if (childMac == eachChild.key) { //see if child exists in this teachers class
+                    if (new String(childMac).valueOf() == new String(eachChild.key).valueOf()) { //see if child exists in this teachers class
                         console.log("Match");
                         return callback(reference.root.child('users').child(emplID).child('token').once('value'));
                     }
