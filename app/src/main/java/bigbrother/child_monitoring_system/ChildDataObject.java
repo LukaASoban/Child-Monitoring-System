@@ -12,6 +12,7 @@ public class ChildDataObject implements Serializable {
     private String macAddress;
     private String locationMAC;
     private String timestamp;
+    private String parentUID;
 
     public ChildDataObject () {
 
@@ -61,4 +62,8 @@ public class ChildDataObject implements Serializable {
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
+
+    public void setParentUID(String parentUID){ this.parentUID = parentUID; }
+
+    public String getParentUID() { return this.parentUID; }
 }

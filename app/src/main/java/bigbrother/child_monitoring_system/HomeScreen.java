@@ -132,7 +132,6 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
         setupDrawer();
         ////////////
         final String token = FirebaseInstanceId.getInstance().getToken();
-        addDeviceToken(token);
 //        CalligraphyConfig.initDefault(
 //                new CalligraphyConfig.Builder().setDefaultFontPath("minyna.ttf").setFontAttrId(R.attr.fontPath)
 //                        .build());
@@ -175,10 +174,6 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
             rosterIntent.putExtra("uid", uid);
             startActivity(rosterIntent);
         }
-    }
-
-    public void addDeviceToken(String token) {
-        dRef.child("users").child(uid).child("token").setValue(token);
     }
 
     //menu test//

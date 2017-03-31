@@ -27,7 +27,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.ArrayList;
 
-public class ClassParticipation extends AppCompatActivity {
+public class ClassParticipation extends AppCompatActivity implements View.OnClickListener {
 
     private ListView mDrawerList;
     private ArrayAdapter<String> mAdapter;
@@ -40,19 +40,21 @@ public class ClassParticipation extends AppCompatActivity {
     private String uid;
     private String mac;
     private String childName;
+    private String parentUID;
     private DatabaseReference dbChildren;
     private Button sendNote;
     private EditText titleText;
     private EditText msgText;
     private TextView parentNameText;
     private TextView childNameText;
+    private User teacherUser;
     private User parentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         dbChildren = FirebaseDatabase.getInstance().getReference().child("daycare").child("Georgia Tech").child("children");
-        dRef = FirebaseDatabase.getInstance().getReference().child("users");
+        dRef = FirebaseDatabase.getInstance().getReference();
         uid = getIntent().getStringExtra("uid");
         mac = getIntent().getStringExtra("mac");
         childName = getIntent().getStringExtra("childName");
@@ -65,51 +67,39 @@ public class ClassParticipation extends AppCompatActivity {
         childNameText = (TextView) findViewById(R.id.childName);
         childNameText.setText(childName);
 
-        dRef.orderByChild("macAddress").equalTo(mac).addListenerForSingleValueEvent(new ValueEventListener() {
+        sendNote.setOnClickListener(this);
+
+        dRef.child("users").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                parentUser = dataSnapshot.getValue(User.class);
-                parentNameText.setText(parentUser.getFirstName());
+                teacherUser = dataSnapshot.getValue(User.class);
+                dRef.child("daycare").child(teacherUser.getSchoolName()).child("children").child(mac).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        parentUID = dataSnapshot.child("parentUID").getValue().toString();
+                        dRef.child("users").child(parentUID).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                parentUser = dataSnapshot.getValue(User.class);
+                                parentNameText.setText(parentUser.getFirstName() + " " + parentUser.getLastName());
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
             }
             @Override
             public void onCancelled(DatabaseError error) { }
         });
-
-//        dRef.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-//                    if (snapshot..equals(uid)) {
-//                        User curUser = snapshot.getValue(User.class);
-//                        userType = curUser.getType();
-//                        if (curUser.getType().equals(UserType.ADMIN)) {
-//                        } else if (curUser.getType().equals(UserType.EMPLOYEE)) {
-//                        }
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError firebaseError) {
-//
-//            }
-//        });
-
-//        dRef.orderByChild("macAddress").equalTo(mac).addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
-//                    Toast.makeText(ClassParticipation.this, childDataSnapshot.getKey(), Toast.LENGTH_SHORT).show();
-//                    Toast.makeText(ClassParticipation.this, childDataSnapshot.child("firstName").getValue().toString(), Toast.LENGTH_SHORT).show();
-//                    parentNameText.setText(childDataSnapshot.child("firstName").getValue().toString());
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError firebaseError) {
-//
-//            }
-//        });
 
         mDrawerList = (ListView) findViewById(R.id.navList);
         actionBar = getSupportActionBar();
@@ -124,7 +114,7 @@ public class ClassParticipation extends AppCompatActivity {
     public void onClick(View v) {
         if (v == sendNote) {
             ArrayList<String> tokens = new ArrayList<>();
-            String token = FirebaseInstanceId.getInstance().getToken(); // change to specific parent
+            String token = parentUser.getToken(); // change to specific parent
             tokens.add(token);
             String title = titleText.getText().toString();
             String tempMsgText = msgText.getText().toString();
@@ -136,9 +126,9 @@ public class ClassParticipation extends AppCompatActivity {
                 /**
                  * Switch to child list screen
                  */
-//                final Intent profileScreenIntent = new Intent(UserOptionsScreen.this, Profile.class);
-//                profileScreenIntent.putExtra("uid", uid);
-//                startActivity(profileScreenIntent);
+                final Intent rosterIntent = new Intent(ClassParticipation.this, Roster.class);
+                rosterIntent.putExtra("uid", uid);
+                startActivity(rosterIntent);
             } else if (title.equals("")) {
                 Toast.makeText(ClassParticipation.this, "Enter a title.", Toast.LENGTH_SHORT).show();
             } else if (tempMsgText.equals("")) {
