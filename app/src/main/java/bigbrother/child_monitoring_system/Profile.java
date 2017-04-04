@@ -17,6 +17,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -191,6 +192,10 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
                                 final Intent profileScreenIntent = new Intent(Profile.this, Profile.class);
                                 profileScreenIntent.putExtra("uid", uid);
                                 startActivity(profileScreenIntent);
+                            } else if (position == 4){
+                                FirebaseAuth.getInstance().signOut();
+                                final Intent loginScreenIntent = new Intent(Profile.this, LoginActivity.class);
+                                startActivity(loginScreenIntent);
                             } else {
                                 Toast.makeText(Profile.this, "Not setup yet!", Toast.LENGTH_SHORT).show();
                             }
@@ -211,6 +216,10 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
                                 final Intent profileScreenIntent = new Intent(Profile.this, Profile.class);
                                 profileScreenIntent.putExtra("uid", uid);
                                 startActivity(profileScreenIntent);
+                            } else if (position == 6){
+                                FirebaseAuth.getInstance().signOut();
+                                final Intent loginScreenIntent = new Intent(Profile.this, LoginActivity.class);
+                                startActivity(loginScreenIntent);
                             } else if (position == 4){
                                 final Intent adminScreenIntent = new Intent(Profile.this, AdminNotification.class);
                                 adminScreenIntent.putExtra("uid", uid);
@@ -231,6 +240,10 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
                                 final Intent profileScreenIntent = new Intent(Profile.this, Profile.class);
                                 profileScreenIntent.putExtra("uid", uid);
                                 startActivity(profileScreenIntent);
+                            } else if (position == 5){
+                                FirebaseAuth.getInstance().signOut();
+                                final Intent loginScreenIntent = new Intent(Profile.this, LoginActivity.class);
+                                startActivity(loginScreenIntent);
                             } else {
                                 Toast.makeText(Profile.this, "Not setup yet!", Toast.LENGTH_SHORT).show();
                             }

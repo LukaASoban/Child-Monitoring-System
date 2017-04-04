@@ -21,6 +21,7 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -168,6 +169,10 @@ public class AdminNotification extends AppCompatActivity implements View.OnClick
                     final Intent adminScreenIntent = new Intent(AdminNotification.this, AdminNotification.class);
                     adminScreenIntent.putExtra("uid", uid);
                     startActivity(adminScreenIntent);
+                } else if (position == 6){
+                    FirebaseAuth.getInstance().signOut();
+                    final Intent loginScreenIntent = new Intent(AdminNotification.this, LoginActivity.class);
+                    startActivity(loginScreenIntent);
                 } else {
                     Toast.makeText(AdminNotification.this, "Not setup yet!", Toast.LENGTH_SHORT).show();
                 }

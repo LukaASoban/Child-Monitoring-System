@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -259,6 +260,10 @@ public class Map extends AppCompatActivity implements MapInputDialog.OnCompleteL
                                 final Intent profileScreenIntent = new Intent(Map.this, Profile.class);
                                 profileScreenIntent.putExtra("uid", uid);
                                 startActivity(profileScreenIntent);
+                            } else if (position == 4){
+                                FirebaseAuth.getInstance().signOut();
+                                final Intent loginScreenIntent = new Intent(Map.this, LoginActivity.class);
+                                startActivity(loginScreenIntent);
                             } else {
                                 Toast.makeText(Map.this, "Not setup yet!", Toast.LENGTH_SHORT).show();
                             }
@@ -283,6 +288,10 @@ public class Map extends AppCompatActivity implements MapInputDialog.OnCompleteL
                                 final Intent adminScreenIntent = new Intent(Map.this, AdminNotification.class);
                                 adminScreenIntent.putExtra("uid", uid);
                                 startActivity(adminScreenIntent);
+                            } else if (position == 6){
+                                FirebaseAuth.getInstance().signOut();
+                                final Intent loginScreenIntent = new Intent(Map.this, LoginActivity.class);
+                                startActivity(loginScreenIntent);
                             } else {
                                 Toast.makeText(Map.this, "Not setup yet!", Toast.LENGTH_SHORT).show();
                             }
@@ -299,6 +308,10 @@ public class Map extends AppCompatActivity implements MapInputDialog.OnCompleteL
                                 final Intent profileScreenIntent = new Intent(Map.this, Profile.class);
                                 profileScreenIntent.putExtra("uid", uid);
                                 startActivity(profileScreenIntent);
+                            } else if (position == 5){
+                                FirebaseAuth.getInstance().signOut();
+                                final Intent loginScreenIntent = new Intent(Map.this, LoginActivity.class);
+                                startActivity(loginScreenIntent);
                             } else {
                                 Toast.makeText(Map.this, "Not setup yet!", Toast.LENGTH_SHORT).show();
                             }

@@ -33,6 +33,7 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -93,7 +94,7 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
         buttonMap.setOnClickListener(this);
         testMessagebtn.setOnClickListener(this);
         buttonRoster.setOnClickListener(this);
-        buttonNotify.setOnClickListener(this);
+//        buttonNotify.setOnClickListener(this);
 
         dRef = FirebaseDatabase.getInstance().getReference().child("users");
         uid = getIntent().getStringExtra("uid");
@@ -217,6 +218,10 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
                                 final Intent profileScreenIntent = new Intent(HomeScreen.this, Profile.class);
                                 profileScreenIntent.putExtra("uid", uid);
                                 startActivity(profileScreenIntent);
+                            } else if (position == 4){
+                                FirebaseAuth.getInstance().signOut();
+                                final Intent loginScreenIntent = new Intent(HomeScreen.this, LoginActivity.class);
+                                startActivity(loginScreenIntent);
                             } else {
                                 Toast.makeText(HomeScreen.this, "Not setup yet!", Toast.LENGTH_SHORT).show();
                             }
@@ -241,6 +246,10 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
                                 final Intent adminScreenIntent = new Intent(HomeScreen.this, AdminNotification.class);
                                 adminScreenIntent.putExtra("uid", uid);
                                 startActivity(adminScreenIntent);
+                            } else if (position == 6){
+                                FirebaseAuth.getInstance().signOut();
+                                final Intent loginScreenIntent = new Intent(HomeScreen.this, LoginActivity.class);
+                                startActivity(loginScreenIntent);
                             } else {
                                 Toast.makeText(HomeScreen.this, "Not setup yet!", Toast.LENGTH_SHORT).show();
                             }
@@ -257,6 +266,10 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
                                 final Intent profileScreenIntent = new Intent(HomeScreen.this, Profile.class);
                                 profileScreenIntent.putExtra("uid", uid);
                                 startActivity(profileScreenIntent);
+                            } else if (position == 5){
+                                FirebaseAuth.getInstance().signOut();
+                                final Intent loginScreenIntent = new Intent(HomeScreen.this, LoginActivity.class);
+                                startActivity(loginScreenIntent);
                             } else {
                                 Toast.makeText(HomeScreen.this, "Not setup yet!", Toast.LENGTH_SHORT).show();
                             }

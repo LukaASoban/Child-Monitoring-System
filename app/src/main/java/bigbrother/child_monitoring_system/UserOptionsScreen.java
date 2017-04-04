@@ -163,6 +163,10 @@ public class UserOptionsScreen extends AppCompatActivity implements View.OnClick
                                 final Intent profileScreenIntent = new Intent(UserOptionsScreen.this, Profile.class);
                                 profileScreenIntent.putExtra("uid", uid);
                                 startActivity(profileScreenIntent);
+                            } else if (position == 4){
+                                FirebaseAuth.getInstance().signOut();
+                                final Intent loginScreenIntent = new Intent(UserOptionsScreen.this, LoginActivity.class);
+                                startActivity(loginScreenIntent);
                             } else {
                                 Toast.makeText(UserOptionsScreen.this, "Not setup yet!", Toast.LENGTH_SHORT).show();
                             }
@@ -183,6 +187,10 @@ public class UserOptionsScreen extends AppCompatActivity implements View.OnClick
                                 final Intent profileScreenIntent = new Intent(UserOptionsScreen.this, Profile.class);
                                 profileScreenIntent.putExtra("uid", uid);
                                 startActivity(profileScreenIntent);
+                            } else if (position == 6){
+                                FirebaseAuth.getInstance().signOut();
+                                final Intent loginScreenIntent = new Intent(UserOptionsScreen.this, LoginActivity.class);
+                                startActivity(loginScreenIntent);
                             } else {
                                 Toast.makeText(UserOptionsScreen.this, "Not setup yet!", Toast.LENGTH_SHORT).show();
                             }
@@ -199,6 +207,10 @@ public class UserOptionsScreen extends AppCompatActivity implements View.OnClick
                                 final Intent profileScreenIntent = new Intent(UserOptionsScreen.this, Profile.class);
                                 profileScreenIntent.putExtra("uid", uid);
                                 startActivity(profileScreenIntent);
+                            } else if (position == 5){
+                                FirebaseAuth.getInstance().signOut();
+                                final Intent loginScreenIntent = new Intent(UserOptionsScreen.this, LoginActivity.class);
+                                startActivity(loginScreenIntent);
                             } else {
                                 Toast.makeText(UserOptionsScreen.this, "Not setup yet!", Toast.LENGTH_SHORT).show();
                             }

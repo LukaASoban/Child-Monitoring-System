@@ -6,6 +6,11 @@
         <item>Profile</item>
         <item>Report Error</item>
         <item>Logout</item>
+        <item>Contact\n
+            Email:\n
+            test@test.com\n
+            Phone:\n
+            000-000-0000</item>
     </string-array>
     <string-array name="admin_menu">
         <item>Home</item>
@@ -15,6 +20,11 @@
         <item>Send Notification</item>
         <item>Report Error</item>
         <item>Logout</item>
+        <item>Contact\n
+            Email:\n
+            test@test.com\n
+            Phone:\n
+            000-000-0000</item>
     </string-array>
     <string-array name="employee_menu">
         <item>Home</item>
@@ -23,5 +33,10 @@
         <item>Profile</item>
         <item>Report Error</item>
         <item>Logout</item>
+        <item>Contact\n
+            Email:\n
+            test@test.com\n
+            Phone:\n
+            000-000-0000</item>
     </string-array>
 </resources>

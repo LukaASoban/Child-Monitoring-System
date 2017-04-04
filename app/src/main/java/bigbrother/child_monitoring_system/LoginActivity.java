@@ -147,6 +147,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void buttonOnLogin(View v) {
         String email = ((EditText) findViewById(R.id.username)).getText().toString().trim();
         String password = ((EditText) findViewById(R.id.password)).getText().toString().trim();
+
+        if (email.equals("")) {
+            Toast.makeText(LoginActivity.this, "Enter email.", Toast.LENGTH_SHORT).show();
+            return;
+        } else if (password.equals("")) {
+            Toast.makeText(LoginActivity.this, "Enter password.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         // connect to database if valid login, then send to home screen
         Log.d(TAG, "signIn:" + email);
 
