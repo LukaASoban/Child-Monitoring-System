@@ -107,7 +107,7 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
                         currentUser = snapshot.getValue(User.class);
                         if (!currentUser.getType().equals(UserType.ADMIN)) {
                             buttonSearch.setVisibility(View.INVISIBLE);
-                            buttonNotify.setVisibility(View.INVISIBLE);
+                            //buttonNotify.setVisibility(View.INVISIBLE);
                         }
                         if(!currentUser.getType().equals(UserType.EMPLOYEE)) {
                             buttonRoster.setVisibility(View.INVISIBLE);
@@ -218,7 +218,11 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
                                 final Intent profileScreenIntent = new Intent(HomeScreen.this, Profile.class);
                                 profileScreenIntent.putExtra("uid", uid);
                                 startActivity(profileScreenIntent);
-                            } else if (position == 4){
+                            } else if (position == 3) {
+                                final Intent errorReportScreenIntent = new Intent(HomeScreen.this, ReportError.class);
+                                errorReportScreenIntent.putExtra("uid", uid);
+                                startActivity(errorReportScreenIntent);
+                            } else if (position == 4) {
                                 FirebaseAuth.getInstance().signOut();
                                 final Intent loginScreenIntent = new Intent(HomeScreen.this, LoginActivity.class);
                                 startActivity(loginScreenIntent);
@@ -266,6 +270,10 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
                                 final Intent profileScreenIntent = new Intent(HomeScreen.this, Profile.class);
                                 profileScreenIntent.putExtra("uid", uid);
                                 startActivity(profileScreenIntent);
+                            } else if (position == 4) {
+                                final Intent errorReportScreenIntent = new Intent(HomeScreen.this, ReportError.class);
+                                errorReportScreenIntent.putExtra("uid", uid);
+                                startActivity(errorReportScreenIntent);
                             } else if (position == 5){
                                 FirebaseAuth.getInstance().signOut();
                                 final Intent loginScreenIntent = new Intent(HomeScreen.this, LoginActivity.class);

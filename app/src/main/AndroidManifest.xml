@@ -67,10 +67,10 @@
             android:name=".Map"
             android:label="@string/title_activity_map"
             android:theme="@style/AppTheme" />
-        <activity android:name=".Roster"
+        <activity
+            android:name=".Roster"
             android:label="Roster"
-            android:theme="@style/AppTheme">
-        </activity>
+            android:theme="@style/AppTheme"></activity>
 
         <service android:name=".FirebaseMessagingServiceCMS">
             <intent-filter>
@@ -92,7 +92,11 @@
         <activity
             android:name=".AdminNotification"
             android:label="@string/title_activity_admin_notification"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ReportError"
+            android:label="@string/title_activity_report_error"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

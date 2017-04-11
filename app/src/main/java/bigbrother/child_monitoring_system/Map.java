@@ -260,6 +260,10 @@ public class Map extends AppCompatActivity implements MapInputDialog.OnCompleteL
                                 final Intent profileScreenIntent = new Intent(Map.this, Profile.class);
                                 profileScreenIntent.putExtra("uid", uid);
                                 startActivity(profileScreenIntent);
+                            } else if (position == 3) {
+                                final Intent errorReportScreenIntent = new Intent(Map.this, ReportError.class);
+                                errorReportScreenIntent.putExtra("uid", uid);
+                                startActivity(errorReportScreenIntent);
                             } else if (position == 4){
                                 FirebaseAuth.getInstance().signOut();
                                 final Intent loginScreenIntent = new Intent(Map.this, LoginActivity.class);
@@ -308,6 +312,10 @@ public class Map extends AppCompatActivity implements MapInputDialog.OnCompleteL
                                 final Intent profileScreenIntent = new Intent(Map.this, Profile.class);
                                 profileScreenIntent.putExtra("uid", uid);
                                 startActivity(profileScreenIntent);
+                            } else if (position == 4) {
+                                final Intent errorReportScreenIntent = new Intent(Map.this, ReportError.class);
+                                errorReportScreenIntent.putExtra("uid", uid);
+                                startActivity(errorReportScreenIntent);
                             } else if (position == 5){
                                 FirebaseAuth.getInstance().signOut();
                                 final Intent loginScreenIntent = new Intent(Map.this, LoginActivity.class);
