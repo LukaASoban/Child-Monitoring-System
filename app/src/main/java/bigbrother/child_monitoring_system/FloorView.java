@@ -108,6 +108,10 @@ public class FloorView extends View implements MapInputDialog.OnCompleteListener
         Bitmap.Config conf = Bitmap.Config.ARGB_8888;
         mainBitmap = Bitmap.createBitmap(w, h, conf);
 
+        //set the willnotdraw to false
+        setWillNotDraw(false);
+
+
         circlePaint = new Paint();
         circlePaint.setColor(Color.parseColor("#F99F20"));
         circlePaint.setStyle(Paint.Style.STROKE);

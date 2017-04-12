@@ -133,11 +133,19 @@ public class Map extends AppCompatActivity implements MapInputDialog.OnCompleteL
                 children.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     java.util.Map<?,?> child = (java.util.Map<?,?>) snapshot.getValue();
+
+                    if(child.get("name") == null
+                            || child.get("macAddress") == null
+                            || child.get("locationMAC") == null
+                            || child.get("timestamp") == null)
+                        continue;
+
                     ChildDataObject ch = new ChildDataObject(child.get("name").toString(),
-                            child.get("macAddress").toString(), child.get("location").toString(),
+                            child.get("macAddress").toString(), child.get("locationMAC").toString(),
                             child.get("timestamp").toString());
                     addChildToList(ch);
                 }
+                floorView.invalidate();
             }
 
             @Override
