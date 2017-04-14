@@ -134,7 +134,7 @@ public class Map extends AppCompatActivity implements MapInputDialog.OnCompleteL
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     java.util.Map<?,?> child = (java.util.Map<?,?>) snapshot.getValue();
                     ChildDataObject ch = new ChildDataObject(child.get("name").toString(),
-                            child.get("macAddress").toString(), child.get("location").toString(),
+                            child.get("macAddress").toString(), child.get("locationMAC").toString(),
                             child.get("timestamp").toString());
                     addChildToList(ch);
                 }
