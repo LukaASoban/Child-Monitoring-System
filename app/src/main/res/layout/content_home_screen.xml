@@ -73,9 +73,6 @@
             android:id="@+id/notify"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/testMessage"
-            android:layout_alignLeft="@+id/map"
-            android:layout_alignStart="@+id/map"
             android:background="@drawable/button_rounded"
             android:text="Send Notification"
             android:textAllCaps="false"
@@ -83,37 +80,41 @@
             android:textSize="24dp"
             app:layout_heightPercent="25%"
             app:layout_marginRightPercent="5%"
+            app:layout_widthPercent="40%"
+            android:layout_below="@+id/Roster"
+            android:layout_alignLeft="@+id/Roster"
+            android:layout_alignStart="@+id/Roster"
+            android:layout_marginTop="29dp" />
+
+        <Button
+            android:id="@+id/search"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/profile"
+            android:background="@drawable/button_rounded"
+            android:text="Search \nUsers"
+            android:textAllCaps="false"
+            android:textColor="@color/tan"
+            android:textSize="24dp"
+            app:layout_heightPercent="25%"
+            app:layout_marginLeftPercent="5%"
+            app:layout_marginTopPercent="5%"
             app:layout_widthPercent="40%" />
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_widthPercent="40%"
-            app:layout_heightPercent="25%"
-            android:text="Search \nUsers"
-            android:background="@drawable/button_rounded"
-            android:textAllCaps="false"
-            android:textColor="@color/tan"
-            android:textSize="24dp"
-            android:layout_below="@+id/profile"
-            app:layout_marginLeftPercent="5%"
-            app:layout_marginTopPercent="5%"
-            android:id="@+id/search" />
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_widthPercent="40%"
-            app:layout_heightPercent="25%"
-            android:text="Send Test Notification"
-            android:background="@drawable/button_rounded"
-            android:textAllCaps="false"
-            android:textColor="@color/tan"
-            android:textSize="24dp"
-            android:layout_below="@+id/search"
-            app:layout_marginLeftPercent="5%"
-            app:layout_marginTopPercent="5%"
-            android:id="@+id/testMessage" />
+        <!--<Button-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--app:layout_widthPercent="40%"-->
+            <!--app:layout_heightPercent="25%"-->
+            <!--android:text="Send Test Notification"-->
+            <!--android:background="@drawable/button_rounded"-->
+            <!--android:textAllCaps="false"-->
+            <!--android:textColor="@color/tan"-->
+            <!--android:textSize="24dp"-->
+            <!--android:layout_below="@+id/search"-->
+            <!--app:layout_marginLeftPercent="5%"-->
+            <!--app:layout_marginTopPercent="5%"-->
+            <!--android:id="@+id/testMessage" />-->
 
     </android.support.percent.PercentRelativeLayout>
 

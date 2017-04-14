@@ -67,7 +67,7 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
     private User currentUser;
     private UserType userType;
     String server_url = "http://127.0.0.1/fcm/fcm_insert.php";
-    private Button testMessagebtn;
+//    private Button testMessagebtn;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -85,7 +85,7 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
         buttonProfile = (Button) findViewById(R.id.profile);
         buttonSearch = (Button) findViewById(R.id.search);
         buttonMap = (Button) findViewById(R.id.map);
-        testMessagebtn = (Button) findViewById(R.id.testMessage);
+//        testMessagebtn = (Button) findViewById(R.id.testMessage);
         buttonRoster = (Button) findViewById(R.id.Roster);
         buttonNotify = (Button) findViewById(R.id.notify);
 
@@ -93,10 +93,9 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
         buttonProfile.setOnClickListener(this);
         buttonSearch.setOnClickListener(this);
         buttonMap.setOnClickListener(this);
-        testMessagebtn.setOnClickListener(this);
-
+//        testMessagebtn.setOnClickListener(this);
         buttonRoster.setOnClickListener(this);
-//        buttonNotify.setOnClickListener(this);
+        buttonNotify.setOnClickListener(this);
 
         dRef = FirebaseDatabase.getInstance().getReference().child("users");
         uid = getIntent().getStringExtra("uid");
@@ -109,7 +108,7 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
                         currentUser = snapshot.getValue(User.class);
                         if (!currentUser.getType().equals(UserType.ADMIN)) {
                             buttonSearch.setVisibility(View.INVISIBLE);
-                            //buttonNotify.setVisibility(View.INVISIBLE);
+                            buttonNotify.setVisibility(View.INVISIBLE);
                         }
                         if(!currentUser.getType().equals(UserType.EMPLOYEE)) {
                             buttonRoster.setVisibility(View.INVISIBLE);
@@ -122,9 +121,6 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
             public void onCancelled(DatabaseError error) {
             }
         });
-//        if (currentUser != null && !currentUser.getType().equals(UserType.ADMIN)) {
-//            buttonSearch.setVisibility(View.INVISIBLE);
-//        }
 
         //menu test//
         mDrawerList = (ListView) findViewById(R.id.navList);
@@ -162,13 +158,14 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
             final Intent mapScreenIntent = new Intent(this, Map.class);
             mapScreenIntent.putExtra("uid", uid);
             startActivity(mapScreenIntent);
-        } else if (v == testMessagebtn) {
-            ArrayList<String> tokens = new ArrayList<>();
-            String token = FirebaseInstanceId.getInstance().getToken();
-            tokens.add(token);
-            Message mesg = new Message(tokens, "my title", "my message body");
-            DatabaseReference mesgRef = FirebaseDatabase.getInstance().getReference().child("messages");
-            mesgRef.push().setValue(mesg);
+//        } else if (v == testMessagebtn) {
+//            ArrayList<String> tokens = new ArrayList<>();
+//            String token = FirebaseInstanceId.getInstance().getToken();
+//            tokens.add(token);
+//            Message mesg = new Message(tokens, "my title", "my message body");
+//            DatabaseReference mesgRef = FirebaseDatabase.getInstance().getReference().child("messages");
+//            mesgRef.push().setValue(mesg);
+//        }
         } else if (v == buttonNotify) {
             final Intent adminNotifyIntent = new Intent(this, AdminNotification.class);
             adminNotifyIntent.putExtra("uid", uid);
@@ -325,11 +322,7 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
         int id = item.getItemId();
 
         // Activate the navigation drawer toggle
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+        return mDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
     }
 
     @Override
