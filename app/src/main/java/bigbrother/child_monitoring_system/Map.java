@@ -1,5 +1,6 @@
 package bigbrother.child_monitoring_system;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
@@ -38,7 +39,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 public class Map extends AppCompatActivity implements MapInputDialog.OnCompleteListener, FloorView.onCircleCreateInterface {
 
@@ -50,7 +53,7 @@ public class Map extends AppCompatActivity implements MapInputDialog.OnCompleteL
     private static final int GALLERY_INTENT = 2;
 
     public static HashMap<String, RoomData> rooms = new HashMap<>();
-    public static ArrayList<ChildDataObject> children = new ArrayList<>();
+    public static List<ChildDataObject> children = Collections.synchronizedList(new ArrayList<ChildDataObject>());
 
     private DatabaseReference db;
     private DatabaseReference dbChildren;
@@ -78,6 +81,15 @@ public class Map extends AppCompatActivity implements MapInputDialog.OnCompleteL
         uid = getIntent().getStringExtra("uid");
         //load the rooms for the FloorView
         onLoad();
+
+
+//        final ProgressDialog dialog = new ProgressDialog(Map.this);
+//        dialog.setTitle("Loading map...");
+//        dialog.setMessage("Please wait.");
+//        dialog.setIndeterminate(true);
+//        dialog.setCancelable(false);
+//        dialog.show();
+
 
         setContentView(R.layout.activity_map);
 
@@ -146,6 +158,7 @@ public class Map extends AppCompatActivity implements MapInputDialog.OnCompleteL
                     addChildToList(ch);
                 }
                 floorView.invalidate();
+                Log.d("MAP-CLASS", "Grabbed the children data!!!");
             }
 
             @Override

@@ -108,10 +108,6 @@ public class FloorView extends View implements MapInputDialog.OnCompleteListener
         Bitmap.Config conf = Bitmap.Config.ARGB_8888;
         mainBitmap = Bitmap.createBitmap(w, h, conf);
 
-        //set the willnotdraw to false
-        setWillNotDraw(false);
-
-
         circlePaint = new Paint();
         circlePaint.setColor(Color.parseColor("#F99F20"));
         circlePaint.setStyle(Paint.Style.STROKE);
@@ -129,17 +125,15 @@ public class FloorView extends View implements MapInputDialog.OnCompleteListener
         smallCirclePaint.setColor(Color.BLUE);
         smallCirclePaint.setStyle(Paint.Style.FILL);
 
-        Log.w("CIRCLES",""+ Map.rooms.size());
+//        for (java.util.Map.Entry<String, RoomData> entry: Map.rooms.entrySet()) {
+//            //make the rooms into circle
+//            CircleArea tempCircle = new CircleArea(Integer.parseInt(entry.getValue().getX()), Integer.parseInt(entry.getValue().getY()),
+//                    Integer.parseInt(entry.getValue().getRadius()));
+//            tempCircle.setMacAddress(entry.getValue().getMac());
+//            circles.add(tempCircle);
+//        }
 
-        for (java.util.Map.Entry<String, RoomData> entry: Map.rooms.entrySet()) {
-            //make the rooms into circle
-            CircleArea tempCircle = new CircleArea(Integer.parseInt(entry.getValue().getX()), Integer.parseInt(entry.getValue().getY()),
-                    Integer.parseInt(entry.getValue().getRadius()));
-            tempCircle.setMacAddress(entry.getValue().getMac());
-            Log.d("CIRCLE","CIRCLE CREATED WITH MAC " + tempCircle.getMacAddress());
-            circles.add(tempCircle);
-        }
-
+        Log.d("FLORVIEW", "CALLED THE INIT");
     }
 
     @Override
@@ -147,6 +141,16 @@ public class FloorView extends View implements MapInputDialog.OnCompleteListener
         canvas.drawBitmap(mainBitmap, null, mMeasuredRect, null);
 
         int margin = 0;
+
+        circles.clear();
+
+        for (java.util.Map.Entry<String, RoomData> entry: Map.rooms.entrySet()) {
+            //make the rooms into circle
+            CircleArea tempCircle = new CircleArea(Integer.parseInt(entry.getValue().getX()), Integer.parseInt(entry.getValue().getY()),
+                    Integer.parseInt(entry.getValue().getRadius()));
+            tempCircle.setMacAddress(entry.getValue().getMac());
+            circles.add(tempCircle);
+        }
 
         for (CircleArea circle : circles) {
             canvas.drawCircle(circle.centerX, circle.centerY, circle.radius, circlePaint);
