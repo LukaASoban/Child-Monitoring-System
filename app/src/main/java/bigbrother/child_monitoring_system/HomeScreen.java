@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.os.Debug;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.percent.PercentLayoutHelper;
+import android.support.percent.PercentRelativeLayout;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -17,6 +19,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -116,7 +119,13 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
                             buttonNotify.setVisibility(View.INVISIBLE);
                         }
                         if(!currentUser.getType().equals(UserType.EMPLOYEE)) {
-                            buttonRoster.setVisibility(View.INVISIBLE);
+                            buttonRoster.setVisibility(View.GONE);
+                        }
+                        if(currentUser.getType().equals(UserType.EMPLOYEE)) {
+                            PercentRelativeLayout.LayoutParams layoutParams = (PercentRelativeLayout.LayoutParams) buttonRoster.getLayoutParams();
+                            PercentLayoutHelper.PercentLayoutInfo percentLayoutInfo = layoutParams.getPercentLayoutInfo();
+                            percentLayoutInfo.topMarginPercent = 5 * 0.01f; //15 is the percentage value you want to set it to
+                            buttonRoster.setLayoutParams(layoutParams);
                         }
                     }
                 }

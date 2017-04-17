@@ -55,10 +55,10 @@
             app:layout_heightPercent="25%"
             app:layout_marginRightPercent="5%"
             app:layout_widthPercent="40%"
-            android:layout_below="@+id/notify"
-            android:layout_alignLeft="@+id/search"
-            android:layout_alignStart="@+id/search"
-            android:layout_marginTop="28dp" />
+            app:layout_marginTopPercent="35%"
+            android:layout_below="@+id/profile"
+            android:layout_alignLeft="@+id/profile"
+            android:layout_alignStart="@+id/profile" />
 
         <Button
             android:id="@+id/map"
@@ -94,7 +94,8 @@
             app:layout_heightPercent="25%"
             app:layout_marginRightPercent="5%"
             app:layout_widthPercent="40%"
-            android:layout_alignTop="@+id/search"
+            app:layout_marginTopPercent="30%"
+            android:layout_alignTop="@+id/map"
             android:layout_alignLeft="@+id/map"
             android:layout_alignStart="@+id/map" />
 

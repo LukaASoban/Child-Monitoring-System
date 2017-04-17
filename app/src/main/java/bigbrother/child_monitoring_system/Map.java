@@ -134,6 +134,21 @@ public class Map extends AppCompatActivity implements MapInputDialog.OnCompleteL
         getSupportActionBar().setTitle(mActivityTitle);
         addDrawerItems();
         setupDrawer();
+
+        dRef.child(uid).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                userType = dataSnapshot.getValue(User.class).getType();
+                //set the UserType
+                floorView.setUserType(userType);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     public void onLoad() {

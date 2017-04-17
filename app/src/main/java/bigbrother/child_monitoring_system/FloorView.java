@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -26,6 +27,12 @@ public class FloorView extends View implements MapInputDialog.OnCompleteListener
 
     private Rect mMeasuredRect;
     private int RADIUS = 100;
+
+    /* Booleans for drawing map */
+    boolean firstDraw;
+
+    /* UserType for what they are able to do with the map */
+    UserType userType;
 
 
     public FloorView(final Context context) {
@@ -133,7 +140,8 @@ public class FloorView extends View implements MapInputDialog.OnCompleteListener
 //            circles.add(tempCircle);
 //        }
 
-        Log.d("FLORVIEW", "CALLED THE INIT");
+        firstDraw = false;
+        userType = null;
     }
 
     @Override
@@ -142,14 +150,15 @@ public class FloorView extends View implements MapInputDialog.OnCompleteListener
 
         int margin = 0;
 
-        circles.clear();
-
-        for (java.util.Map.Entry<String, RoomData> entry: Map.rooms.entrySet()) {
-            //make the rooms into circle
-            CircleArea tempCircle = new CircleArea(Integer.parseInt(entry.getValue().getX()), Integer.parseInt(entry.getValue().getY()),
-                    Integer.parseInt(entry.getValue().getRadius()));
-            tempCircle.setMacAddress(entry.getValue().getMac());
-            circles.add(tempCircle);
+        if(firstDraw == false) {
+            for (java.util.Map.Entry<String, RoomData> entry: Map.rooms.entrySet()) {
+                //make the rooms into circle
+                CircleArea tempCircle = new CircleArea(Integer.parseInt(entry.getValue().getX()), Integer.parseInt(entry.getValue().getY()),
+                        Integer.parseInt(entry.getValue().getRadius()));
+                tempCircle.setMacAddress(entry.getValue().getMac());
+                circles.add(tempCircle);
+            }
+            firstDraw = true;
         }
 
         for (CircleArea circle : circles) {
@@ -194,103 +203,108 @@ public class FloorView extends View implements MapInputDialog.OnCompleteListener
 
         int actionIndex = event.getActionIndex();
 
+        if(userType != null && userType == UserType.ADMIN) {
+            // get the touch event and make a transparent circle with it
+            switch (event.getActionMasked()) {
+                case MotionEvent.ACTION_DOWN:
+                    //first pointer so clear all existing pointer data
+                    clearCirclePointer();
 
-        // get the touch event and make a transparent circle with it
-        switch (event.getActionMasked()) {
-            case MotionEvent.ACTION_DOWN:
-                //first pointer so clear all existing pointer data
-                clearCirclePointer();
+                    xTouch = (int) event.getX(0);
+                    yTouch = (int) event.getY(0);
 
-                xTouch = (int) event.getX(0);
-                yTouch = (int) event.getY(0);
+                    //check if we touched the inside of a circle already
+                    touchedCircle = obtainTouchedCircle(xTouch, yTouch);
+                    touchedCircle.centerX = xTouch;
+                    touchedCircle.centerY = yTouch;
+                    circlePointer.put(event.getPointerId(0), touchedCircle);
 
-                //check if we touched the inside of a circle already
-                touchedCircle = obtainTouchedCircle(xTouch, yTouch);
-                touchedCircle.centerX = xTouch;
-                touchedCircle.centerY = yTouch;
-                circlePointer.put(event.getPointerId(0), touchedCircle);
-
-                invalidate();
-                handled = true;
-                break;
-            case MotionEvent.ACTION_POINTER_DOWN:
-                Log.w(TAG, "Pointer down");
-                // It secondary pointers, so obtain their ids and check circles
-                pointerId = event.getPointerId(actionIndex);
-
-                xTouch = (int) event.getX(actionIndex);
-                yTouch = (int) event.getY(actionIndex);
-
-                // check if we've touched inside some circle
-                touchedCircle = obtainTouchedCircle(xTouch, yTouch);
-
-                circlePointer.put(pointerId, touchedCircle);
-                touchedCircle.centerX = xTouch;
-                touchedCircle.centerY = yTouch;
-                invalidate();
-                handled = true;
-                break;
-            case MotionEvent.ACTION_MOVE:
-                final int pointerCount = event.getPointerCount();
-
-                for (actionIndex = 0; actionIndex < pointerCount; actionIndex++) {
-                    // Some pointer has moved, search it by pointer id
+                    invalidate();
+                    handled = true;
+                    break;
+                case MotionEvent.ACTION_POINTER_DOWN:
+                    Log.w(TAG, "Pointer down");
+                    // It secondary pointers, so obtain their ids and check circles
                     pointerId = event.getPointerId(actionIndex);
 
                     xTouch = (int) event.getX(actionIndex);
                     yTouch = (int) event.getY(actionIndex);
 
-                    touchedCircle = circlePointer.get(pointerId);
+                    // check if we've touched inside some circle
+                    touchedCircle = obtainTouchedCircle(xTouch, yTouch);
 
-                    //check to see if the circle has the data of the mac address
-                    Log.w(TAG, ""+touchedCircle.getMacAddress());
+                    circlePointer.put(pointerId, touchedCircle);
+                    touchedCircle.centerX = xTouch;
+                    touchedCircle.centerY = yTouch;
+                    invalidate();
+                    handled = true;
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    final int pointerCount = event.getPointerCount();
 
-                    //print x and y coordinated
-                    Log.d("COORDS", "x: "+xTouch + ", y: "+yTouch);
+                    for (actionIndex = 0; actionIndex < pointerCount; actionIndex++) {
+                        // Some pointer has moved, search it by pointer id
+                        pointerId = event.getPointerId(actionIndex);
 
-                    ////check to see if the circle is brought to delete section of the map
-                    if(xTouch >= 1000 && yTouch >= 1450) {
-                        mInterface.onCircleDelete(touchedCircle.getMacAddress());
-                        circles.remove(touchedCircle);
-                        break;
+                        xTouch = (int) event.getX(actionIndex);
+                        yTouch = (int) event.getY(actionIndex);
+
+                        touchedCircle = circlePointer.get(pointerId);
+
+                        //check to see if the circle has the data of the mac address
+                        Log.w(TAG, ""+touchedCircle.getMacAddress());
+
+                        //print x and y coordinated
+                        Log.d("COORDS", "x: "+xTouch + ", y: "+yTouch);
+
+                        ////check to see if the circle is brought to delete section of the map
+                        if(xTouch >= 1000 && yTouch >= 1450) {
+                            mInterface.onCircleDelete(touchedCircle.getMacAddress());
+                            circles.remove(touchedCircle);
+                            break;
+                        }
+
+
+
+                        if (null != touchedCircle) {
+                            touchedCircle.centerX = xTouch;
+                            touchedCircle.centerY = yTouch;
+
+                            //send the data back to the Map class to send off to the database
+                            mInterface.onCircleCreate(touchedCircle.getMacAddress(), touchedCircle.getRadius(),
+                                    touchedCircle.getCenterX(), touchedCircle.getCenterY());
+
+                        }
                     }
+                    invalidate();
+                    handled = true;
+                    break;
+                case MotionEvent.ACTION_UP:
+                    clearCirclePointer();;
+                    invalidate();
+                    handled = true;
+                    break;
+                case MotionEvent.ACTION_POINTER_UP:
+                    // not general pointer was up
+                    pointerId = event.getPointerId(actionIndex);
 
-
-
-                    if (null != touchedCircle) {
-                        touchedCircle.centerX = xTouch;
-                        touchedCircle.centerY = yTouch;
-
-                        //send the data back to the Map class to send off to the database
-                        mInterface.onCircleCreate(touchedCircle.getMacAddress(), touchedCircle.getRadius(),
-                                touchedCircle.getCenterX(), touchedCircle.getCenterY());
-
-                    }
-                }
-                invalidate();
-                handled = true;
-                break;
-            case MotionEvent.ACTION_UP:
-                clearCirclePointer();;
-                invalidate();
-                handled = true;
-                break;
-            case MotionEvent.ACTION_POINTER_UP:
-                // not general pointer was up
-                pointerId = event.getPointerId(actionIndex);
-
-                circlePointer.remove(pointerId);
-                invalidate();
-                handled = true;
-                break;
-            case MotionEvent.ACTION_CANCEL:
-                handled = true;
-                break;
-            default:
-                break;
+                    circlePointer.remove(pointerId);
+                    invalidate();
+                    handled = true;
+                    break;
+                case MotionEvent.ACTION_CANCEL:
+                    handled = true;
+                    break;
+                default:
+                    break;
+            }
         }
         return super.onTouchEvent(event) || handled;
 
+    }
+
+    public void setUserType(UserType userType) {
+        this.userType = userType;
     }
 
     private CircleArea obtainTouchedCircle(final int xTouch, final int yTouch) {
