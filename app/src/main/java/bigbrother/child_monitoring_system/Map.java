@@ -94,16 +94,16 @@ public class Map extends AppCompatActivity implements MapInputDialog.OnCompleteL
         setContentView(R.layout.activity_map);
 
         floorPlanIV = (ImageView) findViewById(R.id.floorPlanIV);
-        uploadImageButton = (Button) findViewById(R.id.uploadImageButton);
+        //uploadImageButton = (Button) findViewById(R.id.uploadImageButton);
 
-        uploadImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_PICK);
-                intent.setType("image/*");
-                startActivityForResult(intent, GALLERY_INTENT);
-            }
-        });
+//        uploadImageButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(Intent.ACTION_PICK);
+//                intent.setType("image/*");
+//                startActivityForResult(intent, GALLERY_INTENT);
+//            }
+//        });
         storage = FirebaseStorage.getInstance().getReference();
 
         //set the interface for listening to circle creation
@@ -315,6 +315,10 @@ public class Map extends AppCompatActivity implements MapInputDialog.OnCompleteL
                                 FirebaseAuth.getInstance().signOut();
                                 final Intent loginScreenIntent = new Intent(Map.this, LoginActivity.class);
                                 startActivity(loginScreenIntent);
+                            } else if (position == 7){
+                                Intent intent = new Intent(Intent.ACTION_PICK);
+                                intent.setType("image/*");
+                                startActivityForResult(intent, GALLERY_INTENT);
                             }
                         } else if (userType.equals(UserType.EMPLOYEE)) {
                             if (position == 0) {

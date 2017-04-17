@@ -2,6 +2,7 @@ package bigbrother.child_monitoring_system;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -21,6 +22,7 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -28,6 +30,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -54,6 +59,7 @@ public class AdminNotification extends AppCompatActivity implements View.OnClick
     private ArrayList<String> admins = new ArrayList<>();
     private ArrayList<String> all = new ArrayList<>();
     private String targetGroup;
+    private static final int GALLERY_INTENT = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -173,6 +179,10 @@ public class AdminNotification extends AppCompatActivity implements View.OnClick
                     FirebaseAuth.getInstance().signOut();
                     final Intent loginScreenIntent = new Intent(AdminNotification.this, LoginActivity.class);
                     startActivity(loginScreenIntent);
+                } else if (position == 7){
+                    Intent intent = new Intent(Intent.ACTION_PICK);
+                    intent.setType("image/*");
+                    startActivityForResult(intent, GALLERY_INTENT);
                 }
             }
         });
@@ -261,6 +271,22 @@ public class AdminNotification extends AppCompatActivity implements View.OnClick
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(AdminNotification.this, android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         toSpinner.setAdapter(dataAdapter);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == GALLERY_INTENT && resultCode ==RESULT_OK) {
+            Uri uri = data.getData();
+            StorageReference storage = FirebaseStorage.getInstance().getReference();
+            StorageReference filepath = storage.child("Daycare").child(uri.getLastPathSegment());
+            filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Toast.makeText(AdminNotification.this, "Image Uploaded", Toast.LENGTH_LONG).show();
+                }
+            });
+        }
     }
 
 }

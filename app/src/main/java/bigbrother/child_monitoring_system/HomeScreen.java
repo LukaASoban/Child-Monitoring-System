@@ -32,6 +32,7 @@ import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -41,6 +42,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -67,6 +71,7 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
     private User currentUser;
     private UserType userType;
     String server_url = "http://127.0.0.1/fcm/fcm_insert.php";
+    private static final int GALLERY_INTENT = 2;
 //    private Button testMessagebtn;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -251,6 +256,10 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
                                 FirebaseAuth.getInstance().signOut();
                                 final Intent loginScreenIntent = new Intent(HomeScreen.this, LoginActivity.class);
                                 startActivity(loginScreenIntent);
+                            } else if (position == 7){
+                                Intent intent = new Intent(Intent.ACTION_PICK);
+                                intent.setType("image/*");
+                                startActivityForResult(intent, GALLERY_INTENT);
                             }
                         } else if (userType.equals(UserType.EMPLOYEE)) {
                             if (position == 0) {
@@ -365,6 +374,22 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         AppIndex.AppIndexApi.end(client, getIndexApiAction());
         client.disconnect();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == GALLERY_INTENT && resultCode ==RESULT_OK) {
+            Uri uri = data.getData();
+            StorageReference storage = FirebaseStorage.getInstance().getReference();
+            StorageReference filepath = storage.child("Daycare").child(uri.getLastPathSegment());
+            filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Toast.makeText(HomeScreen.this, "Image Uploaded", Toast.LENGTH_LONG).show();
+                }
+            });
+        }
     }
     ////////////
 }
