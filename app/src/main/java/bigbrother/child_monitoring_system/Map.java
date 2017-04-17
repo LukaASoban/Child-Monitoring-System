@@ -98,7 +98,7 @@ public class Map extends AppCompatActivity implements MapInputDialog.OnCompleteL
         floorView = (FloorView) findViewById(R.id.floorView);
         floorView.setViewListener(this);
 
-        storage.child("Daycare/daycare1.jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+        storage.child("Daycare/daycare2.png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void onSuccess(Uri uri) {

@@ -114,11 +114,10 @@
         <Button
             android:text="Edit"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="@drawable/button_rounded"
             android:textAllCaps="false"
             app:layout_widthPercent="60%"
-            app:layout_heightPercent="10%"
             android:textColor="@color/tan"
             android:textSize="24dp"
             android:padding="10dp"
@@ -141,9 +140,8 @@
         <Button
             android:text="Settings"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             app:layout_widthPercent="60%"
-            app:layout_heightPercent="10%"
             android:textAllCaps="false"
             android:textSize="24dp"
             android:textColor="@color/tan"
