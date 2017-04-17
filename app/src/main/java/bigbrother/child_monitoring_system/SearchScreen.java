@@ -187,8 +187,6 @@ public class SearchScreen extends AppCompatActivity implements View.OnClickListe
                                 FirebaseAuth.getInstance().signOut();
                                 final Intent loginScreenIntent = new Intent(SearchScreen.this, LoginActivity.class);
                                 startActivity(loginScreenIntent);
-                            } else {
-                                Toast.makeText(SearchScreen.this, "Not setup yet!", Toast.LENGTH_SHORT).show();
                             }
                         } else if (userType.equals(UserType.ADMIN)) {
                             if (position == 0) {
@@ -215,8 +213,6 @@ public class SearchScreen extends AppCompatActivity implements View.OnClickListe
                                 FirebaseAuth.getInstance().signOut();
                                 final Intent loginScreenIntent = new Intent(SearchScreen.this, LoginActivity.class);
                                 startActivity(loginScreenIntent);
-                            } else {
-                                Toast.makeText(SearchScreen.this, "Not setup yet!", Toast.LENGTH_SHORT).show();
                             }
                         } else if (userType.equals(UserType.EMPLOYEE)) {
                             if (position == 0) {
@@ -239,8 +235,6 @@ public class SearchScreen extends AppCompatActivity implements View.OnClickListe
                                 FirebaseAuth.getInstance().signOut();
                                 final Intent loginScreenIntent = new Intent(SearchScreen.this, LoginActivity.class);
                                 startActivity(loginScreenIntent);
-                            } else {
-                                Toast.makeText(SearchScreen.this, "Not setup yet!", Toast.LENGTH_SHORT).show();
                             }
                         }
                     }

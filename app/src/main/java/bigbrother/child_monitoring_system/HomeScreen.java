@@ -225,8 +225,6 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
                                 FirebaseAuth.getInstance().signOut();
                                 final Intent loginScreenIntent = new Intent(HomeScreen.this, LoginActivity.class);
                                 startActivity(loginScreenIntent);
-                            } else {
-                                Toast.makeText(HomeScreen.this, "Not setup yet!", Toast.LENGTH_SHORT).show();
                             }
                         } else if (userType.equals(UserType.ADMIN)) {
                             if (position == 0) {
@@ -253,8 +251,6 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
                                 FirebaseAuth.getInstance().signOut();
                                 final Intent loginScreenIntent = new Intent(HomeScreen.this, LoginActivity.class);
                                 startActivity(loginScreenIntent);
-                            } else {
-                                Toast.makeText(HomeScreen.this, "Not setup yet!", Toast.LENGTH_SHORT).show();
                             }
                         } else if (userType.equals(UserType.EMPLOYEE)) {
                             if (position == 0) {
@@ -277,8 +273,6 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
                                 FirebaseAuth.getInstance().signOut();
                                 final Intent loginScreenIntent = new Intent(HomeScreen.this, LoginActivity.class);
                                 startActivity(loginScreenIntent);
-                            } else {
-                                Toast.makeText(HomeScreen.this, "Not setup yet!", Toast.LENGTH_SHORT).show();
                             }
                         }
                     }

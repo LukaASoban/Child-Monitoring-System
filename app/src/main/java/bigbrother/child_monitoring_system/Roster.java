@@ -342,8 +342,6 @@ public class Roster extends AppCompatActivity {
                                 FirebaseAuth.getInstance().signOut();
                                 final Intent loginScreenIntent = new Intent(Roster.this, LoginActivity.class);
                                 startActivity(loginScreenIntent);
-                            } else {
-                                Toast.makeText(Roster.this, "Not setup yet!", Toast.LENGTH_SHORT).show();
                             }
                         } else if (userType.equals(UserType.ADMIN)) {
                             if (position == 0) {
@@ -366,8 +364,6 @@ public class Roster extends AppCompatActivity {
                                 FirebaseAuth.getInstance().signOut();
                                 final Intent loginScreenIntent = new Intent(Roster.this, LoginActivity.class);
                                 startActivity(loginScreenIntent);
-                            } else {
-                                Toast.makeText(Roster.this, "Not setup yet!", Toast.LENGTH_SHORT).show();
                             }
                         } else if (userType.equals(UserType.EMPLOYEE)) {
                             if (position == 0) {
@@ -386,8 +382,6 @@ public class Roster extends AppCompatActivity {
                                 FirebaseAuth.getInstance().signOut();
                                 final Intent loginScreenIntent = new Intent(Roster.this, LoginActivity.class);
                                 startActivity(loginScreenIntent);
-                            } else {
-                                Toast.makeText(Roster.this, "Not setup yet!", Toast.LENGTH_SHORT).show();
                             }
                         }
                     }

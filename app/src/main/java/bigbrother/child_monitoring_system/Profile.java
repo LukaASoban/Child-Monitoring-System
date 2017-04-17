@@ -200,8 +200,6 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
                                 FirebaseAuth.getInstance().signOut();
                                 final Intent loginScreenIntent = new Intent(Profile.this, LoginActivity.class);
                                 startActivity(loginScreenIntent);
-                            } else {
-                                Toast.makeText(Profile.this, "Not setup yet!", Toast.LENGTH_SHORT).show();
                             }
                         } else if (userType.equals(UserType.ADMIN)) {
                             if (position == 0) {
@@ -228,8 +226,6 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
                                 final Intent adminScreenIntent = new Intent(Profile.this, AdminNotification.class);
                                 adminScreenIntent.putExtra("uid", uid);
                                 startActivity(adminScreenIntent);
-                            } else {
-                                Toast.makeText(Profile.this, "Not setup yet!", Toast.LENGTH_SHORT).show();
                             }
                         } else if (userType.equals(UserType.EMPLOYEE)) {
                             if (position == 0) {
@@ -252,8 +248,6 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
                                 FirebaseAuth.getInstance().signOut();
                                 final Intent loginScreenIntent = new Intent(Profile.this, LoginActivity.class);
                                 startActivity(loginScreenIntent);
-                            } else {
-                                Toast.makeText(Profile.this, "Not setup yet!", Toast.LENGTH_SHORT).show();
                             }
                         }
                     }

@@ -198,7 +198,7 @@ public class Map extends AppCompatActivity implements MapInputDialog.OnCompleteL
     public void onCircleCreate(String mac, int radius, int xCor, int yCor) {
         //method for getting this info and putting it inside the database so that
         //the teachers and parents can retrieve this information to make their own map
-        Log.d("MAPCLASS", mac);
+//a        Log.d("MAPCLASS", mac);
 
 
         // check if there is a child node of name "mapdata" and create if not
@@ -276,8 +276,6 @@ public class Map extends AppCompatActivity implements MapInputDialog.OnCompleteL
                                 FirebaseAuth.getInstance().signOut();
                                 final Intent loginScreenIntent = new Intent(Map.this, LoginActivity.class);
                                 startActivity(loginScreenIntent);
-                            } else {
-                                Toast.makeText(Map.this, "Not setup yet!", Toast.LENGTH_SHORT).show();
                             }
                         } else if (userType.equals(UserType.ADMIN)) {
                             if (position == 0) {
@@ -304,8 +302,6 @@ public class Map extends AppCompatActivity implements MapInputDialog.OnCompleteL
                                 FirebaseAuth.getInstance().signOut();
                                 final Intent loginScreenIntent = new Intent(Map.this, LoginActivity.class);
                                 startActivity(loginScreenIntent);
-                            } else {
-                                Toast.makeText(Map.this, "Not setup yet!", Toast.LENGTH_SHORT).show();
                             }
                         } else if (userType.equals(UserType.EMPLOYEE)) {
                             if (position == 0) {
@@ -328,8 +324,6 @@ public class Map extends AppCompatActivity implements MapInputDialog.OnCompleteL
                                 FirebaseAuth.getInstance().signOut();
                                 final Intent loginScreenIntent = new Intent(Map.this, LoginActivity.class);
                                 startActivity(loginScreenIntent);
-                            } else {
-                                Toast.makeText(Map.this, "Not setup yet!", Toast.LENGTH_SHORT).show();
                             }
                         }
                     }

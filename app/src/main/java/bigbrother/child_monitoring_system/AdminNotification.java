@@ -173,8 +173,6 @@ public class AdminNotification extends AppCompatActivity implements View.OnClick
                     FirebaseAuth.getInstance().signOut();
                     final Intent loginScreenIntent = new Intent(AdminNotification.this, LoginActivity.class);
                     startActivity(loginScreenIntent);
-                } else {
-                    Toast.makeText(AdminNotification.this, "Not setup yet!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
