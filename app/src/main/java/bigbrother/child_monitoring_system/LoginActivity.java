@@ -192,7 +192,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                     loginUser.setToken(FirebaseInstanceId.getInstance().getToken());
                                     login.setValue(loginUser);
                                     Intent homeScreen = new Intent("bigbrother.child_monitoring_system.HomeScreen");
-//                                    homeScreen.putExtra("uid", auth.getCurrentUser().getUid());
+                                    homeScreen.putExtra("uid", auth.getCurrentUser().getUid());
                                     startActivity(homeScreen);
                                 }
                             }
