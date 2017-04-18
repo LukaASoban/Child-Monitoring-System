@@ -192,6 +192,7 @@ public class Map extends AppCompatActivity implements MapInputDialog.OnCompleteL
                     Log.d("MAPCLASS","THE ROOM WAS LOADED AS " + room.getMac());
                     addRoomToList(room);
                 }
+                floorView.invalidate();
             }
 
             @Override
