@@ -107,7 +107,7 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
 
         dRef = FirebaseDatabase.getInstance().getReference().child("users");
         uid = getIntent().getStringExtra("uid");
-
+        //can make a listener for dRef.child(uid) instead of looping through them all
         dRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

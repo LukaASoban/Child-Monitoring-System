@@ -188,7 +188,6 @@ public class FloorView extends View implements MapInputDialog.OnCompleteListener
 
             }
 
-
         }
 
     }
@@ -266,7 +265,7 @@ public class FloorView extends View implements MapInputDialog.OnCompleteListener
 
 
 
-                        if (null != touchedCircle) {
+                        if (null != touchedCircle.getMacAddress()) {
                             touchedCircle.centerX = xTouch;
                             touchedCircle.centerY = yTouch;
 
