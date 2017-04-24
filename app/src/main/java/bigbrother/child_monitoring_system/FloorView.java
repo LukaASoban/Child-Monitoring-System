@@ -121,7 +121,7 @@ public class FloorView extends View implements MapInputDialog.OnCompleteListener
         circlePaint.setStrokeWidth(10);
 
         textPaint = new Paint();
-        textPaint.setColor(Color.BLACK);
+        textPaint.setColor(Color.RED);
         textPaint.setTextSize(48f);
 
         textChildPaint = new Paint();
