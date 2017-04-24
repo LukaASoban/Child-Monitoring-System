@@ -1,6 +1,6 @@
 # Child-Monitoring-System
 Android Application to pair with the raspberry pi system
 
-# Release Notes
+## Release Notes
 
-# Install Guide
+## Install Guide
