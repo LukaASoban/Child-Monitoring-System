@@ -17,4 +17,4 @@ Installation of actual application: Go to the apk link on your Android device, a
 
 Run instructions: Once installed, run as you would any other app.
 
-Troubleshooting: None.
+Troubleshooting: If the map screen does not load properly the first time you go to it, just got to a different screen first, and when you go back the second time it should work.
