@@ -2,8 +2,19 @@
 Android Application to pair with the raspberry pi system
 
 ## Release Notes
+Version 1.0
+
+New software features for this release: No new software features.
+Bug fixes made since the last release: No bug fixes.
+Known bugs and defects:
+- Time based location notifications to parents, and the ability to customize the frequency of the notifications, was not implemented.
+- Two users cannot log into the system at the same time.
+- The map page sometimes does not load properly, so the user has to go back to the previous page and try to access the map page again.
+
 
 ## Install Guide
+Version 1.0
+
 Pre-requisites:
 - Target android build is v7 API level 25, minimum 16.
 - Need bluetooth low-energy tracking bracelet(s).
