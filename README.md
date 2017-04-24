@@ -8,7 +8,7 @@ Pre-requisites: Target android build is v7 API level 25, minimum 16.
 
 Dependencies: None.
 
-Download instructions: Link to apk file:
+Download instructions: Download the apk file by using the link below on an android mobile device.
 https://github.com/LukaASoban/Child-Monitoring-System/blob/master/app/app-release.apk
 
 Build instructions: None.
