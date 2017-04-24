@@ -4,7 +4,10 @@ Android Application to pair with the raspberry pi system
 ## Release Notes
 
 ## Install Guide
-Pre-requisites: Target android build is v7 API level 25, minimum 16. You will also need a bluetooth tracking bracelet and a Raspberry Pi.
+Pre-requisites:
+- Target android build is v7 API level 25, minimum 16.
+- Need bluetooth low-energy tracking bracelet(s).
+- Raspberry Pi with bluetooth capabilities.
 
 Dependencies: None.
 
