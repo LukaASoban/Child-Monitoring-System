@@ -48,7 +48,7 @@ config = {
         "authDomain": "day-care-monitoring-system.firebaseapp.com",
         "databaseURL": "https://day-care-monitoring-system.firebaseio.com",
         "storageBucket": "day-care-monitoring-system.appspot.com",
-        "serviceAccount": "/home/pi/Documents/Bluetooth/serviceAccountKey.json"
+        "serviceAccount": "serviceAccountKey.json"
 }
 firebase = pyrebase.initialize_app(config)
 
@@ -72,7 +72,10 @@ while True:
         #scanner = Scanner().withDelegate(ScanDelegate())
         scanner = Scanner()
         devices = scanner.scan(5.0)
+        timestamp = str(datetime.datetime.now())
+        db.child("daycare").child(school_name).child('children').child("aa:aa:aa:aa:aa").update({"timestamp": timestamp})
         for dev in devices:
+                print(dev.addr)
                 if dev.addr in set_of_macAddr:
                         distance = (dev.rssi * -1) / float(70)
                         if distance <= 1.05:
