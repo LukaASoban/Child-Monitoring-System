@@ -37,6 +37,7 @@ Version 1.0
 - Fixed a few bugs on the class roster screen where it was showing every child in the system instead of the class.
 - Fixed a bug where the send message to parent was crashing the database.
 - Fixed an issue where a user would not be the correct usertype such as Admin, Employee or Parent.
+- Fixed an issue where the Raspberry Pi program would not display the child's MAC address when scanning for bracelets.
 - Absence and timestamps should now display the correct time.
 
 Known bugs and defects:
