@@ -14,7 +14,6 @@ Version 1.0
 - Parents can now report bugs or complaints to the dev team under the menu.
 - Parents will now be notified when their child is not in the building or have left specific areas.
 - Parents can now recieve customized notes from their child's daycare instructors about their child's day.
-- 
 
 #### Employees
 - Daycare employees can now report bugs or suggestions to the dev team.
@@ -28,13 +27,22 @@ Version 1.0
 - Admins can now search for any parent or employee in the system on the search page.
 
 
-Bug fixes made since the last release: No bug fixes.
+#### Bug fixes made since the last release:
+- Fixed an issue where the Registration screen was now displaying properly on other devices.
+- Fixed a multitude of issues with scaling when the device input keyboard popped up.
+- Fixed an issue where people could only be searched by their exact name. Users can now search using any combination of another's name without case sensitivity.
+- Fixed an issue where all users were automatically being banned from the app upon registering for the first time.
+- Fixed an issue where the child was in the monitored room but their dot was not being displayed in the correct postition on the map screen.
+- Fixed a bug where the map screen would crash if a new Room was created.
+- Fixed a few bugs on the class roster screen where it was showing every child in the system instead of the class.
+- Fixed a bug where the send message to parent was crashing the database.
+- Fixed an issue where a user would not be the correct usertype such as Admin, Employee or Parent.
+- Absence and timestamps should now display the correct time.
 
 Known bugs and defects:
 - Time based location notifications to parents, and the ability to customize the frequency of the notifications, was not implemented.
 - Two users cannot log into the system at the same time.
 - The map page sometimes does not load properly, so the user has to go back to the previous page and try to access the map page again.
-
 
 ## Install Guide
 Version 1.0
